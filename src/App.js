@@ -78,17 +78,17 @@ const App = () => {
             <header className="header">
                 Rate Anything
             </header>
-            <div className="subheader">
-                <div className="subheader__item">
-                    1. if there are already rates of what you type, it will appear in the dropdown.
-                </div>
-                <div className="subheader__item">
-                    2. if not, you will be the first who rates that thing.
-                </div>
-                <div className="subheader__item">
-                    3. you can rate something people have already rated by clicking a dote on the scale below.
-                </div>
-            </div>
+            {/*<div className="subheader">*/}
+            {/*    <div className="subheader__item">*/}
+            {/*        1. if there are already rates of what you type, it will appear in the dropdown.*/}
+            {/*    </div>*/}
+            {/*    <div className="subheader__item">*/}
+            {/*        2. if not, you will be the first who rates that thing.*/}
+            {/*    </div>*/}
+            {/*    <div className="subheader__item">*/}
+            {/*        3. you can rate something people have already rated by clicking a dote on the scale below.*/}
+            {/*    </div>*/}
+            {/*</div>*/}
             <main className="main">
                 <div className="form">
                     <Input placeholder="Input what you wanna rate"
@@ -139,7 +139,7 @@ const App = () => {
                         )
                     }
                 </div>
-                <Button onClick={removeRateBySelectedSubject} className="button--borderless remove-button">
+                <Button onClick={removeRateBySelectedSubject} className="button--secondary remove-button">
                     REMOVE RATE
                 </Button>
             </main>
