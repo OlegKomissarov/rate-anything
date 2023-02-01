@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 import api from './api';
 import Input from './components/elements/Input';
 import Button from './components/elements/Button';
+import RateItem from './components/RateItem';
 
-function App() {
+const App = () => {
     const rateInputRef = useRef();
 
     const [rates, setRates] = useState();
@@ -13,11 +14,11 @@ function App() {
     const [rate, setRate] = useState('');
 
     const getRateList = () =>
-        // api.call('SELECT * FROM rates').then(response => {
-        api.call('SELECT subject, CAST(ROUND(AVG(rate), 2) as FLOAT) as rate FROM rates GROUP BY subject').then(response => {
-            console.log(response.rows);
-            setRates(response.rows);
-        });
+        api.call('SELECT subject, CAST(ROUND(AVG(rate), 2) as FLOAT) as rate FROM rates GROUP BY subject')
+            .then(response => {
+                console.log(response.rows);
+                setRates(response.rows);
+            });
 
     useEffect(() => {
         getRateList();
@@ -91,21 +92,15 @@ function App() {
                     }
                     {
                         rates?.map(rate =>
-                            <div key={rate.subject}
-                                 onClick={
-                                     () => {
-                                         changeSubject(rate.subject);
-                                         rateInputRef.current.focus();
-                                     }
-                                 }
-                                 className="rate"
-                                 style={{ left: `${100 / 20 * (rate.rate + 10)}%` }}
-                            >
-                                <div className="rate-hover-block">
-                                    <div className="rate-hover-block__subject"><b>{rate.subject}</b></div>
-                                    <div className="rate-hover-block__rate">Rate: <b>{rate.rate}</b></div>
-                                </div>
-                            </div>
+                            <RateItem key={rate.subject}
+                                      rate={rate}
+                                      onClickRateItem={
+                                          () => {
+                                              changeSubject(rate.subject);
+                                              rateInputRef.current.focus();
+                                          }
+                                      }
+                            />
                         )
                     }
                 </div>
