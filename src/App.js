@@ -38,6 +38,15 @@ const App = () => {
         setRate('');
     };
 
+    const removeRateBySelectedSubject = () => {
+        api.call(`DELETE FROM rates WHERE subject = '${subject}';`)
+            .then(() => {
+                setRates(rates.filter(rate => rate.subject !== subject));
+                setSubject('');
+                setRate('');
+            });
+    };
+
     return (
         <div className="app">
             <header className="header">
@@ -74,7 +83,7 @@ const App = () => {
                            }
                            refValue={rateInputRef}
                     />
-                    <Button onClick={postRate}>
+                    <Button onClick={postRate} className="form__button">
                         RATE
                     </Button>
                 </div>
@@ -104,6 +113,9 @@ const App = () => {
                         )
                     }
                 </div>
+                <Button onClick={removeRateBySelectedSubject} className="button--borderless remove-button">
+                    REMOVE RATE
+                </Button>
             </main>
         </div>
     );

@@ -1,7 +1,9 @@
-const Button = props => {
-    const { onClick } = props;
+import { getClassName } from '../../utils';
 
-    return <button className="button" onClick={onClick}>
+const Button = props => {
+    const { onClick, className } = props;
+
+    return <button className={getClassName('button', className)} onClick={onClick}>
         {props.children}
     </button>;
 }
