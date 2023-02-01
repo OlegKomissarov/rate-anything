@@ -45,7 +45,8 @@ const App = () => {
 
     const removeRateBySelectedSubject = () => {
         if (subject && rates.find(rate => rate.subject === subject)) {
-            const password = prompt('Please, enter password');
+            const localStoragePassword = localStorage.getItem('password');
+            const password = localStoragePassword || prompt('Please, enter password');
             if (password) {
                 api.call(`
                     DELETE FROM rates WHERE subject = '${subject}'
@@ -54,7 +55,11 @@ const App = () => {
                     getRateList().then(rates => {
                         if (rates.some(rate => rate.subject === subject)) {
                             alert('It seems that the password was incorrect');
+                            if (localStoragePassword) {
+                                localStorage.setItem('password', null);
+                            }
                         } else {
+                            localStorage.setItem('password', password);
                             setSubject('');
                             setRate('');
                         }
