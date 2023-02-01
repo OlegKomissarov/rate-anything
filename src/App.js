@@ -18,6 +18,7 @@ const App = () => {
             .then(response => {
                 console.log(response.rows);
                 setRates(response.rows);
+                return response.rows;
             });
 
     useEffect(() => {
@@ -25,12 +26,16 @@ const App = () => {
     }, []);
 
     const postRate = () => {
-        api.call(`INSERT INTO rates (\`subject\`, \`rate\`) VALUES (\'${subject}\', ${rate});`)
-            .then(() => {
-                setRate('');
-                setSubject('');
-                return getRateList();
-            });
+        if (subject && rate) {
+            api.call(`INSERT INTO rates (\`subject\`, \`rate\`) VALUES (\'${subject}\', ${rate});`)
+                .then(() => {
+                    setRate('');
+                    setSubject('');
+                    return getRateList();
+                });
+        } else {
+            alert('Please, enter correct subject and rate');
+        }
     };
 
     const changeSubject = subject => {
@@ -39,12 +44,28 @@ const App = () => {
     };
 
     const removeRateBySelectedSubject = () => {
-        api.call(`DELETE FROM rates WHERE subject = '${subject}';`)
-            .then(() => {
-                setRates(rates.filter(rate => rate.subject !== subject));
-                setSubject('');
-                setRate('');
-            });
+        if (subject && rates.find(rate => rate.subject === subject)) {
+            const password = prompt('Please, enter password');
+            if (password) {
+                api.call(`
+                    DELETE FROM rates WHERE subject = '${subject}'
+                    AND EXISTS (SELECT 1 FROM passwords WHERE password = '${password}');
+                `).then(() => {
+                    getRateList().then(rates => {
+                        if (rates.some(rate => rate.subject === subject)) {
+                            alert('It seems that the password was incorrect');
+                        } else {
+                            setSubject('');
+                            setRate('');
+                        }
+                    });
+                });
+            } else {
+                alert('It seems that the password was incorrect');
+            }
+        } else {
+            alert('Please, enter correct subject to remove above');
+        }
     };
 
     return (
