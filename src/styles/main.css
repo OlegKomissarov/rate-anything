@@ -112,7 +112,7 @@ input[type=number]::-webkit-inner-spin-button {
 .rate-hover-block::before {
   content: "";
   position: absolute;
-  top: -16px;
+  top: -15px;
   left: 8px;
   transform: rotate(90deg);
   border-width: 10px 10px 10px 0;
@@ -123,7 +123,7 @@ input[type=number]::-webkit-inner-spin-button {
 .rate-hover-block::after {
   content: "";
   position: absolute;
-  top: -15px;
+  top: -14px;
   left: 8px;
   transform: rotate(90deg);
   border-width: 10px 10px 10px 0;
