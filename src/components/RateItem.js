@@ -15,7 +15,6 @@ const RateItem = props => {
             const screenWidth = window.innerWidth;
             const itemOffsetLeft = itemRef.current.getBoundingClientRect().x;
             const hoverBlockWidth = hoverBlockRef.current.offsetWidth;
-            console.log(screenWidth , scrollbarWidth , itemOffsetLeft , hoverBlockWidth)
             const shouldDrop = screenWidth - scrollbarWidth <= itemOffsetLeft + hoverBlockWidth;
             if (shouldDropLeftHoverBlock !== shouldDrop) {
                 setShouldDropLeftHoverBlock(shouldDrop);
@@ -26,7 +25,6 @@ const RateItem = props => {
     useEffect(() => {
         dropLeft();
     }, [rate]);
-    // dropLeft();
 
     return <div ref={itemRef}
                 onClick={onClickRateItem}

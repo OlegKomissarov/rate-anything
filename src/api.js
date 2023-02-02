@@ -21,7 +21,7 @@ const config = {
 // const conn = connect(config)
 // const results = await conn.execute('select 1 from dual where 1=?', [1])
 
-const call = query => connect(config).execute(query)
+const call = (query, args, options) => connect(config).execute(query, args, options)
     .catch(e => {
         console.log(e);
         return Promise.reject(e);

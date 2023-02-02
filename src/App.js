@@ -27,7 +27,15 @@ const App = () => {
 
     const postRate = () => {
         if (subject && rate) {
-            api.call(`INSERT INTO rates (\`subject\`, \`rate\`) VALUES (\'${subject}\', ${rate});`)
+            const subjectRegex = /^[a-zA-Z0-9]+$/; // this validation should be on the server
+            if (!subjectRegex.test(subject)) {
+                return alert('Incorrect data. Subject should contain only letters or numbers.');
+            }
+            const rateRegex = /^[0-9]+/;
+            if (!rateRegex.test(rate)) {
+                return alert('Incorrect data. Rate should contain only numbers.');
+            }
+            api.call(`INSERT INTO rates (\`subject\`, \`rate\`) VALUES (?, ?);`, [subject, rate])
                 .then(() => {
                     setRate('');
                     setSubject('');
@@ -48,10 +56,19 @@ const App = () => {
             const localStoragePassword = localStorage.getItem('password');
             const password = localStoragePassword || prompt('Please, enter password');
             if (password) {
+                const passwordRegex = /^[a-zA-Z0-9_]+$/;
+                if (!passwordRegex.test(password)) { // this validation should be on the server
+                    return alert('Incorrect data. Password should contain only letters, numbers or lower case sigh.');
+                    // return res.status(400).json({ err: "Incorrect data"});
+                }
+                const subjectRegex = /^[a-zA-Z0-9]+$/;
+                if (!subjectRegex.test(subject)) {
+                    return alert('Incorrect data. Subject should contain only letters or numbers.');
+                }
                 api.call(`
-                    DELETE FROM rates WHERE subject = '${subject}'
-                    AND EXISTS (SELECT 1 FROM passwords WHERE password = '${password}');
-                `).then(() => {
+                    DELETE FROM rates WHERE subject = ?
+                    AND EXISTS (SELECT 1 FROM passwords WHERE password = ?);
+                `, [subject, password]).then(() => {
                     getRateList().then(rates => {
                         if (rates.some(rate => rate.subject === subject)) {
                             alert('It seems that the password was incorrect');
