@@ -57,9 +57,8 @@ const App = () => {
             if (!subjectRegex.test(subject)) {
                 return alert('Incorrect data. Subject should contain only letters or numbers.');
             }
-            const rateRegex = /^[0-9]+/;
-            if (!rateRegex.test(rate)) {
-                return alert('Incorrect data. Rate should contain only numbers.');
+            if (isNaN(+rate)) {
+                return alert('Incorrect data. Rate should be a correct number.');
             }
 
             api.call(`INSERT INTO rates (\`subject\`, \`rate\`) VALUES (?, ?);`, [subject, rate])
