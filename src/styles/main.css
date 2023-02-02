@@ -24,12 +24,22 @@ input[type=number]::-webkit-inner-spin-button {
   align-items: center;
   box-sizing: border-box;
 }
+@media (max-width: 640px) {
+  .app {
+    padding: 50px 20px;
+  }
+}
 
 .header {
   margin-bottom: 100px;
   text-align: center;
   font-family: Virgil, sans-serif;
   font-size: 45px;
+}
+@media (max-width: 640px) {
+  .header {
+    margin-bottom: 70px;
+  }
 }
 
 .subheader {
@@ -50,13 +60,6 @@ input[type=number]::-webkit-inner-spin-button {
   align-items: center;
   flex: 1;
   width: 100%;
-}
-
-.form {
-  margin-bottom: 100px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .line-chart {
@@ -82,6 +85,11 @@ input[type=number]::-webkit-inner-spin-button {
   position: absolute;
   top: 10px;
   transform: translateX(calc(-50% + 2px));
+}
+@media (max-width: 640px) {
+  .dash-label:nth-child(4n + 1) {
+    visibility: hidden;
+  }
 }
 
 .rate {
@@ -155,28 +163,74 @@ input[type=number]::-webkit-inner-spin-button {
 .remove-button {
   margin-top: 100px;
 }
-
-.input {
-  padding: 8px 16px;
-  border: 1px solid #3b3a3a;
-  border-radius: 8px;
-  font-size: 24px;
-  line-height: 24px;
-  height: 40px;
+@media (max-width: 640px) {
+  .remove-button {
+    margin-top: 50px;
+  }
 }
 
+.form {
+  margin-bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+@media (max-width: 640px) {
+  .form {
+    margin-bottom: 70px;
+  }
+}
 .form__input {
-  min-width: 500px;
+  width: 500px;
   text-align: center;
+}
+@media (max-width: 640px) {
+  .form__input {
+    width: 350px;
+  }
+}
+@media (max-width: 370px) {
+  .form__input {
+    width: 300px;
+  }
 }
 .form__input:not(:last-child) {
   margin-bottom: 25px;
 }
 .form__input--number {
-  min-width: calc(500px * 2/3);
+  width: calc(500px * 2/3);
+}
+@media (max-width: 640px) {
+  .form__input--number {
+    width: 350px;
+  }
+}
+@media (max-width: 370px) {
+  .form__input--number {
+    width: 300px;
+  }
 }
 .form__button {
-  min-width: calc(500px * 1/3);
+  width: calc(500px * 1/3);
+}
+@media (max-width: 640px) {
+  .form__button {
+    width: 350px;
+  }
+}
+@media (max-width: 370px) {
+  .form__button {
+    width: 300px;
+  }
+}
+
+.input {
+  padding: 14px 16px;
+  border: 1px solid #3b3a3a;
+  border-radius: 8px;
+  font-size: 24px;
+  line-height: 24px;
+  box-sizing: border-box;
 }
 
 .button {
