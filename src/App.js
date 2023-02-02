@@ -18,6 +18,20 @@ const App = () => {
             .then(response => {
                 console.log(response.rows);
                 setRates(response.rows);
+                let localStorageUserRates = [];
+                try {
+                    if (Array.isArray(JSON.parse(localStorage.getItem('userRates')))) {
+                        localStorageUserRates = JSON.parse(localStorage.getItem('userRates'));
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+                localStorage.setItem(
+                    'userRates',
+                    JSON.stringify(localStorageUserRates.filter(localStorageRate =>
+                        response.rows.some(rate => rate.subject === localStorageRate.subject))
+                    )
+                );
                 return response.rows;
             });
 
@@ -27,6 +41,18 @@ const App = () => {
 
     const postRate = () => {
         if (subject && rate) {
+            let localStorageUserRates = [];
+            try {
+                if (Array.isArray(JSON.parse(localStorage.getItem('userRates')))) {
+                    localStorageUserRates = JSON.parse(localStorage.getItem('userRates'));
+                }
+            } catch (error) {
+                console.log(error);
+            }
+            if (localStorageUserRates.some(rate => rate.subject === subject)) {
+                return alert(`You have already rated ${subject}`);
+            }
+
             const subjectRegex = /^[a-zA-Z0-9]+$/; // this validation should be on the server
             if (!subjectRegex.test(subject)) {
                 return alert('Incorrect data. Subject should contain only letters or numbers.');
@@ -35,8 +61,10 @@ const App = () => {
             if (!rateRegex.test(rate)) {
                 return alert('Incorrect data. Rate should contain only numbers.');
             }
+
             api.call(`INSERT INTO rates (\`subject\`, \`rate\`) VALUES (?, ?);`, [subject, rate])
                 .then(() => {
+                    localStorage.setItem('userRates', JSON.stringify([...localStorageUserRates, { rate, subject }]));
                     setRate('');
                     setSubject('');
                     return getRateList();
