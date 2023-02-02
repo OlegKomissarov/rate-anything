@@ -61,9 +61,10 @@ const App = () => {
                 return alert('Incorrect data. Rate should be a correct number.');
             }
 
-            api.call(`INSERT INTO rates (\`subject\`, \`rate\`) VALUES (?, ?);`, [subject, rate])
+            const modifiedSubject = subject.charAt(0).toUpperCase() + subject.slice(1).toLowerCase();
+            api.call(`INSERT INTO rates (\`subject\`, \`rate\`) VALUES (?, ?);`, [modifiedSubject, rate])
                 .then(() => {
-                    localStorage.setItem('userRates', JSON.stringify([...localStorageUserRates, { rate, subject }]));
+                    localStorage.setItem('userRates', JSON.stringify([...localStorageUserRates, { rate, modifiedSubject }]));
                     setRate('');
                     setSubject('');
                     return getRateList();
