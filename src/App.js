@@ -1,19 +1,86 @@
 import React, { useRef } from 'react';
 import './styles/main.css';
 import { useEffect, useState } from 'react';
-import api from './api';
 import Input from './components/elements/Input';
 import Button from './components/elements/Button';
 import RateItem from './components/RateItem';
-import { getRateList as apiGetRateList } from './api/rate';
+import { createRate as apiCreateRate, getRateList as apiGetRateList, removeRate as apiRemoveRate } from './api/rate';
 import { getFromLocalStorage, setToLocalStorage } from './utils';
 
 const App = () => {
     const rateInputRef = useRef();
 
     const [rates, setRates] = useState();
+
     const [subject, setSubject] = useState('');
     const [rate, setRate] = useState('');
+    const resetForm = () => {
+        setRate('');
+        setSubject('');
+    };
+    const changeSubject = subject => {
+        setSubject(subject);
+        setRate('');
+    };
+
+    // todo: some of these validations should be on the server
+    const checkIsSubjectAlreadyRated = () => {
+        const localStorageUserRates = getFromLocalStorage('userRates');
+        if (localStorageUserRates.some(rate => rate.subject === subject)) {
+            alert(`You have already rated ${subject}`);
+            return true;
+        }
+        return false;
+    };
+    const validateSubject = () => {
+        const subjectRegex = /^[a-zA-Z0-9]+$/;
+        if (!subject) {
+            alert('Please enter subject.');
+            return false;
+        }
+        if (!subjectRegex.test(subject)) {
+            alert('Incorrect subject. Subject should contain only letters or numbers.');
+            return false;
+        }
+        return true;
+    };
+    const validateRate = () => {
+        if (!rate) {
+            alert('Please enter rate.');
+            return false;
+        }
+        if (isNaN(+rate)) {
+            alert('Incorrect rate. Rate should be a correct number.');
+            return false;
+        }
+        return true;
+    };
+    const validatePassword = password => {
+        if (!password) {
+            alert('Please enter password.');
+        }
+        const passwordRegex = /^[a-zA-Z0-9_]+$/;
+        if (!passwordRegex.test(password)) {
+            alert('Incorrect data. Password should contain only letters, numbers or low line.');
+            return false;
+        }
+        return true;
+    };
+    const checkPassword = rates => {
+        if (rates.some(rate => rate.subject === subject)) {
+            alert('It seems that the password was incorrect');
+            setToLocalStorage('password', null);
+            return false;
+        }
+        return true;
+    };
+    const checkIfSubjectExists = () => {
+        if (rates.find(rate => rate.subject === subject)) {
+            return true;
+        }
+        alert('There is no such subject. Please provide an existing subject in the input above');
+        return false;
+    };
 
     const getRateList = () =>
         apiGetRateList().then(response => {
@@ -27,80 +94,37 @@ const App = () => {
             );
             return response.rows;
         });
-
     useEffect(() => {
         getRateList();
     }, []);
 
-    const postRate = () => {
-        if (subject && rate) {
-            const localStorageUserRates = getFromLocalStorage('userRates');
-            if (localStorageUserRates.some(rate => rate.subject === subject)) {
-                return alert(`You have already rated ${subject}`);
-            }
-
-            const subjectRegex = /^[a-zA-Z0-9]+$/; // this validation should be on the server
-            if (!subjectRegex.test(subject)) {
-                return alert('Incorrect data. Subject should contain only letters or numbers.');
-            }
-            if (isNaN(+rate)) {
-                return alert('Incorrect data. Rate should be a correct number.');
-            }
-
+    const createRate = () => {
+        if (validateSubject() && validateRate() && !checkIsSubjectAlreadyRated()) {
             const modifiedSubject = subject.charAt(0).toUpperCase() + subject.slice(1).toLowerCase();
-            api.call(`INSERT INTO rates (\`subject\`, \`rate\`) VALUES (?, ?);`, [modifiedSubject, rate])
+            apiCreateRate(modifiedSubject, rate)
                 .then(() => {
+                    const localStorageUserRates = getFromLocalStorage('userRates');
                     setToLocalStorage('userRates', [...localStorageUserRates, { rate, modifiedSubject }]);
-                    setRate('');
-                    setSubject('');
-                    return getRateList();
+                    resetForm();
+                    getRateList();
                 });
-        } else {
-            alert('Please, enter correct subject and rate');
         }
     };
 
-    const changeSubject = subject => {
-        setSubject(subject);
-        setRate('');
-    };
-
-    const removeRateBySelectedSubject = () => {
-        if (subject && rates.find(rate => rate.subject === subject)) {
+    const removeRate = () => {
+        if (validateSubject() && checkIfSubjectExists()) {
             const localStoragePassword = getFromLocalStorage('password');
             const password = localStoragePassword || prompt('Please, enter password');
-            if (password) {
-                const passwordRegex = /^[a-zA-Z0-9_]+$/;
-                if (!passwordRegex.test(password)) { // this validation should be on the server
-                    return alert('Incorrect data. Password should contain only letters, numbers or lower case sigh.');
-                    // return res.status(400).json({ err: "Incorrect data"});
-                }
-                const subjectRegex = /^[a-zA-Z0-9]+$/;
-                if (!subjectRegex.test(subject)) {
-                    return alert('Incorrect data. Subject should contain only letters or numbers.');
-                }
-                api.call(`
-                    DELETE FROM rates WHERE subject = ?
-                    AND EXISTS (SELECT 1 FROM passwords WHERE password = ?);
-                `, [subject, password]).then(() => {
+            if (validatePassword(password)) {
+                apiRemoveRate(password, subject).then(() => {
                     getRateList().then(rates => {
-                        if (rates.some(rate => rate.subject === subject)) {
-                            alert('It seems that the password was incorrect');
-                            if (localStoragePassword) {
-                                setToLocalStorage('password', null);
-                            }
-                        } else {
+                        if (checkPassword(rates)) {
                             setToLocalStorage('password', password);
-                            setSubject('');
-                            setRate('');
+                            resetForm();
                         }
                     });
                 });
-            } else {
-                alert('It seems that the password was incorrect');
             }
-        } else {
-            alert('Please, enter correct subject to remove above');
         }
     };
 
@@ -140,7 +164,7 @@ const App = () => {
                            }
                            refValue={rateInputRef}
                     />
-                    <Button onClick={postRate} className="form__button">
+                    <Button onClick={createRate} className="form__button">
                         RATE
                     </Button>
                 </div>
@@ -170,7 +194,7 @@ const App = () => {
                         )
                     }
                 </div>
-                <Button onClick={removeRateBySelectedSubject} className="button--secondary remove-button">
+                <Button onClick={removeRate} className="button--secondary remove-button">
                     REMOVE RATE
                 </Button>
             </main>
