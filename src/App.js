@@ -5,6 +5,8 @@ import api from './api';
 import Input from './components/elements/Input';
 import Button from './components/elements/Button';
 import RateItem from './components/RateItem';
+import { getRateList as apiGetRateList } from './api/rate';
+import { getFromLocalStorage, setToLocalStorage } from './utils';
 
 const App = () => {
     const rateInputRef = useRef();
@@ -14,26 +16,17 @@ const App = () => {
     const [rate, setRate] = useState('');
 
     const getRateList = () =>
-        api.call('SELECT subject, CAST(ROUND(AVG(rate), 2) as FLOAT) as rate FROM rates GROUP BY subject')
-            .then(response => {
-                console.log(response.rows);
-                setRates(response.rows);
-                let localStorageUserRates = [];
-                try {
-                    if (Array.isArray(JSON.parse(localStorage.getItem('userRates')))) {
-                        localStorageUserRates = JSON.parse(localStorage.getItem('userRates'));
-                    }
-                } catch (error) {
-                    console.log(error);
-                }
-                localStorage.setItem(
-                    'userRates',
-                    JSON.stringify(localStorageUserRates.filter(localStorageRate =>
-                        response.rows.some(rate => rate.subject === localStorageRate.subject))
-                    )
-                );
-                return response.rows;
-            });
+        apiGetRateList().then(response => {
+            console.log(response);
+            setRates(response);
+            const localStorageUserRates = getFromLocalStorage('userRates');
+            setToLocalStorage(
+                'userRates',
+                localStorageUserRates.filter(localStorageRate =>
+                    response.rows.some(rate => rate.subject === localStorageRate.subject))
+            );
+            return response.rows;
+        });
 
     useEffect(() => {
         getRateList();
@@ -41,14 +34,7 @@ const App = () => {
 
     const postRate = () => {
         if (subject && rate) {
-            let localStorageUserRates = [];
-            try {
-                if (Array.isArray(JSON.parse(localStorage.getItem('userRates')))) {
-                    localStorageUserRates = JSON.parse(localStorage.getItem('userRates'));
-                }
-            } catch (error) {
-                console.log(error);
-            }
+            const localStorageUserRates = getFromLocalStorage('userRates');
             if (localStorageUserRates.some(rate => rate.subject === subject)) {
                 return alert(`You have already rated ${subject}`);
             }
@@ -64,7 +50,7 @@ const App = () => {
             const modifiedSubject = subject.charAt(0).toUpperCase() + subject.slice(1).toLowerCase();
             api.call(`INSERT INTO rates (\`subject\`, \`rate\`) VALUES (?, ?);`, [modifiedSubject, rate])
                 .then(() => {
-                    localStorage.setItem('userRates', JSON.stringify([...localStorageUserRates, { rate, modifiedSubject }]));
+                    setToLocalStorage('userRates', [...localStorageUserRates, { rate, modifiedSubject }]);
                     setRate('');
                     setSubject('');
                     return getRateList();
@@ -81,7 +67,7 @@ const App = () => {
 
     const removeRateBySelectedSubject = () => {
         if (subject && rates.find(rate => rate.subject === subject)) {
-            const localStoragePassword = localStorage.getItem('password');
+            const localStoragePassword = getFromLocalStorage('password');
             const password = localStoragePassword || prompt('Please, enter password');
             if (password) {
                 const passwordRegex = /^[a-zA-Z0-9_]+$/;
@@ -101,10 +87,10 @@ const App = () => {
                         if (rates.some(rate => rate.subject === subject)) {
                             alert('It seems that the password was incorrect');
                             if (localStoragePassword) {
-                                localStorage.setItem('password', null);
+                                setToLocalStorage('password', null);
                             }
                         } else {
-                            localStorage.setItem('password', password);
+                            setToLocalStorage('password', password);
                             setSubject('');
                             setRate('');
                         }

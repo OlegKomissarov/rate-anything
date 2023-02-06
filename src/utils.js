@@ -11,3 +11,17 @@ export const getClassName = (...classNames) => {
     });
     return classNamesString.trim();
 };
+
+export const setToLocalStorage = (key, data) => {
+    localStorage.setItem(key, JSON.stringify(data));
+};
+
+export const getFromLocalStorage = key => {
+    let value = localStorage.getItem(key);
+    try {
+        value = JSON.parse(value);
+    } catch (error) {
+        console.log(error);
+    }
+    return value;
+};
