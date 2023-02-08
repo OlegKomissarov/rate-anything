@@ -42,17 +42,6 @@ input[type=number]::-webkit-inner-spin-button {
   }
 }
 
-.subheader {
-  margin-bottom: 70px;
-  flex: 0;
-  font-size: 20px;
-  color: #696767;
-}
-
-.subheader__item {
-  white-space: nowrap;
-}
-
 .main {
   display: flex;
   flex-direction: column;

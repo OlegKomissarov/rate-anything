@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { getClassName } from '../utils';
+import { getClassName } from '../../utils';
 
 const RateItem = props => {
     const itemRef = useRef();
