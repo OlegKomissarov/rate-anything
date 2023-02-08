@@ -15,8 +15,8 @@ const RatePage = () => {
     const [subject, setSubject] = useState('');
     const [rate, setRate] = useState('');
     const resetForm = () => {
-        setRate('');
         setSubject('');
+        setRate('');
     };
 
     // todo: some of these validations should be on the server
@@ -86,9 +86,9 @@ const RatePage = () => {
             setToLocalStorage(
                 'userRates',
                 localStorageUserRates.filter(localStorageRate =>
-                    response.rows.some(rate => rate.subject === localStorageRate.subject))
+                    response.some(rate => rate.subject === localStorageRate.subject))
             );
-            return response.rows;
+            return response;
         });
     useEffect(() => {
         getRateList();
@@ -100,7 +100,10 @@ const RatePage = () => {
             apiCreateRate(modifiedSubject, rate)
                 .then(() => {
                     const localStorageUserRates = getFromLocalStorage('userRates');
-                    setToLocalStorage('userRates', [...localStorageUserRates, { rate, modifiedSubject }]);
+                    setToLocalStorage(
+                        'userRates',
+                        [...localStorageUserRates, { subject: modifiedSubject, rate }]
+                    );
                     resetForm();
                     getRateList();
                 });
@@ -112,7 +115,7 @@ const RatePage = () => {
             const localStoragePassword = getFromLocalStorage('password');
             const password = localStoragePassword || prompt('Please, enter password');
             if (validatePassword(password)) {
-                apiRemoveRate(password, subject).then(() => {
+                apiRemoveRate(subject, password).then(() => {
                     getRateList().then(rates => {
                         if (checkPassword(rates)) {
                             setToLocalStorage('password', password);
@@ -124,7 +127,6 @@ const RatePage = () => {
         }
     };
 
-    // rateInputRef, createRate, subject, changeSubject, rate, changeRate
     return <>
         <RateForm rateInputRef={rateInputRef}
                   createRate={createRate}
