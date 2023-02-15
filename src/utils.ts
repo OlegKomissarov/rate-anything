@@ -1,4 +1,4 @@
-export const getClassName = (...classNames: Array<boolean | string | undefined>) => {
+export const getClassName = (...classNames: Array<string | boolean | undefined>) => {
     let classNamesString = '';
     classNames.forEach(className => {
         if (className && typeof className === 'string') {

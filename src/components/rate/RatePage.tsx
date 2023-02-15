@@ -82,7 +82,7 @@ const RatePage = () => {
     };
 
     const getRateList = () =>
-        apiGetRateList().then((response: any[]): Rate[] => {
+        apiGetRateList().then(response => {
             console.log(response);
             setRates(response);
             const localStorageUserRates = getFromLocalStorage('userRates');
