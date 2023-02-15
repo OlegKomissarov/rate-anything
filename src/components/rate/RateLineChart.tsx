@@ -1,7 +1,8 @@
 import React from 'react';
 import RateItem from './RateItem';
+import { Rate } from "./rateInterfaces";
 
-const RateLineChart = props => {
+const RateLineChart = (props: { rates: Rate[], changeSubject: (subject: string) => void }) => {
     const { rates, changeSubject } = props;
 
     return <div className="line-chart">

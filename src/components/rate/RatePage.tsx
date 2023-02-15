@@ -6,11 +6,12 @@ import {
 import RateLineChart from './RateLineChart';
 import RateForm from './RateForm';
 import Button from '../elements/Button';
+import { Rate } from './rateInterfaces';
 
 const RatePage = () => {
-    const rateInputRef = useRef();
+    const rateInputRef = useRef(null);
 
-    const [rates, setRates] = useState();
+    const [rates, setRates] = useState<Rate[]>([]);
 
     const [subject, setSubject] = useState('');
     const [rate, setRate] = useState('');
@@ -22,7 +23,7 @@ const RatePage = () => {
     // todo: some of these validations should be on the server
     const checkIsSubjectAlreadyRated = () => {
         const localStorageUserRates = getFromLocalStorage('userRates');
-        if (localStorageUserRates.some(rate => rate.subject === subject)) {
+        if (localStorageUserRates?.length && localStorageUserRates.some((rate: Rate) => rate.subject === subject)) {
             alert(`You have already rated ${subject}`);
             return true;
         }
@@ -51,18 +52,20 @@ const RatePage = () => {
         }
         return true;
     };
-    const validatePassword = password => {
+    const validatePassword = (password: string | null) => {
         if (!password) {
             alert('Please enter password.');
         }
         const passwordRegex = /^[a-zA-Z0-9_]+$/;
-        if (!passwordRegex.test(password)) {
+
+        if (!passwordRegex.test(password!)) {
             alert('Incorrect data. Password should contain only letters, numbers or low line.');
             return false;
         }
         return true;
     };
-    const checkPassword = rates => {
+
+    const checkPassword = (rates: Rate[]) => {
         if (rates.some(rate => rate.subject === subject)) {
             alert('It seems that the password was incorrect');
             setToLocalStorage('password', null);
@@ -79,14 +82,14 @@ const RatePage = () => {
     };
 
     const getRateList = () =>
-        apiGetRateList().then(response => {
+        apiGetRateList().then((response: any[]): Rate[] => {
             console.log(response);
             setRates(response);
             const localStorageUserRates = getFromLocalStorage('userRates');
             setToLocalStorage(
                 'userRates',
-                localStorageUserRates.filter(localStorageRate =>
-                    response.some(rate => rate.subject === localStorageRate.subject))
+                localStorageUserRates?.filter((localStorageRate: Rate) =>
+                    response.some((rate: Rate) => rate.subject === localStorageRate.subject))
             );
             return response;
         });
@@ -99,7 +102,7 @@ const RatePage = () => {
             const modifiedSubject = subject.charAt(0).toUpperCase() + subject.slice(1).toLowerCase();
             apiCreateRate(modifiedSubject, rate)
                 .then(() => {
-                    const localStorageUserRates = getFromLocalStorage('userRates');
+                    const localStorageUserRates: Rate[] = getFromLocalStorage('userRates');
                     setToLocalStorage(
                         'userRates',
                         [...localStorageUserRates, { subject: modifiedSubject, rate }]
@@ -112,10 +115,10 @@ const RatePage = () => {
 
     const removeRate = () => {
         if (validateSubject() && checkIfSubjectExists()) {
-            const localStoragePassword = getFromLocalStorage('password');
+            const localStoragePassword: string = getFromLocalStorage('password');
             const password = localStoragePassword || prompt('Please, enter password');
             if (validatePassword(password)) {
-                apiRemoveRate(subject, password).then(() => {
+                apiRemoveRate(subject, password!).then(() => {
                     getRateList().then(rates => {
                         if (checkPassword(rates)) {
                             setToLocalStorage('password', password);
@@ -132,7 +135,7 @@ const RatePage = () => {
                   createRate={createRate}
                   subject={subject}
                   changeSubject={
-                      subject => {
+                      (subject: string) => {
                           setSubject(subject);
                           setRate('');
                       }
@@ -142,10 +145,12 @@ const RatePage = () => {
         />
         <RateLineChart rates={rates}
                        changeSubject={
-                           subject => {
+                           (subject: string) => {
                                setSubject(subject);
                                setRate('');
-                               rateInputRef.current?.focus();
+                               if (rateInputRef.current) {
+                                   (rateInputRef.current as HTMLInputElement).focus();
+                               }
                            }
                        }
         />

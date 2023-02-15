@@ -1,8 +1,15 @@
-import React from 'react';
+import React, {MutableRefObject, Ref} from 'react';
 import Input from '../elements/Input';
 import Button from '../elements/Button';
 
-const RateForm = props => {
+const RateForm = (props: {
+    rateInputRef: MutableRefObject<null>
+    createRate: () => void
+    subject: string
+    changeSubject: (subject: string) => void
+    rate: string
+    changeRate: (rate: string) => void
+}) => {
     const { rateInputRef, createRate, subject, changeSubject, rate, changeRate } = props;
 
     return <div className="form">
@@ -10,24 +17,19 @@ const RateForm = props => {
                className="form__input"
                selectOnFocus
                value={subject}
-               onChange={event => changeSubject(event.target.value)}
+               onChange={(event: React.ChangeEvent<HTMLInputElement>) => changeSubject(event.target.value)}
         />
         <Input placeholder="Input your rate"
                className="form__input form__input--number"
                inputMode="numeric"
                selectOnFocus
                value={rate}
-               onChange={
-                   event =>
-                       (
-                           (!event.target.value || event.target.value === '-')
-                           || (
-                               /^([-]?[1-9]\d*|0)$/.test(event.target.value)
-                               && +event.target.value >= -10 && +event.target.value <= 10
-                           )
-                       )
-                       && changeRate(event.target.value)
-               }
+               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                   const { value } = event.target;
+                   if ((!value || value === '-') || /^([-]?[1-9]\d*|0)$/.test(value) && +value >= -10 && +value <= 10) {
+                       changeRate(value);
+                   }
+               }}
                refValue={rateInputRef}
         />
         <Button onClick={createRate} className="form__button">

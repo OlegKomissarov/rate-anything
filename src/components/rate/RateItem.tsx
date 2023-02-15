@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { getClassName } from '../../utils';
+import { Rate } from "./rateInterfaces";
 
-const RateItem = props => {
-    const itemRef = useRef();
-    const hoverBlockRef = useRef();
+const RateItem = (props: { rate: Rate, onClickRateItem: () => void }) => {
+    const itemRef = useRef(null);
+    const hoverBlockRef = useRef(null);
 
     const { rate, onClickRateItem } = props;
 
@@ -13,8 +14,13 @@ const RateItem = props => {
         if (hoverBlockRef.current) {
             const scrollbarWidth = 20;
             const screenWidth = window.innerWidth;
-            const itemOffsetLeft = itemRef.current.getBoundingClientRect().x;
-            const hoverBlockWidth = hoverBlockRef.current.offsetWidth;
+            const itemElement: HTMLElement | null = itemRef.current;
+            const hoverBlockElement: HTMLElement | null = hoverBlockRef.current;
+            if (!itemElement || !hoverBlockElement) {
+                return;
+            }
+            const itemOffsetLeft = (itemElement as HTMLElement).getBoundingClientRect().x;
+            const hoverBlockWidth = (hoverBlockElement as HTMLElement).offsetWidth;
             const shouldDrop = screenWidth - scrollbarWidth <= itemOffsetLeft + hoverBlockWidth;
             if (shouldDropLeftHoverBlock !== shouldDrop) {
                 setShouldDropLeftHoverBlock(shouldDrop);

@@ -1,4 +1,4 @@
-import { connect } from '@planetscale/database';
+import { connect, Connection } from '@planetscale/database';
 
 const config = {
     host: 'aws.connect.psdb.cloud',
@@ -21,10 +21,13 @@ const config = {
 // const conn = connect(config)
 // const results = await conn.execute('select 1 from dual where 1=?', [1])
 
-const call = (query, args, options) => connect(config).execute(query, args, options)
-    .catch(e => {
-        console.log(e);
-        return Promise.reject(e);
-    });
+const call = (query: string, args?: any[], options?: object) => {
+    const connection: Connection = connect(config);
+    return connection.execute(query, args, options)
+        .catch(e => {
+            console.log(e);
+            return Promise.resolve();
+        });
+};
 
 export default { call };

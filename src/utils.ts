@@ -1,4 +1,4 @@
-export const getClassName = (...classNames) => {
+export const getClassName = (...classNames: Array<boolean | string | undefined>) => {
     let classNamesString = '';
     classNames.forEach(className => {
         if (className && typeof className === 'string') {
@@ -12,16 +12,18 @@ export const getClassName = (...classNames) => {
     return classNamesString.trim();
 };
 
-export const setToLocalStorage = (key, data) => {
+export const setToLocalStorage = (key: string, data: any) => {
     localStorage.setItem(key, JSON.stringify(data));
 };
 
-export const getFromLocalStorage = key => {
+export const getFromLocalStorage = (key: string): any => {
     let value = localStorage.getItem(key);
-    try {
-        value = JSON.parse(value);
-    } catch (error) {
-        console.log(error);
+    if (value) {
+        try {
+            value = JSON.parse(value);
+        } catch (error) {
+            console.log(error);
+        }
     }
     return value;
 };
