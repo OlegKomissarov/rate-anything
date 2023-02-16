@@ -20,13 +20,12 @@ const RatePage = () => {
         setRate('');
     };
 
-    // Todo: some of these validations should be on the server
-
     const validateRateSubject = (subject: unknown): subject is string => validate<string>(subject, rateSubjectSchema);
     const validateRateValue = (rate: unknown): rate is number => validate<number>(rate, rateValueSchema);
     const validateRateList = (rateList: unknown): rateList is Rate[] => validate<Rate[]>(rateList, rateListSchema);
     const validatePassword = (password: unknown): password is string => validate<string>(password, passwordSchema);
 
+    // Todo: this check should be on the server
     const checkIsSubjectAlreadyRated = () => {
         const localStorageUserRates = getFromLocalStorage<Rate[]>('userRates', validateRateList);
         if (localStorageUserRates && localStorageUserRates.some((rate: Rate) => rate.subject === subject)) {
@@ -36,6 +35,7 @@ const RatePage = () => {
         return false;
     };
 
+    // Todo: this check should be on the server
     const checkPassword = (rates: Rate[]) => {
         if (rates.some(rate => rate.subject === subject)) {
             alert('It seems that the password was incorrect');
@@ -44,6 +44,7 @@ const RatePage = () => {
         }
         return true;
     };
+
     const checkIfSubjectExists = () => {
         if (rates.find(rate => rate.subject === subject)) {
             return true;
