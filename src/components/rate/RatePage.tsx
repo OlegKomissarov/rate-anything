@@ -6,10 +6,10 @@ import {
 import RateLineChart from './RateLineChart';
 import RateForm from './RateForm';
 import Button from '../elements/Button';
-import { Rate, validatePassword, validateRateList } from "./rateUtils";
+import { Rate, validatePassword, validateRateList } from './rateUtils';
 
 const RatePage = () => {
-    const rateInputRef = useRef(null);
+    const rateInputRef = useRef<HTMLInputElement>(null);
 
     const [rates, setRates] = useState<Rate[]>([]);
 
@@ -22,7 +22,7 @@ const RatePage = () => {
 
     // todo: some of these validations should be on the server
     const checkIsSubjectAlreadyRated = () => {
-        const localStorageUserRates = getFromLocalStorage<Rate[]>('userRates', validateRateList,);
+        const localStorageUserRates = getFromLocalStorage<Rate[]>('userRates', validateRateList);
         if (localStorageUserRates && localStorageUserRates.some((rate: Rate) => rate.subject === subject)) {
             alert(`You have already rated ${subject}`);
             return true;
@@ -107,7 +107,7 @@ const RatePage = () => {
             const localStoragePassword = getFromLocalStorage<string>('password', validatePassword);
             const password = localStoragePassword || prompt('Please, enter password');
             if (validatePassword(password)) {
-                apiRemoveRate(subject, password!).then(() => {
+                apiRemoveRate(subject, password).then(() => {
                     getRateList().then(rates => {
                         if (checkPassword(rates)) {
                             setToLocalStorage('password', password);
@@ -138,7 +138,7 @@ const RatePage = () => {
                                setSubject(subject);
                                setRate('');
                                if (rateInputRef.current) {
-                                   (rateInputRef.current as HTMLInputElement).focus();
+                                   rateInputRef.current.focus();
                                }
                            }
                        }

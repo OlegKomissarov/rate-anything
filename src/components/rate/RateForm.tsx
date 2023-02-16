@@ -1,17 +1,15 @@
-import React, {MutableRefObject, Ref} from 'react';
+import React from 'react';
 import Input from '../elements/Input';
 import Button from '../elements/Button';
 
-const RateForm = (props: {
-    rateInputRef: MutableRefObject<null>
+const RateForm: React.FC<{
+    rateInputRef: React.Ref<HTMLInputElement>
     createRate: () => void
     subject: string
     changeSubject: (subject: string) => void
     rate: string
     changeRate: (rate: string) => void
-}) => {
-    const { rateInputRef, createRate, subject, changeSubject, rate, changeRate } = props;
-
+}> = ({ rateInputRef, createRate, subject, changeSubject, rate, changeRate }) => {
     return <div className="form">
         <Input placeholder="Input what you wanna rate"
                className="form__input"

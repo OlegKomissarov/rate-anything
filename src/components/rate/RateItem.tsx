@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { getClassName } from '../../utils';
-import { Rate } from "./rateUtils";
+import { Rate } from './rateUtils';
 
-const RateItem = (props: { rate: Rate, onClickRateItem: () => void }) => {
-    const itemRef = useRef(null);
-    const hoverBlockRef = useRef(null);
-
-    const { rate, onClickRateItem } = props;
+const RateItem: React.FC<{
+    rate: Rate
+    onClickRateItem: () => void
+}> = ({ rate, onClickRateItem }) => {
+    const itemRef = useRef<HTMLDivElement>(null);
+    const hoverBlockRef = useRef<HTMLDivElement>(null);
 
     const [shouldDropLeftHoverBlock, setShouldDropLeftHoverBlock] = useState(false);
 
@@ -14,16 +15,15 @@ const RateItem = (props: { rate: Rate, onClickRateItem: () => void }) => {
         if (hoverBlockRef.current) {
             const scrollbarWidth = 20;
             const screenWidth = window.innerWidth;
-            const itemElement: HTMLElement | null = itemRef.current;
-            const hoverBlockElement: HTMLElement | null = hoverBlockRef.current;
-            if (!itemElement || !hoverBlockElement) {
-                return;
-            }
-            const itemOffsetLeft = (itemElement as HTMLElement).getBoundingClientRect().x;
-            const hoverBlockWidth = (hoverBlockElement as HTMLElement).offsetWidth;
-            const shouldDrop = screenWidth - scrollbarWidth <= itemOffsetLeft + hoverBlockWidth;
-            if (shouldDropLeftHoverBlock !== shouldDrop) {
-                setShouldDropLeftHoverBlock(shouldDrop);
+            const itemElement = itemRef.current;
+            const hoverBlockElement = hoverBlockRef.current;
+            if (itemElement && hoverBlockElement) {
+                const itemOffsetLeft = itemElement.getBoundingClientRect().x;
+                const hoverBlockWidth = hoverBlockElement.offsetWidth;
+                const shouldDrop = screenWidth - scrollbarWidth <= itemOffsetLeft + hoverBlockWidth;
+                if (shouldDropLeftHoverBlock !== shouldDrop) {
+                    setShouldDropLeftHoverBlock(shouldDrop);
+                }
             }
         }
     }

@@ -1,10 +1,11 @@
 import React from 'react';
 import RateItem from './RateItem';
-import { Rate } from "./rateUtils";
+import { Rate } from './rateUtils';
 
-const RateLineChart = (props: { rates: Rate[], changeSubject: (subject: string) => void }) => {
-    const { rates, changeSubject } = props;
-
+const RateLineChart: React.FC<{
+    rates: Rate[]
+    changeSubject: (subject: string) => void
+}> = ({ rates, changeSubject }) => {
     return <div className="line-chart">
         <div className="line-chart__main-line" />
         {
@@ -18,7 +19,7 @@ const RateLineChart = (props: { rates: Rate[], changeSubject: (subject: string) 
             )
         }
         {
-            rates?.map(rate =>
+            rates.map(rate =>
                 <RateItem key={rate.subject}
                           rate={rate}
                           onClickRateItem={() => changeSubject(rate.subject)}

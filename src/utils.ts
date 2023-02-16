@@ -12,7 +12,7 @@ export const getClassName = (...classNames: Array<string | boolean | undefined>)
     return classNamesString.trim();
 };
 
-export const setToLocalStorage = (key: string, data: any) => {
+export const setToLocalStorage = (key: string, data: unknown) => {
     localStorage.setItem(key, JSON.stringify(data));
 };
 
@@ -37,6 +37,7 @@ export const getFromLocalStorage = <T>(key: string, validateValue: (value: unkno
         }
 
     // TODO: remove this when move password to the backend
+    // This is a hack to handle json number->string->number problem.
     } else {
         if (typeof value === 'number') {
             value = value + '';
