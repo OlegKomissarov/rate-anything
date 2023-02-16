@@ -1,6 +1,6 @@
 import React from 'react';
 import RateItem from './RateItem';
-import { Rate } from "./rateInterfaces";
+import { Rate } from "./rateUtils";
 
 const RateLineChart = (props: { rates: Rate[], changeSubject: (subject: string) => void }) => {
     const { rates, changeSubject } = props;
@@ -26,6 +26,6 @@ const RateLineChart = (props: { rates: Rate[], changeSubject: (subject: string) 
             )
         }
     </div>;
-}
+};
 
 export default RateLineChart;

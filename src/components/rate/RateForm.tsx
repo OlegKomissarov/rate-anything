@@ -36,6 +36,6 @@ const RateForm = (props: {
             RATE
         </Button>
     </div>;
-}
+};
 
 export default RateForm;

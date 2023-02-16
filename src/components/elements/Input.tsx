@@ -1,6 +1,6 @@
-import { ChangeEvent, MutableRefObject } from 'react';
+import React, { ChangeEvent, MutableRefObject } from 'react';
 
-const Input = (props: {
+const Input: React.FC<{
     value: string
     onChange: ((event: ChangeEvent<HTMLInputElement>) => void)
     type?: string
@@ -10,9 +10,7 @@ const Input = (props: {
     className?: string
     selectOnFocus?: boolean
     refValue?: MutableRefObject<null>
-}) => {
-    const { type, inputMode, placeholder, className, pattern, selectOnFocus, onChange, value, refValue } = props;
-
+}> = ({ type, inputMode, placeholder, className, pattern, selectOnFocus, onChange, value, refValue }) => {
     return <input type={type}
                   inputMode={inputMode}
                   placeholder={placeholder}
@@ -23,6 +21,6 @@ const Input = (props: {
                   onChange={onChange}
                   ref={refValue ? refValue : null}
     />;
-}
+};
 
 export default Input;

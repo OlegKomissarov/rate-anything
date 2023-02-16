@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { getClassName } from '../../utils';
-import { Rate } from "./rateInterfaces";
+import { Rate } from "./rateUtils";
 
 const RateItem = (props: { rate: Rate, onClickRateItem: () => void }) => {
     const itemRef = useRef(null);
@@ -44,6 +44,6 @@ const RateItem = (props: { rate: Rate, onClickRateItem: () => void }) => {
             <div className="rate-hover-block__rate">Rate: <b>{rate.rate}</b></div>
         </div>
     </div>;
-}
+};
 
 export default RateItem;

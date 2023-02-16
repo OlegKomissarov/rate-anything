@@ -1,10 +1,5 @@
 import api from '../api';
-import { z } from 'zod';
-
-const rateListValidator = z.array(z.object({
-    subject: z.string(),
-    rate: z.number().min(-10).max(10)
-}));
+import { rateListValidator } from '../components/rate/rateUtils';
 
 export const getRateList = () => {
     return api.call('SELECT subject, CAST(ROUND(AVG(rate), 2) as FLOAT) as rate FROM rates GROUP BY subject')

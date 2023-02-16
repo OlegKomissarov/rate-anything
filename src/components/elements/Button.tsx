@@ -1,16 +1,14 @@
+import React from 'react';
 import { getClassName } from '../../utils';
-import { MouseEventHandler, ReactNode } from 'react';
 
-const Button = (props: {
-    onClick?: (MouseEventHandler<HTMLButtonElement> | undefined)
+const Button: React.FC<{
+    children: React.ReactNode
+    onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
     className?: string
-    children: ReactNode
-}) => {
-    const { onClick, className } = props;
-
+}> = ({ onClick, className, children }) => {
     return <button className={getClassName('button', className)} onClick={onClick}>
-        {props.children}
+        {children}
     </button>;
-}
+};
 
 export default Button;
