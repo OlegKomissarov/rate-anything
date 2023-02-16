@@ -1,9 +1,9 @@
 import api from '../api';
-import { rateListValidator } from '../components/rate/rateUtils';
+import { rateListSchema } from '../components/rate/rateUtils';
 
 export const getRateList = () => {
     return api.call('SELECT subject, CAST(ROUND(AVG(rate), 2) as FLOAT) as rate FROM rates GROUP BY subject')
-        .then(response => rateListValidator.parse(response?.rows));
+        .then(response => rateListSchema.parse(response?.rows));
 };
 
 export const createRate = (subject: string, rate: string) => {

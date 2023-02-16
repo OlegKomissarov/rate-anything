@@ -1,41 +1,32 @@
 import { z } from 'zod';
+import { fromZodError } from 'zod-validation-error';
 
 export interface Rate {
     subject: string;
     rate: number;
 }
 
-export const rateListValidator = z.array(z.object({
-    subject: z.string(),
-    rate: z.number().min(-10).max(10)
+export const rateSubjectSchema = z.string().min(1);
+
+export const rateValueSchema = z.number().min(-10).max(10);
+
+export const passwordSchema = z.string().regex(/^[a-zA-Z0-9_]+$/).min(4);
+
+export const rateListSchema = z.array(z.object({
+    subject: rateSubjectSchema,
+    rate: rateValueSchema
 }));
 
-export const passwordValidator = z.string().regex(/^[a-zA-Z0-9_]+$/).min(4);
-
-export const validateRateList = (rateList: unknown): rateList is Rate[] => {
-    let isValid;
+export const validate = <T>(value: unknown, schema: z.Schema, withAlert = true): value is T => {
     try {
-        isValid = !!(Array.isArray(rateList) && rateListValidator.parse(rateList));
+        schema.parse(value);
+        return true;
     } catch (err) {
-        console.log(err);
-        isValid = false;
-    }
-    return isValid;
-};
-
-export const validatePassword = (password: unknown): password is string => {
-    let isValid;
-    try {
-        isValid = !!(typeof password === 'string' && passwordValidator.parse(password));
-    } catch (err) {
-        if (err instanceof z.ZodError) {
-            alert(`Incorrect data. Password should be min 4 symbols and contain only letters, numbers or low line. ${
-                err.errors.reduce((string, error) => `${string}${error.code}. `, '')
-            }`);
+        if (withAlert) {
+            alert(err instanceof z.ZodError ? fromZodError(err) : err);
         } else {
-            alert(`An error occurred while validating password: ${err}`,);
+            console.log(err instanceof z.ZodError ? fromZodError(err) : err);
         }
-        isValid = false;
+        return false;
     }
-    return isValid;
 };

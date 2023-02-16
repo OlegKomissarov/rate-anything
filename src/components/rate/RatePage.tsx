@@ -6,7 +6,7 @@ import {
 import RateLineChart from './RateLineChart';
 import RateForm from './RateForm';
 import Button from '../elements/Button';
-import { Rate, validatePassword, validateRateList } from './rateUtils';
+import { passwordSchema, Rate, rateListSchema, rateSubjectSchema, rateValueSchema, validate } from './rateUtils';
 
 const RatePage = () => {
     const rateInputRef = useRef<HTMLInputElement>(null);
@@ -20,7 +20,13 @@ const RatePage = () => {
         setRate('');
     };
 
-    // todo: some of these validations should be on the server
+    // Todo: some of these validations should be on the server
+
+    const validateRateSubject = (subject: unknown): subject is string => validate<string>(subject, rateSubjectSchema);
+    const validateRateValue = (rate: unknown): rate is number => validate<number>(rate, rateValueSchema);
+    const validateRateList = (rateList: unknown): rateList is Rate[] => validate<Rate[]>(rateList, rateListSchema);
+    const validatePassword = (password: unknown): password is string => validate<string>(password, passwordSchema);
+
     const checkIsSubjectAlreadyRated = () => {
         const localStorageUserRates = getFromLocalStorage<Rate[]>('userRates', validateRateList);
         if (localStorageUserRates && localStorageUserRates.some((rate: Rate) => rate.subject === subject)) {
@@ -28,29 +34,6 @@ const RatePage = () => {
             return true;
         }
         return false;
-    };
-    const validateSubject = () => {
-        const subjectRegex = /^[a-zA-Z0-9]+$/;
-        if (!subject) {
-            alert('Please enter subject.');
-            return false;
-        }
-        if (!subjectRegex.test(subject)) {
-            alert('Incorrect subject. Subject should contain only letters or numbers.');
-            return false;
-        }
-        return true;
-    };
-    const validateRate = () => {
-        if (!rate) {
-            alert('Please enter rate.');
-            return false;
-        }
-        if (isNaN(+rate)) {
-            alert('Incorrect rate. Rate should be a correct number.');
-            return false;
-        }
-        return true;
     };
 
     const checkPassword = (rates: Rate[]) => {
@@ -88,7 +71,7 @@ const RatePage = () => {
     }, []);
 
     const createRate = () => {
-        if (validateSubject() && validateRate() && !checkIsSubjectAlreadyRated()) {
+        if (validateRateSubject(subject) && validateRateValue(rate) && !checkIsSubjectAlreadyRated()) {
             const modifiedSubject = subject.charAt(0).toUpperCase() + subject.slice(1).toLowerCase();
             apiCreateRate(modifiedSubject, rate)
                 .then(() => {
@@ -103,7 +86,7 @@ const RatePage = () => {
     };
 
     const removeRate = () => {
-        if (validateSubject() && checkIfSubjectExists()) {
+        if (validateRateSubject(subject) && checkIfSubjectExists()) {
             const localStoragePassword = getFromLocalStorage<string>('password', validatePassword);
             const password = localStoragePassword || prompt('Please, enter password');
             if (validatePassword(password)) {
