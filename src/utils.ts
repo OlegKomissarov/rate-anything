@@ -1,3 +1,6 @@
+import { z } from 'zod';
+import { fromZodError } from 'zod-validation-error';
+
 export const getClassName = (...classNames: Array<string | boolean | undefined>) => {
     let classNamesString = '';
     classNames.forEach(className => {
@@ -48,4 +51,17 @@ export const getFromLocalStorage = <T>(key: string, validateValue: (value: unkno
         return value;
     }
     return null;
+};
+
+export const validate = <T>(value: unknown, schema: z.Schema, withAlert = false): value is T => {
+    try {
+        schema.parse(value);
+        return true;
+    } catch (err) {
+        console.log('Validation error occurred for the value: ', value, err instanceof z.ZodError ? fromZodError(err) : err);
+        if (withAlert) {
+            alert(err instanceof z.ZodError ? fromZodError(err) : err);
+        }
+        return false;
+    }
 };

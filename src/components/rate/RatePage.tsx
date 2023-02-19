@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { getFromLocalStorage, setToLocalStorage } from '../../utils';
+import { getFromLocalStorage, setToLocalStorage, validate } from '../../utils';
 import {
     createRate as apiCreateRate, getRateList as apiGetRateList, removeRate as apiRemoveRate
 } from '../../api/rate';
 import RateLineChart from './RateLineChart';
 import RateForm from './RateForm';
 import Button from '../elements/Button';
-import { passwordSchema, Rate, rateListSchema, rateSubjectSchema, rateValueSchema, validate } from './rateUtils';
+import { passwordSchema, Rate, rateListSchema, rateSubjectSchema, rateValueSchema } from './rateUtils';
 
 const RatePage = () => {
     const rateInputRef = useRef<HTMLInputElement>(null);
@@ -20,10 +20,15 @@ const RatePage = () => {
         setRate('');
     };
 
-    const validateRateSubject = (subject: unknown): subject is string => validate<string>(subject, rateSubjectSchema);
-    const validateRateValue = (rate: unknown): rate is number => validate<number>(rate, rateValueSchema);
-    const validateRateList = (rateList: unknown): rateList is Rate[] => validate<Rate[]>(rateList, rateListSchema);
-    const validatePassword = (password: unknown): password is string => validate<string>(password, passwordSchema);
+    const validateRateSubject = (subject: unknown): subject is string => validate<string>(subject, rateSubjectSchema, true);
+
+    const validateRateValue = (rate: unknown): rate is number => validate<number>(rate, rateValueSchema, true);
+
+    const validateRateList = (rateList: unknown): rateList is Rate[] =>
+        validate<Rate[]>(rateList, rateListSchema.nullable());
+
+    const validatePassword = (password: unknown, withAlert = false): password is string =>
+        validate<string>(password, passwordSchema, withAlert);
 
     // Todo: this check should be on the server
     const checkIsSubjectAlreadyRated = () => {
@@ -72,7 +77,7 @@ const RatePage = () => {
     }, []);
 
     const createRate = () => {
-        if (validateRateSubject(subject) && validateRateValue(rate) && !checkIsSubjectAlreadyRated()) {
+        if (validateRateSubject(subject) && validateRateValue(+rate) && !checkIsSubjectAlreadyRated()) {
             const modifiedSubject = subject.charAt(0).toUpperCase() + subject.slice(1).toLowerCase();
             apiCreateRate(modifiedSubject, rate)
                 .then(() => {
@@ -90,7 +95,7 @@ const RatePage = () => {
         if (validateRateSubject(subject) && checkIfSubjectExists()) {
             const localStoragePassword = getFromLocalStorage<string>('password', validatePassword);
             const password = localStoragePassword || prompt('Please, enter password');
-            if (validatePassword(password)) {
+            if (validatePassword(password, true)) {
                 apiRemoveRate(subject, password).then(() => {
                     getRateList().then(rates => {
                         if (checkPassword(rates)) {
