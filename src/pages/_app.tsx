@@ -13,9 +13,7 @@ const App = (props: any) => {
                 <title>Rate Anything</title>
             </Head>
             <Header />
-            <main className="main">
-                <Component {...pageProps} />
-            </main>
+            <Component {...pageProps} />
         </div>
     </SessionProvider>;
 };

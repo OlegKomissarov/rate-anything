@@ -21,6 +21,7 @@ input[type=number]::-webkit-inner-spin-button {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
 }
@@ -31,29 +32,22 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .header {
-  margin-bottom: 100px;
+  margin-bottom: 20px;
   text-align: center;
   font-family: Virgil, sans-serif;
   font-size: 45px;
 }
-@media (max-width: 640px) {
-  .header {
-    margin-bottom: 70px;
-  }
-}
 
-.main {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  flex: 1;
-  width: 100%;
+.user-name-label {
+  margin-bottom: 20px;
+  color: #868585;
 }
 
 .line-chart {
   position: relative;
   width: 100%;
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 
 .line-chart__main-line {
@@ -149,25 +143,11 @@ input[type=number]::-webkit-inner-spin-button {
   white-space: nowrap;
 }
 
-.remove-button {
-  margin-top: 100px;
-}
-@media (max-width: 640px) {
-  .remove-button {
-    margin-top: 50px;
-  }
-}
-
 .form {
-  margin-bottom: 100px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-@media (max-width: 640px) {
-  .form {
-    margin-bottom: 70px;
-  }
 }
 .form__input {
   width: 500px;

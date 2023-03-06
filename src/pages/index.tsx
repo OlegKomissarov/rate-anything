@@ -130,27 +130,32 @@ const RatePage = () => {
 
     return <>
         {
-            session?.user
-                ? <div>Signed in as {session.user.name}</div>
-                : <div onClick={() => signIn()}>
-                    Sign In
-                </div>
+            session
+                ? <RateForm rateInputRef={rateInputRef}
+                            createRate={createRate}
+                            subject={subject}
+                            changeSubject={
+                                (subject: string) => {
+                                    if (!session) {
+                                        return;
+                                    }
+                                    setSubject(subject);
+                                    setRate('');
+                                }
+                            }
+                            rate={rate}
+                            changeRate={setRate}
+                />
+                : <Button onClick={() => signIn()}>
+                    Sign In To Create Your Rate
+                </Button>
         }
-        <RateForm rateInputRef={rateInputRef}
-                  createRate={createRate}
-                  subject={subject}
-                  changeSubject={
-                      (subject: string) => {
-                          setSubject(subject);
-                          setRate('');
-                      }
-                  }
-                  rate={rate}
-                  changeRate={setRate}
-        />
         <RateLineChart rates={rates}
                        changeSubject={
                            (subject: string) => {
+                               if (!session) {
+                                   return;
+                               }
                                setSubject(subject);
                                setRate('');
                                if (rateInputRef.current) {
@@ -159,9 +164,12 @@ const RatePage = () => {
                            }
                        }
         />
-        <Button onClick={removeRate} className="button--secondary remove-button">
-            REMOVE RATE
-        </Button>
+        {
+            session &&
+            <Button onClick={removeRate} className="button--secondary">
+                REMOVE RATE
+            </Button>
+        }
     </>;
 };
 

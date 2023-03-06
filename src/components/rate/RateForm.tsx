@@ -1,6 +1,7 @@
 import React from 'react';
 import Input from '../elements/Input';
 import Button from '../elements/Button';
+import { useSession } from 'next-auth/react';
 
 const RateForm: React.FC<{
     rateInputRef: React.Ref<HTMLInputElement>
@@ -10,7 +11,13 @@ const RateForm: React.FC<{
     rate: string
     changeRate: (rate: string) => void
 }> = ({ rateInputRef, createRate, subject, changeSubject, rate, changeRate }) => {
+    const { data: session } = useSession();
+
     return <div className="form">
+        {
+            session?.user &&
+            <div className="user-name-label">{session.user.name}</div>
+        }
         <Input placeholder="Input what you wanna rate"
                className="form__input"
                selectOnFocus
