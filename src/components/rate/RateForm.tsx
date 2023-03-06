@@ -15,14 +15,14 @@ const RateForm: React.FC<{
                className="form__input"
                selectOnFocus
                value={subject}
-               onChange={(event: React.ChangeEvent<HTMLInputElement>) => changeSubject(event.target.value)}
+               onChange={event => changeSubject(event.target.value)}
         />
         <Input placeholder="Input your rate"
                className="form__input form__input--number"
                inputMode="numeric"
                selectOnFocus
                value={rate}
-               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+               onChange={event => {
                    const { value } = event.target;
                    if ((!value || value === '-') || /^([-]?[1-9]\d*|0)$/.test(value) && +value >= -10 && +value <= 10) {
                        changeRate(value);

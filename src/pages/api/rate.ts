@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Client } from '@planetscale/database';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from './auth/[...nextauth]';
 
 // TODO: add .env
 // DATABASE_USERNAME=750sx7i23l18ezjfbu91
@@ -29,6 +31,7 @@ const removeRate = (subject: string, password: string) =>
     );
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+    const session = await getServerSession(req, res, authOptions);
     try {
         if (req.method === 'GET') {
             const result = await getRateList();
@@ -38,6 +41,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             await createRate(subject, rate);
             res.status(200).send('');
         } else if (req.method === 'DELETE') {
+            // todo: use session here
             const { subject, password } = req.body;
             await removeRate(subject, password);
             res.status(200).send('');

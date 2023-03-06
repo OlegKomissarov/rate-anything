@@ -4,9 +4,12 @@ import RateLineChart from '../components/rate/RateLineChart';
 import RateForm from '../components/rate/RateForm';
 import Button from '../components/elements/Button';
 import { passwordSchema, Rate, rateListSchema, rateSubjectSchema, rateValueSchema } from '../components/rate/rateUtils';
+import { useSession, signIn } from 'next-auth/react';
 
 const RatePage = () => {
     const rateInputRef = useRef<HTMLInputElement>(null);
+
+    const { data: session } = useSession();
 
     const [rates, setRates] = useState<Rate[]>([]);
 
@@ -126,6 +129,13 @@ const RatePage = () => {
     };
 
     return <>
+        {
+            session?.user
+                ? <div>Signed in as {session.user.name}</div>
+                : <div onClick={() => signIn()}>
+                    Sign In
+                </div>
+        }
         <RateForm rateInputRef={rateInputRef}
                   createRate={createRate}
                   subject={subject}

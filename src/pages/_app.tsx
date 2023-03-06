@@ -2,19 +2,22 @@ import React from 'react';
 import '../styles/main.css';
 import Header from '../components/layout/Header';
 import Head from 'next/head';
+import { SessionProvider } from 'next-auth/react';
 
 const App = (props: any) => {
-    const { Component } = props;
+    const { Component, pageProps: { session, ...pageProps } } = props;
 
-    return <div className="app">
-        <Head>
-            <title>Rate Anything</title>
-        </Head>
-        <Header />
-        <main className="main">
-            <Component />
-        </main>
-    </div>;
-}
+    return <SessionProvider session={session}>
+        <div className="app">
+            <Head>
+                <title>Rate Anything</title>
+            </Head>
+            <Header />
+            <main className="main">
+                <Component {...pageProps} />
+            </main>
+        </div>
+    </SessionProvider>;
+};
 
 export default App;
