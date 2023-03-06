@@ -18,38 +18,53 @@ const client = new Client({
 
 const connection = client.connection();
 
-const getRateList = () =>
+const getRateList = () => connection.execute('SELECT * from rates');
+
+const getAverageRateList = () =>
     connection.execute('SELECT subject, CAST(ROUND(AVG(rate), 2) as FLOAT) as rate FROM rates GROUP BY subject');
 
-const createRate = (subject: string, rate: string) =>
-    connection.execute(`INSERT INTO rates (\`subject\`, \`rate\`) VALUES (?, ?);`, [subject, rate]);
+const getRateByUsernameAndSubject = (username: string, subject: string) =>
+    connection.execute(`SELECT 1 FROM rates WHERE username = ? AND subject = ?;`, [username, subject]);
 
-const removeRate = (subject: string, password: string) =>
-    connection.execute(
-        `DELETE FROM rates WHERE subject = ? AND EXISTS (SELECT 1 FROM passwords WHERE password = ?);`,
-        [subject, password]
-    );
+const createRate = (subject: string, rate: string, userName: string) =>
+    connection.execute('INSERT INTO rates (\`subject\`, \`rate\`, \`userName\`) VALUES (?, ?, ?);', [subject, rate, userName]);
+
+const removeRate = (subject: string) =>
+    connection.execute('DELETE FROM rates WHERE subject = ?;', [subject]);
+
+const checkIfUserRatedSubject = async (username: string, subject: string) => {
+    const rates = await getRateByUsernameAndSubject(username, subject);
+    return !!rates.rows.length;
+};
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getServerSession(req, res, authOptions);
     try {
         if (req.method === 'GET') {
-            const result = await getRateList();
-            res.status(200).json(result);
+            const [rateListResult, averageRateListResult] = await Promise.all([getRateList(), getAverageRateList()]);
+            res.status(200).json({ rateListResult, averageRateListResult });
         } else if (req.method === 'POST') {
             const { subject, rate } = req.body;
-            await createRate(subject, rate);
-            res.status(200).send('');
+            if (!session?.user?.name) {
+                res.status(403).json({ message: 'Only signed in user can create rates.' });
+            } else if (await checkIfUserRatedSubject(session.user.name, subject)) {
+                res.status(403).json({ message: `You have already rated ${subject}.` });
+            } else {
+                await createRate(subject, rate, session.user.name);
+                res.status(200).send('');
+            }
         } else if (req.method === 'DELETE') {
-            // todo: use session here
-            const { subject, password } = req.body;
-            await removeRate(subject, password);
-            res.status(200).send('');
+            if (session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL) {
+                const { subject } = req.body;
+                await removeRate(subject);
+                res.status(200).send('');
+            } else {
+                res.status(403).json({ message: 'Deleting rates denied for this user.' });
+            }
         } else {
             res.status(400).send('');
         }
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal server error.');
+        res.status(500).json({ message: 'Internal server error.' });
     }
 };

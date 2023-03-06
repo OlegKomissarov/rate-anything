@@ -3,9 +3,10 @@ import { getClassName } from '../../utils';
 import { Rate } from './rateUtils';
 
 const RateItem: React.FC<{
-    rate: Rate
+    averageRate: Rate
+    ratesOfSubject: Rate[]
     onClickRateItem: () => void
-}> = ({ rate, onClickRateItem }) => {
+}> = ({ averageRate, ratesOfSubject, onClickRateItem }) => {
     const itemRef = useRef<HTMLDivElement>(null);
     const hoverBlockRef = useRef<HTMLDivElement>(null);
 
@@ -30,18 +31,32 @@ const RateItem: React.FC<{
 
     useEffect(() => {
         dropLeft();
-    }, [rate]);
+    }, [averageRate]);
 
     return <div ref={itemRef}
                 onClick={onClickRateItem}
                 className="rate"
-                style={{ left: `${100 / 20 * (rate.rate + 10)}%` }}
+                style={{ left: `${100 / 20 * (averageRate.rate + 10)}%` }}
     >
         <div ref={hoverBlockRef}
              className={getClassName('rate-hover-block', shouldDropLeftHoverBlock && 'rate-hover-block--drop-left')}
         >
-            <div className="rate-hover-block__subject"><b>{rate.subject}</b></div>
-            <div className="rate-hover-block__rate">Rate: <b>{rate.rate}</b></div>
+            <div className="rate-hover-block__unbreakable-string">
+                <b>
+                    {averageRate.subject}: {averageRate.rate}
+                </b>
+            </div>
+            <div>
+                {
+                    ratesOfSubject.map(rate =>
+                        <div key={rate.username}
+                             className="rate-hover-block__unbreakable-string"
+                        >
+                            {rate.username}
+                        </div>
+                    )
+                }
+            </div>
         </div>
     </div>;
 };

@@ -134,12 +134,7 @@ input[type=number]::-webkit-inner-spin-button {
   right: 8px;
   left: initial;
 }
-
-.rate-hover-block__subject {
-  white-space: nowrap;
-}
-
-.rate-hover-block__rate {
+.rate-hover-block__unbreakable-string {
   white-space: nowrap;
 }
 

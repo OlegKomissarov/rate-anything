@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { getFromLocalStorage, validate, setToLocalStorage } from '../utils';
+import { validate } from '../utils';
 import RateLineChart from '../components/rate/RateLineChart';
 import RateForm from '../components/rate/RateForm';
 import Button from '../components/elements/Button';
-import { passwordSchema, Rate, rateListSchema, rateSubjectSchema, rateValueSchema } from '../components/rate/rateUtils';
+import { Rate, rateSubjectSchema, rateValueSchema } from '../components/rate/rateUtils';
 import { useSession, signIn } from 'next-auth/react';
 
 const RatePage = () => {
@@ -12,46 +12,21 @@ const RatePage = () => {
     const { data: session } = useSession();
 
     const [rates, setRates] = useState<Rate[]>([]);
+    const [averageRates, setAverageRates] = useState<Rate[]>([]);
 
     const [subject, setSubject] = useState('');
-    const [rate, setRate] = useState('');
+    const [rate, setRate] = useState<number | null>(null);
     const resetForm = () => {
         setSubject('');
-        setRate('');
+        setRate(null);
     };
 
     const validateRateSubject = (subject: unknown): subject is string => validate<string>(subject, rateSubjectSchema);
 
     const validateRateValue = (rate: unknown): rate is number => validate<number>(rate, rateValueSchema);
 
-    const validateRateList = (rateList: unknown): rateList is Rate[] =>
-        validate<Rate[]>(rateList, rateListSchema);
-
-    const validatePassword = (password: unknown): password is string =>
-        validate<string>(password, passwordSchema);
-
-    // Todo: this check should be on the server
-    const checkIsSubjectAlreadyRated = () => {
-        const localStorageUserRates = getFromLocalStorage<Rate[]>('userRates', validateRateList);
-        if (localStorageUserRates && localStorageUserRates.some((rate: Rate) => rate.subject === subject)) {
-            alert(`You have already rated ${subject}`);
-            return true;
-        }
-        return false;
-    };
-
-    // Todo: this check should be on the server
-    const checkPassword = (rates: Rate[]) => {
-        if (rates.some(rate => rate.subject === subject)) {
-            alert('It seems that the password was incorrect');
-            localStorage.removeItem('password');
-            return false;
-        }
-        return true;
-    };
-
     const checkIfSubjectExists = () => {
-        if (rates.find(rate => rate.subject === subject)) {
+        if (averageRates.find(rate => rate.subject === subject)) {
             return true;
         }
         alert('There is no such subject. Please provide an existing subject in the input above');
@@ -62,21 +37,14 @@ const RatePage = () => {
         const response = await fetch('/api/rate', { method: 'GET' });
         if (response.ok) {
             const result = await response.json();
-            const rateList = result.rows || [];
+            const rateList = result?.rateListResult?.rows || [];
+            const averageRateList = result?.averageRateListResult?.rows || [];
             setRates(rateList);
-            if (validateRateList(rateList)) {
-                const localStorageUserRates = getFromLocalStorage<Rate[]>('userRates', validateRateList);
-                if (localStorageUserRates) {
-                    setToLocalStorage(
-                        'userRates',
-                        localStorageUserRates?.filter((localStorageRate: Rate) =>
-                            rateList.some((rate: Rate) => rate.subject === localStorageRate.subject))
-                    );
-                }
-            }
-            return rateList;
+            setAverageRates(averageRateList);
+            return result;
         } else {
-            alert(`Failed to get rate list, error code is ${response.status}`);
+            const result = await response.json();
+            alert(result.message || `Failed to get rate list, error code is ${response.status}`);
         }
         return [];
     };
@@ -85,7 +53,7 @@ const RatePage = () => {
     }, []);
 
     const createRate = async () => {
-        if (validateRateSubject(subject) && validateRateValue(+rate) && !checkIsSubjectAlreadyRated()) {
+        if (validateRateSubject(subject) && validateRateValue(rate)) {
             const modifiedSubject = subject.charAt(0).toUpperCase() + subject.slice(1).toLowerCase();
             const response = await fetch('/api/rate', {
                 method: 'POST',
@@ -94,36 +62,27 @@ const RatePage = () => {
             });
             if (response.ok) {
                 resetForm();
-                const newUserRate = { subject: modifiedSubject, rate };
-                const localStorageUserRates = getFromLocalStorage<Rate[]>('userRates', validateRateList);
-                const userRates = localStorageUserRates ? [...localStorageUserRates, newUserRate] : [newUserRate]
-                setToLocalStorage('userRates', userRates);
                 getRateList();
             } else {
-                alert(`Failed to create rate, error code is ${response.status}`);
+                const result = await response.json();
+                alert(result.message || `Failed to create rate, error code is ${response.status}`);
             }
         }
     };
 
     const removeRate = async () => {
         if (validateRateSubject(subject) && checkIfSubjectExists()) {
-            const localStoragePassword = getFromLocalStorage<string>('password', validatePassword);
-            const password = localStoragePassword || prompt('Please, enter password');
-            if (validatePassword(password)) {
-                const response = await fetch('/api/rate', {
-                    method: 'DELETE',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ subject, password })
-                });
-                if (response.ok) {
-                    const rateList = await getRateList();
-                    if (checkPassword(rateList)) {
-                        setToLocalStorage('password', password);
-                        resetForm();
-                    }
-                } else {
-                    alert(`Failed to delete rate, error code is ${response.status}`);
-                }
+            const response = await fetch('/api/rate', {
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ subject })
+            });
+            if (response.ok) {
+                resetForm();
+                getRateList();
+            } else {
+                const result = await response.json();
+                alert(result.message || `Failed to delete rate, error code is ${response.status}`);
             }
         }
     };
@@ -140,7 +99,7 @@ const RatePage = () => {
                                         return;
                                     }
                                     setSubject(subject);
-                                    setRate('');
+                                    setRate(null);
                                 }
                             }
                             rate={rate}
@@ -151,13 +110,14 @@ const RatePage = () => {
                 </Button>
         }
         <RateLineChart rates={rates}
+                       averageRates={averageRates}
                        changeSubject={
                            (subject: string) => {
                                if (!session) {
                                    return;
                                }
                                setSubject(subject);
-                               setRate('');
+                               setRate(null);
                                if (rateInputRef.current) {
                                    rateInputRef.current.focus();
                                }
@@ -165,7 +125,7 @@ const RatePage = () => {
                        }
         />
         {
-            session &&
+            session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL &&
             <Button onClick={removeRate} className="button--secondary">
                 REMOVE RATE
             </Button>

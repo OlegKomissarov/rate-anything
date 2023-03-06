@@ -4,8 +4,9 @@ import { Rate } from './rateUtils';
 
 const RateLineChart: React.FC<{
     rates: Rate[]
+    averageRates: Rate[]
     changeSubject: (subject: string) => void
-}> = ({ rates, changeSubject }) => {
+}> = ({ rates, averageRates, changeSubject }) => {
     return <div className="line-chart">
         <div className="line-chart__main-line" />
         {
@@ -19,10 +20,11 @@ const RateLineChart: React.FC<{
             )
         }
         {
-            rates.map(rate =>
-                <RateItem key={rate.subject}
-                          rate={rate}
-                          onClickRateItem={() => changeSubject(rate.subject)}
+            averageRates.map(averageRate =>
+                <RateItem key={averageRate.subject}
+                          averageRate={averageRate}
+                          onClickRateItem={() => changeSubject(averageRate.subject)}
+                          ratesOfSubject={rates.filter(rate => rate.subject === averageRate.subject)}
                 />
             )
         }

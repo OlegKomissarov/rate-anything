@@ -8,8 +8,8 @@ const RateForm: React.FC<{
     createRate: () => void
     subject: string
     changeSubject: (subject: string) => void
-    rate: string
-    changeRate: (rate: string) => void
+    rate: number | null
+    changeRate: (rate: number | null) => void
 }> = ({ rateInputRef, createRate, subject, changeSubject, rate, changeRate }) => {
     const { data: session } = useSession();
 
@@ -28,11 +28,11 @@ const RateForm: React.FC<{
                className="form__input form__input--number"
                inputMode="numeric"
                selectOnFocus
-               value={rate}
+               value={typeof rate === 'number' ? rate + '' : ''}
                onChange={event => {
                    const { value } = event.target;
                    if ((!value || value === '-') || /^([-]?[1-9]\d*|0)$/.test(value) && +value >= -10 && +value <= 10) {
-                       changeRate(value);
+                       changeRate(+value);
                    }
                }}
                refValue={rateInputRef}
