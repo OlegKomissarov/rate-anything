@@ -42,7 +42,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             res.status(200).send('');
         } else if (req.method === 'DELETE') {
             // todo: use session here
-            console.log(session)
             const { subject, password } = req.body;
             await removeRate(subject, password);
             res.status(200).send('');
