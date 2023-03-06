@@ -46,9 +46,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         } else if (req.method === 'POST') {
             const { subject, rate } = req.body;
             if (!session?.user?.name) {
-                res.status(403).json({ message: 'Only signed in user can create rates.' });
+                res.status(401).json({ message: 'Only signed in user can create rates.' });
             } else if (await checkIfUserRatedSubject(session.user.name, subject)) {
-                res.status(403).json({ message: `You have already rated ${subject}.` });
+                res.status(409).json({ message: `You have already rated ${subject}.` });
             } else {
                 await createRate(subject, rate, session.user.name);
                 res.status(200).send('');
