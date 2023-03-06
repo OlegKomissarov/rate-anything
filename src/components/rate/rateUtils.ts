@@ -5,7 +5,7 @@ export interface Rate {
     rate: number;
 }
 
-export const rateSubjectSchema = z.string().min(1).max(5);
+export const rateSubjectSchema = z.string().min(1);
 
 export const rateValueSchema = z.number().min(-10).max(10);
 
