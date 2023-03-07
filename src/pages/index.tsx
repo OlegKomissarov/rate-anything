@@ -42,14 +42,14 @@ const RatePage = () => {
     const getRateList = async () => {
         const response = await fetch('/api/rate', { method: 'GET' });
         const result = await response.json();
-        if (response.ok && validateRateList(result.rateList) && validateAverageRateList(result.averageRateList)) {
+        if (response.ok && result && validateRateList(result.rateList) && validateAverageRateList(result.averageRateList)) {
             const rateList = result.rateList;
             const averageRateList = result.averageRateList;
             setRates(rateList);
             setAverageRates(averageRateList);
         }
         if (!response.ok) {
-            alert(result.message || `Failed to get rate list, error code is ${response.status}`);
+            alert(result?.message || `Failed to get rate list, error code is ${response.status}`);
         }
     };
     useEffect(() => {
@@ -69,7 +69,7 @@ const RatePage = () => {
                 getRateList();
             } else {
                 const result = await response.json();
-                alert(result.message || `Failed to create rate, error code is ${response.status}`);
+                alert(result?.message || `Failed to create rate, error code is ${response.status}`);
             }
         }
     };
@@ -86,7 +86,7 @@ const RatePage = () => {
                 getRateList();
             } else {
                 const result = await response.json();
-                alert(result.message || `Failed to delete rate, error code is ${response.status}`);
+                alert(result?.message || `Failed to delete rate, error code is ${response.status}`);
             }
         }
     };
