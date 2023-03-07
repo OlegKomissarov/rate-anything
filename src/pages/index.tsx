@@ -3,7 +3,9 @@ import { validate } from '../utils';
 import RateLineChart from '../components/rate/RateLineChart';
 import RateForm from '../components/rate/RateForm';
 import Button from '../components/elements/Button';
-import { Rate, rateSubjectSchema, rateValueSchema } from '../components/rate/rateUtils';
+import {
+    Rate, averageRateListSchema, rateListSchema, rateSubjectSchema, rateValueSchema
+} from '../components/rate/rateUtils';
 import { useSession, signIn } from 'next-auth/react';
 
 const RatePage = () => {
@@ -25,6 +27,10 @@ const RatePage = () => {
 
     const validateRateValue = (rate: unknown): rate is number => validate<number>(rate, rateValueSchema);
 
+    const validateRateList = (rateList: unknown): rateList is Rate[] => validate<Rate[]>(rateList, rateListSchema);
+
+    const validateAverageRateList = (rateList: unknown): rateList is Rate[] => validate<Rate[]>(rateList, averageRateListSchema);
+
     const checkIfSubjectExists = () => {
         if (averageRates.find(rate => rate.subject === subject)) {
             return true;
@@ -35,18 +41,16 @@ const RatePage = () => {
 
     const getRateList = async () => {
         const response = await fetch('/api/rate', { method: 'GET' });
-        if (response.ok) {
-            const result = await response.json();
-            const rateList = result?.rateListResult?.rows || [];
-            const averageRateList = result?.averageRateListResult?.rows || [];
+        const result = await response.json();
+        if (response.ok && validateRateList(result.rateList) && validateAverageRateList(result.averageRateList)) {
+            const rateList = result.rateList;
+            const averageRateList = result.averageRateList;
             setRates(rateList);
             setAverageRates(averageRateList);
-            return result;
-        } else {
-            const result = await response.json();
+        }
+        if (!response.ok) {
             alert(result.message || `Failed to get rate list, error code is ${response.status}`);
         }
-        return [];
     };
     useEffect(() => {
         getRateList();

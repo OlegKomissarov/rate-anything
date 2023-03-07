@@ -42,7 +42,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         if (req.method === 'GET') {
             const [rateListResult, averageRateListResult] = await Promise.all([getRateList(), getAverageRateList()]);
-            res.status(200).json({ rateListResult, averageRateListResult });
+            res.status(200).json({ rateList: rateListResult.rows, averageRateList: averageRateListResult.rows });
         } else if (req.method === 'POST') {
             const { subject, rate } = req.body;
             if (!session?.user?.name) {
