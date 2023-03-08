@@ -17,10 +17,10 @@ const RatePage = () => {
     const [averageRates, setAverageRates] = useState<Rate[]>([]);
 
     const [subject, setSubject] = useState('');
-    const [rate, setRate] = useState<number | null>(null);
+    const [rate, setRate] = useState<string>('');
     const resetForm = () => {
         setSubject('');
-        setRate(null);
+        setRate('');
     };
 
     const validateRateSubject = (subject: unknown): subject is string => validate<string>(subject, rateSubjectSchema);
@@ -57,12 +57,12 @@ const RatePage = () => {
     }, []);
 
     const createRate = async () => {
-        if (validateRateSubject(subject) && validateRateValue(rate)) {
+        if (validateRateSubject(subject) && validateRateValue(+rate)) {
             const modifiedSubject = subject.charAt(0).toUpperCase() + subject.slice(1).toLowerCase();
             const response = await fetch('/api/rate', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ subject: modifiedSubject, rate })
+                body: JSON.stringify({ subject: modifiedSubject, rate: +rate })
             });
             if (response.ok) {
                 resetForm();
@@ -103,7 +103,7 @@ const RatePage = () => {
                                         return;
                                     }
                                     setSubject(subject);
-                                    setRate(null);
+                                    setRate('');
                                 }
                             }
                             rate={rate}
@@ -121,7 +121,7 @@ const RatePage = () => {
                                    return;
                                }
                                setSubject(subject);
-                               setRate(null);
+                               setRate('');
                                if (rateInputRef.current) {
                                    rateInputRef.current.focus();
                                }
