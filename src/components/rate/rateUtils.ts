@@ -21,3 +21,5 @@ export const rateListSchema = z.array(z.object({
     username: z.string(),
     id: z.number()
 }));
+
+export const getRatesOfSubject = (rates: Rate[], subject: string) => rates.filter(rate => rate.subject === subject);

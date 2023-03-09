@@ -4,7 +4,7 @@ import Button from '../elements/Button';
 import { useSession } from 'next-auth/react';
 
 const RateForm: React.FC<{
-    rateInputRef: React.Ref<HTMLInputElement>
+    rateInputRef: React.RefObject<HTMLInputElement>
     createRate: () => void
     subject: string
     changeSubject: (subject: string) => void

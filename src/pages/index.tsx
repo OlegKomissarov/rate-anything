@@ -7,6 +7,7 @@ import {
     Rate, averageRateListSchema, rateListSchema, rateSubjectSchema, rateValueSchema
 } from '../components/rate/rateUtils';
 import { useSession, signIn } from 'next-auth/react';
+import RateStars from '../components/rate/RateStars';
 
 const RatePage = () => {
     const rateInputRef = useRef<HTMLInputElement>(null);
@@ -128,6 +129,10 @@ const RatePage = () => {
                            }
                        }
         />
+        {
+            averageRates.length &&
+            <RateStars rates={rates} averageRates={averageRates} />
+        }
         {
             session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL &&
             <Button onClick={removeRate} className="button--secondary">

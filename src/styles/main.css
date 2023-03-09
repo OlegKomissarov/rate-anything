@@ -1,3 +1,5 @@
+@import "stars.css";
+
 body {
   margin: 0;
   padding: 0;
@@ -5,6 +7,10 @@ body {
   font-size: 18px;
   color: #3b3a3a;
   overflow-x: hidden;
+  /*background-color: #0C2340;*/
+  /*background-color: #1C2331;*/
+  /*background-color: #1E272C;*/
+  /*background-color: #0A0A0A;*/
 }
 
 input, button {
@@ -87,6 +93,9 @@ input[type=number]::-webkit-inner-spin-button {
 .rate:hover {
   z-index: 100;
 }
+.rate:hover .rate-hover-block {
+  visibility: visible;
+}
 
 .rate-hover-block {
   position: absolute;
@@ -96,8 +105,6 @@ input[type=number]::-webkit-inner-spin-button {
   border-radius: 4px;
   background-color: #fff;
   padding: 4px 12px;
-}
-.rate:not(:hover) .rate-hover-block {
   visibility: hidden;
 }
 .rate-hover-block::before {
@@ -229,4 +236,33 @@ input[type=number]::-webkit-inner-spin-button {
   font-family: 'Ubuntu-Regular';
   font-weight: 400;
   src: url(fonts/Ubuntu-Regular.ttf);
+}
+
+
+.rate-stars-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  box-sizing: border-box;
+  padding: 20px;
+}
+.rate-star {
+  position: absolute;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.rate-star__text {
+  color: #eee;
+}
+.rate-star__background {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -10;
+}
+.rate-star:hover .rate-hover-block {
+  visibility: visible;
 }
