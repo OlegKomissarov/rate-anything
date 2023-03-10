@@ -3,18 +3,14 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: Ubuntu-Regular, sans-serif;
+  font-family: Gilroy-Regular, sans-serif;
   font-size: 18px;
   color: #3b3a3a;
   overflow-x: hidden;
-  /*background-color: #0C2340;*/
-  /*background-color: #1C2331;*/
-  /*background-color: #1E272C;*/
-  /*background-color: #0A0A0A;*/
 }
 
 input, button {
-  font-family: Ubuntu-Regular, sans-serif;
+  font-family: Gilroy-Regular, sans-serif;
   font-size: 18px;
   appearance: none;
 }
@@ -37,11 +33,25 @@ input[type=number]::-webkit-inner-spin-button {
   }
 }
 
+.page {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 40px;
+}
+
 .header {
   margin-bottom: 20px;
   text-align: center;
-  font-family: Virgil, sans-serif;
-  font-size: 45px;
+  font-family: Gilroy-Medium, sans-serif;
+  font-size: 60px;
+}
+.header--theme--dark {
+  color: #B5AC2E;
+  transform: perspective(300px) rotateX(20deg);
 }
 
 .user-name-label {
@@ -106,8 +116,12 @@ input[type=number]::-webkit-inner-spin-button {
   background-color: #fff;
   padding: 4px 12px;
   visibility: hidden;
+  z-index: 1;
 }
-.rate-hover-block::before {
+.rate-hover-block--dark-theme {
+  background-color: #121111;
+}
+.rate-hover-block--with-triangle::before {
   content: "";
   position: absolute;
   top: -15px;
@@ -118,7 +132,7 @@ input[type=number]::-webkit-inner-spin-button {
   border-style: solid;
   border-right-color: #3b3a3a;
 }
-.rate-hover-block::after {
+.rate-hover-block--with-triangle::after {
   content: "";
   position: absolute;
   top: -14px;
@@ -208,13 +222,28 @@ input[type=number]::-webkit-inner-spin-button {
   font-size: 24px;
   line-height: 24px;
   cursor: pointer;
-}
-.button:not(.button--secondary) {
   padding: 16px 24px;
   border-radius: 8px;
   border: 1px solid #3b3a3a;
   background-color: #a80e0e;
   color: #fff;
+}
+.button--dark-theme {
+  background-color: #1d3557;
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+.button--dark-theme:hover {
+  background-color: #243B5B;
 }
 .button--secondary {
   padding: 8px 12px;
@@ -238,6 +267,50 @@ input[type=number]::-webkit-inner-spin-button {
   src: url(fonts/Ubuntu-Regular.ttf);
 }
 
+@font-face {
+  font-family: 'Gilroy-Regular';
+  font-weight: 400;
+  src: url(fonts/Gilroy-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'Gilroy-Medium';
+  font-weight: 500;
+  src: url(fonts/Gilroy-Medium.ttf);
+}
+
+.sign-in-button {
+  margin-left: 100px;
+  transform: rotateZ(-15deg) translate3d(-100px, 35px, 0);
+  transition: transform 350ms;
+}
+.sign-in-astronaut-image {
+  margin-left: 100px;
+  cursor: pointer;
+  transform: rotateY(170deg);
+  transition: transform 350ms;
+}
+.sign-in-astronaut-image:hover, .sign-in-button:hover ~ .sign-in-astronaut-image {
+  transform: rotateY(170deg) rotateZ(-20deg);
+}
+.sign-in-button:hover, .sign-in-button:has(~.sign-in-astronaut-image:hover) {
+  background-color: #243B5B;
+  transform: rotateZ(-5deg) translate3d(-100px, 35px, 0);
+}
+
+.sign-in-astronaut-image--animated {
+  animation: fly 2s;
+}
+@keyframes fly {
+  0% {
+    transform: rotateY(170deg) rotateZ(-20deg);
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotateY(170deg) rotateZ(-30deg) translate3d(-1000%, -800%, 0) scale3d(0.2, 0.2, 0.2);
+  }
+}
 
 .rate-stars-container {
   position: absolute;
@@ -253,15 +326,6 @@ input[type=number]::-webkit-inner-spin-button {
   position: absolute;
   pointer-events: auto;
   cursor: pointer;
-}
-.rate-star__text {
-  color: #eee;
-}
-.rate-star__background {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: -10;
 }
 .rate-star:hover .rate-hover-block {
   visibility: visible;

@@ -6,7 +6,14 @@ const RateCard: React.FC<{
     averageRate: Rate
     ratesOfSubject: Rate[]
     parentRef: React.RefObject<HTMLDivElement>
-}> = ({ averageRate, ratesOfSubject, parentRef }) => {
+    withTriangle?: boolean
+    darkStyle?: boolean
+    showDetails?: boolean,
+    color?: string
+}> = ({
+    averageRate, ratesOfSubject, parentRef, withTriangle, darkStyle,
+    showDetails, color
+}) => {
     const hoverBlockRef = useRef<HTMLDivElement>(null);
     const [shouldDropLeftHoverBlock, setShouldDropLeftHoverBlock] = useState(false);
 
@@ -25,32 +32,49 @@ const RateCard: React.FC<{
                 }
             }
         }
-    }
+    };
 
     useEffect(() => {
         dropLeft();
     }, [averageRate]);
 
     return <div ref={hoverBlockRef}
-                className={getClassName('rate-hover-block', shouldDropLeftHoverBlock && 'rate-hover-block--drop-left')}
+                className={getClassName(
+                    'rate-hover-block',
+                    shouldDropLeftHoverBlock && 'rate-hover-block--drop-left',
+                    withTriangle && 'rate-hover-block--with-triangle',
+                    darkStyle && 'rate-hover-block--dark-theme'
+                )}
+                style={{ color, borderColor: color }}
     >
         <div className="rate-hover-block__unbreakable-string">
             <b>
-                {averageRate.subject}: {averageRate.rate}
+                {
+                    showDetails
+                        ? `${averageRate.subject}: ${averageRate.rate}`
+                        : averageRate.rate
+                }
             </b>
         </div>
-        <div>
-            {
-                ratesOfSubject.map(rate =>
-                    <div key={rate.username}
-                         className="rate-hover-block__unbreakable-string"
-                    >
-                        {rate.username}
-                    </div>
-                )
-            }
-        </div>
+        {
+            showDetails &&
+            <div>
+                {
+                    ratesOfSubject.map(rate =>
+                        <div key={rate.username}
+                             className="rate-hover-block__unbreakable-string"
+                        >
+                            {rate.username}
+                        </div>
+                    )
+                }
+            </div>
+        }
     </div>;
+};
+
+RateCard.defaultProps = {
+    showDetails: true
 };
 
 export default RateCard;

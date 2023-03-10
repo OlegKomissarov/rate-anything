@@ -1,18 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { validate } from '../utils';
-import RateLineChart from '../components/rate/RateLineChart';
 import RateForm from '../components/rate/RateForm';
 import Button from '../components/elements/Button';
+import { Rate } from '../components/rate/rateUtils';
+import { useSession } from 'next-auth/react';
 import {
-    Rate, averageRateListSchema, rateListSchema, rateSubjectSchema, rateValueSchema
+    validateRateSubject, validateRateValue, validateRateList, validateAverageRateList, checkIfSubjectExists
 } from '../components/rate/rateUtils';
-import { useSession, signIn } from 'next-auth/react';
-import RateStars from '../components/rate/RateStars';
+import RateLineChart from '../components/rate/RateLineChart';
+import { useRouter } from 'next/router';
 
 const RatePage = () => {
+    const router = useRouter();
+
     const rateInputRef = useRef<HTMLInputElement>(null);
 
-    const { data: session } = useSession();
+    const { data: session } = useSession({
+        required: true,
+        onUnauthenticated: () => { router.push('login') }
+    });
 
     const [rates, setRates] = useState<Rate[]>([]);
     const [averageRates, setAverageRates] = useState<Rate[]>([]);
@@ -22,22 +27,6 @@ const RatePage = () => {
     const resetForm = () => {
         setSubject('');
         setRate('');
-    };
-
-    const validateRateSubject = (subject: unknown): subject is string => validate<string>(subject, rateSubjectSchema);
-
-    const validateRateValue = (rate: unknown): rate is number => validate<number>(rate, rateValueSchema);
-
-    const validateRateList = (rateList: unknown): rateList is Rate[] => validate<Rate[]>(rateList, rateListSchema);
-
-    const validateAverageRateList = (rateList: unknown): rateList is Rate[] => validate<Rate[]>(rateList, averageRateListSchema);
-
-    const checkIfSubjectExists = () => {
-        if (averageRates.find(rate => rate.subject === subject)) {
-            return true;
-        }
-        alert('There is no such subject. Please provide an existing subject in the input above');
-        return false;
     };
 
     const getRateList = async () => {
@@ -76,7 +65,10 @@ const RatePage = () => {
     };
 
     const removeRate = async () => {
-        if (validateRateSubject(subject) && checkIfSubjectExists()) {
+        if (
+            session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL
+            && validateRateSubject(subject) && checkIfSubjectExists(averageRates, subject)
+        ) {
             const response = await fetch('/api/rate', {
                 method: 'DELETE',
                 headers: {'Content-Type': 'application/json'},
@@ -92,28 +84,26 @@ const RatePage = () => {
         }
     };
 
+    if (!session) {
+        return null;
+    }
+
     return <>
-        {
-            session
-                ? <RateForm rateInputRef={rateInputRef}
-                            createRate={createRate}
-                            subject={subject}
-                            changeSubject={
-                                (subject: string) => {
-                                    if (!session) {
-                                        return;
-                                    }
-                                    setSubject(subject);
-                                    setRate('');
-                                }
-                            }
-                            rate={rate}
-                            changeRate={setRate}
-                />
-                : <Button onClick={() => signIn()}>
-                    Sign In To Create Your Rate
-                </Button>
-        }
+        <RateForm rateInputRef={rateInputRef}
+                  createRate={createRate}
+                  subject={subject}
+                  changeSubject={
+                      (subject: string) => {
+                          if (!session) {
+                              return;
+                          }
+                          setSubject(subject);
+                          setRate('');
+                      }
+                  }
+                  rate={rate}
+                  changeRate={setRate}
+        />
         <RateLineChart rates={rates}
                        averageRates={averageRates}
                        changeSubject={
@@ -129,10 +119,6 @@ const RatePage = () => {
                            }
                        }
         />
-        {
-            averageRates.length &&
-            <RateStars rates={rates} averageRates={averageRates} />
-        }
         {
             session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL &&
             <Button onClick={removeRate} className="button--secondary">
