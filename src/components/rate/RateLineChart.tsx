@@ -12,8 +12,8 @@ const RateLineChart: React.FC<{
         {
             Array.from(Array(21).keys()).map((item, index) =>
                 <React.Fragment key={index}>
-                    <div className="dash-dote" style={{ left: `${100 / 20 * index}%` }} />
-                    <div className="dash-label" style={{ left: `${100 / 20 * index}%` }}>
+                    <div className="line-chart__dash-dote" style={{ left: `${100 / 20 * index}%` }} />
+                    <div className="line-chart__dash-label" style={{ left: `${100 / 20 * index}%` }}>
                         {+index - 10}
                     </div>
                 </React.Fragment>

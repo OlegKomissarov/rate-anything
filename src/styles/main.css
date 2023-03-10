@@ -1,11 +1,45 @@
-@import "stars.css";
+@import 'stars.css';
+
+:root {
+  --default-text: #3b3a3a;
+  --border: #3b3a3a;
+
+  --user-name-text: #335C67;
+  --secondary-button-background: #868585;
+  --line-chart-main-line: #335C67;
+  --line-chart-dash: #335C67;
+  --line-chart-rate-dote: #9E2A2B;
+  --rate-hover-block-triangle: #fff;
+
+  --input-background: #fff;
+  --input-text: #335C67;
+  --input-placeholder: #E09F3E;
+
+  --secondary-button: #335C67;
+  --secondary-button-text: #fff;
+
+  --light-theme-background: #fff4db;
+  --light-theme-header: #335C67;
+  --light-theme-rate-hover-block: #fff;
+
+  --light-theme-button: #9E2A2B;
+  --light-theme-button-text: #fff;
+
+  --dark-theme-background: #000;
+  --dark-theme-header: #D8CD2B;
+  --dark-theme-rate-hover-block: #121111;
+
+  --dark-theme-button: #1d3557;
+  --dark-theme-button-hover: #243B5B;
+  --dark-theme-button-text: #fff;
+}
 
 body {
   margin: 0;
   padding: 0;
   font-family: Gilroy-Regular, sans-serif;
   font-size: 18px;
-  color: #3b3a3a;
+  color: var(--default-text);
   overflow-x: hidden;
 }
 
@@ -32,6 +66,9 @@ input[type=number]::-webkit-inner-spin-button {
     padding: 50px 20px;
   }
 }
+.app--theme--light {
+  background-color: var(--light-theme-background);
+}
 
 .page {
   flex: 1;
@@ -50,13 +87,16 @@ input[type=number]::-webkit-inner-spin-button {
   font-size: 60px;
 }
 .header--theme--dark {
-  color: #B5AC2E;
-  transform: perspective(300px) rotateX(20deg);
+  color: var(--dark-theme-header);
+  /*transform: perspective(300px) rotateX(20deg);*/
+}
+.header--theme--light {
+  color: var(--light-theme-header);
 }
 
 .user-name-label {
   margin-bottom: 20px;
-  color: #868585;
+  color: var(--user-name-text);
 }
 
 .line-chart {
@@ -68,42 +108,42 @@ input[type=number]::-webkit-inner-spin-button {
 
 .line-chart__main-line {
   height: 4px;
-  background-color: #3b3a3a;
+  background-color: var(--line-chart-main-line);
 }
 
-.dash-dote {
+.line-chart__dash-dote {
   position: absolute;
   transform: translateY(calc(-50% - 2px));
-  height: 20px;
+  height: 10px;
   width: 4px;
-  background-color: #3b3a3a;
+  background-color: var(--line-chart-dash);
   border-radius: 8px;
 }
 
-.dash-label {
+.line-chart__dash-label {
   position: absolute;
   top: 10px;
   transform: translateX(calc(-50% + 2px));
 }
 @media (max-width: 640px) {
-  .dash-label:nth-child(4n + 1) {
+  .line-chart__dash-label:nth-child(4n + 1) {
     visibility: hidden;
   }
 }
 
-.rate {
+.line-chart__rate-dote {
   position: absolute;
-  height: 12px;
-  width: 12px;
-  background-color: #a80e0e;
+  height: 8px;
+  width: 8px;
+  background-color: var(--line-chart-rate-dote);
   border-radius: 50%;
   cursor: pointer;
   transform: translateX(calc(-50% + 2px)) translateY(calc(-50% - 2px));
 }
-.rate:hover {
+.line-chart__rate-dote:hover {
   z-index: 100;
 }
-.rate:hover .rate-hover-block {
+.line-chart__rate-dote:hover .rate-hover-block {
   visibility: visible;
 }
 
@@ -111,15 +151,15 @@ input[type=number]::-webkit-inner-spin-button {
   position: absolute;
   top: 21px;
   left: -8px;
-  border: 1px solid #3b3a3a;
+  border: 1px solid var(--border);
   border-radius: 4px;
-  background-color: #fff;
+  background-color: var(--light-theme-rate-hover-block);
   padding: 4px 12px;
   visibility: hidden;
   z-index: 1;
 }
 .rate-hover-block--dark-theme {
-  background-color: #121111;
+  background-color: var(--dark-theme-rate-hover-block);
 }
 .rate-hover-block--with-triangle::before {
   content: "";
@@ -130,7 +170,7 @@ input[type=number]::-webkit-inner-spin-button {
   border-width: 10px 10px 10px 0;
   border-color: transparent;
   border-style: solid;
-  border-right-color: #3b3a3a;
+  border-right-color: var(--border);
 }
 .rate-hover-block--with-triangle::after {
   content: "";
@@ -141,7 +181,7 @@ input[type=number]::-webkit-inner-spin-button {
   border-width: 10px 10px 10px 0;
   border-color: transparent;
   border-style: solid;
-  border-right-color: #fff;
+  border-right-color: var(--rate-hover-block-triangle);
 }
 .rate-hover-block--drop-left {
   right: -8px;
@@ -211,11 +251,16 @@ input[type=number]::-webkit-inner-spin-button {
 
 .input {
   padding: 14px 16px;
-  border: 1px solid #3b3a3a;
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 24px;
   line-height: 24px;
   box-sizing: border-box;
+  background-color: var(--input-background);
+  color: var(--input-text);
+}
+.input::placeholder {
+  color: var(--input-placeholder);
 }
 
 .button {
@@ -224,13 +269,13 @@ input[type=number]::-webkit-inner-spin-button {
   cursor: pointer;
   padding: 16px 24px;
   border-radius: 8px;
-  border: 1px solid #3b3a3a;
-  background-color: #a80e0e;
-  color: #fff;
+  border: 1px solid var(--border);
+  background-color: var(--light-theme-button);
+  color: var(--light-theme-button-text);
 }
 .button--dark-theme {
-  background-color: #1d3557;
-  color: #fff;
+  background-color: var(--dark-theme-button);
+  color: var(--dark-theme-button-text);
   font-size: 18px;
   padding: 10px 20px;
   border: none;
@@ -243,16 +288,16 @@ input[type=number]::-webkit-inner-spin-button {
   overflow: hidden;
 }
 .button--dark-theme:hover {
-  background-color: #243B5B;
+  background-color: var(--dark-theme-button-hover);
 }
 .button--secondary {
   padding: 8px 12px;
   font-size: 16px;
   line-height: 16px;
-  border: 1px solid #868585;
+  border: 1px solid var(--secondary-button-background);
   border-radius: 5px;
-  background-color: #b0b0b0;
-  color: #fff;
+  background-color: var(--secondary-button);
+  color: var(--secondary-button-text);
 }
 
 @font-face {
@@ -281,7 +326,7 @@ input[type=number]::-webkit-inner-spin-button {
 
 .sign-in-button {
   margin-left: 100px;
-  transform: rotateZ(-15deg) translate3d(-100px, 35px, 0);
+  transform: rotateZ(-10deg) translate3d(-100px, 35px, 0);
   transition: transform 350ms;
 }
 .sign-in-astronaut-image {
@@ -294,7 +339,7 @@ input[type=number]::-webkit-inner-spin-button {
   transform: rotateY(170deg) rotateZ(-20deg);
 }
 .sign-in-button:hover, .sign-in-button:has(~.sign-in-astronaut-image:hover) {
-  background-color: #243B5B;
+  background-color: var(--dark-theme-button-hover);
   transform: rotateZ(-5deg) translate3d(-100px, 35px, 0);
 }
 
