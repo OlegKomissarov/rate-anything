@@ -18,7 +18,7 @@ const RateStar: React.FC<{
     topPosition: number
 }> = ({ averageRate, ratesOfSubject, leftPosition, topPosition }) => {
     const starRef = useRef<HTMLDivElement>(null);
-    const color = getRandomTextColor();
+    const color = useRef<string>(getRandomTextColor());
 
     return <div className="rate-star"
                 style={{
@@ -27,7 +27,7 @@ const RateStar: React.FC<{
                 }}
     >
         <div className="rate-star__text"
-             style={{ color }}
+             style={{ color: color?.current }}
         >
             {averageRate.subject}
         </div>
@@ -36,7 +36,7 @@ const RateStar: React.FC<{
                   parentRef={starRef}
                   darkStyle
                   showDetails={false}
-                  color={color}
+                  color={color?.current}
         />
     </div>;
 };
