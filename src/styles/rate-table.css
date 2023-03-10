@@ -1,0 +1,35 @@
+:root {
+    --table-text-color: #335C67;
+}
+
+.rate-table {
+    flex: 1;
+    width: 50%;
+}
+
+.rate-table__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.rate-table__item {
+    color: var(--table-text-color);
+}
+.rate-table__item--name {
+    flex: 1;
+    font-family: Gilroy-Medium;
+    font-size: 24px;
+}
+.rate-table__item--rate {
+    flex: 1;
+    text-align: end;
+    font-family: Gilroy-Medium;
+    font-size: 24px;
+}
+.rate-table__item--users {
+    flex: 3;
+    text-align: end;
+}

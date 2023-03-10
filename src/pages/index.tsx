@@ -7,6 +7,8 @@ import {
     validateRateSubject, validateRateValue, validateRateList, validateAverageRateList, checkIfSubjectExists
 } from '../components/rate/rateUtils';
 import { useRouter } from 'next/router';
+import RateTable from "../components/rate/table/RateTable";
+import RateLineChart from "../components/rate/form/RateLineChart";
 
 const RatePage = () => {
     const router = useRouter();
@@ -103,27 +105,28 @@ const RatePage = () => {
                   rate={rate}
                   changeRate={setRate}
         />
-        {/*<RateLineChart rates={rates}*/}
-        {/*               averageRates={averageRates}*/}
-        {/*               changeSubject={*/}
-        {/*                   (subject: string) => {*/}
-        {/*                       if (!session) {*/}
-        {/*                           return;*/}
-        {/*                       }*/}
-        {/*                       setSubject(subject);*/}
-        {/*                       setRate('');*/}
-        {/*                       if (rateInputRef.current) {*/}
-        {/*                           rateInputRef.current.focus();*/}
-        {/*                       }*/}
-        {/*                   }*/}
-        {/*               }*/}
-        {/*/>*/}
+        <RateLineChart rates={rates}
+                       averageRates={averageRates}
+                       changeSubject={
+                           (subject: string) => {
+                               if (!session) {
+                                   return;
+                               }
+                               setSubject(subject);
+                               setRate('');
+                               if (rateInputRef.current) {
+                                   rateInputRef.current.focus();
+                               }
+                           }
+                       }
+        />
         {
             session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL &&
             <Button onClick={removeRate} className="button--secondary">
                 REMOVE RATE
             </Button>
         }
+        <RateTable rates={rates} averageRates={averageRates} />
     </>;
 };
 

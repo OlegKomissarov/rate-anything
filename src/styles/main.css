@@ -1,4 +1,5 @@
 @import 'stars.css';
+@import 'rate-table.css';
 
 :root {
   --default-text: #3b3a3a;
@@ -195,7 +196,7 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .user-name-label {
-  margin-bottom: 50px;
+  margin-bottom: 20%;
   color: var(--user-name-text);
 }
 
