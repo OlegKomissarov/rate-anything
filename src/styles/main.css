@@ -94,11 +94,6 @@ input[type=number]::-webkit-inner-spin-button {
   color: var(--light-theme-header);
 }
 
-.user-name-label {
-  margin-bottom: 20px;
-  color: var(--user-name-text);
-}
-
 .line-chart {
   position: relative;
   width: 100%;
@@ -199,8 +194,14 @@ input[type=number]::-webkit-inner-spin-button {
   white-space: nowrap;
 }
 
+.user-name-label {
+  margin-bottom: 50px;
+  color: var(--user-name-text);
+}
+
 .form {
   margin-bottom: 20px;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;

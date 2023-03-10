@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Button from '../components/elements/Button';
 import { Rate } from '../components/rate/rateUtils';
 import { signIn } from 'next-auth/react';
-import RateStars from '../components/rate/RateStars';
+import RateStars from '../components/rate/login/RateStars';
 import { validateRateList, validateAverageRateList } from '../components/rate/rateUtils';
 import Image from 'next/image';
 import { getClassName } from '../utils';

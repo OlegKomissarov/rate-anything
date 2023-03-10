@@ -1,6 +1,6 @@
 import React from 'react';
 import RateLineChartItem from './RateLineChartItem';
-import { getRatesOfSubject, Rate } from './rateUtils';
+import { getRatesOfSubject, Rate } from '../rateUtils';
 
 const RateLineChart: React.FC<{
     rates: Rate[]

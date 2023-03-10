@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
-import { Rate } from './rateUtils';
+import { Rate } from '../rateUtils';
 import RateCard from './RateCard';
-import { getRandomInteger } from '../../utils';
+import { getRandomInteger } from '../../../utils';
 
 const colors = ['#FCFAFB', '#B08B93', '#B5AABA', '#DACFD7', '#785C84', '#D9D2DB', '#C7BECB', '#7F7D7E', '#897891',
     '#B5CFAC', '#A3BB9C', '#C7D1C4', '#8FB782', '#956C71', '#ECE1E3', '#F9F8F9', '#D6CEBB', '#B4BCC5', '#A99E85',

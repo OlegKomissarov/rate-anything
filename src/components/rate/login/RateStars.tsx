@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
-import { getRatesOfSubject, Rate } from './rateUtils';
+import { getRatesOfSubject, Rate } from '../rateUtils';
 import RateStar from './RateStar';
-import { getRandomDecimal } from '../../utils';
+import { getRandomDecimal } from '../../../utils';
 
 interface Position {
     x: number;

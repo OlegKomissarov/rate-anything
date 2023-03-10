@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import RateForm from '../components/rate/RateForm';
+import RateForm from '../components/rate/form/RateForm';
 import Button from '../components/elements/Button';
 import { Rate } from '../components/rate/rateUtils';
 import { useSession } from 'next-auth/react';
 import {
     validateRateSubject, validateRateValue, validateRateList, validateAverageRateList, checkIfSubjectExists
 } from '../components/rate/rateUtils';
-import RateLineChart from '../components/rate/RateLineChart';
 import { useRouter } from 'next/router';
 
 const RatePage = () => {
@@ -104,21 +103,21 @@ const RatePage = () => {
                   rate={rate}
                   changeRate={setRate}
         />
-        <RateLineChart rates={rates}
-                       averageRates={averageRates}
-                       changeSubject={
-                           (subject: string) => {
-                               if (!session) {
-                                   return;
-                               }
-                               setSubject(subject);
-                               setRate('');
-                               if (rateInputRef.current) {
-                                   rateInputRef.current.focus();
-                               }
-                           }
-                       }
-        />
+        {/*<RateLineChart rates={rates}*/}
+        {/*               averageRates={averageRates}*/}
+        {/*               changeSubject={*/}
+        {/*                   (subject: string) => {*/}
+        {/*                       if (!session) {*/}
+        {/*                           return;*/}
+        {/*                       }*/}
+        {/*                       setSubject(subject);*/}
+        {/*                       setRate('');*/}
+        {/*                       if (rateInputRef.current) {*/}
+        {/*                           rateInputRef.current.focus();*/}
+        {/*                       }*/}
+        {/*                   }*/}
+        {/*               }*/}
+        {/*/>*/}
         {
             session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL &&
             <Button onClick={removeRate} className="button--secondary">
