@@ -22,8 +22,8 @@ const RateStar: React.FC<{
 
     return <div className="rate-star"
                 style={{
-                    left: `${leftPosition}%`,
-                    top: `${topPosition}%`
+                    left: `${leftPosition}px`,
+                    top: `${topPosition}px`
                 }}
     >
         <div className="rate-star__text"

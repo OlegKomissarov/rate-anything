@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Button from '../components/elements/Button';
 import { Rate } from '../components/rate/rateUtils';
 import { signIn } from 'next-auth/react';
 import { validateRateList, validateAverageRateList } from '../components/rate/rateUtils';
 import Image from 'next/image';
-import { getClassName } from '../utils';
+import { generateStarPositions, getClassName, Position } from '../utils';
 import StarsBackground from "../components/rate/login/StarsBackground";
 
 const LoginPage = () => {
-    const backgroundSize = 200;
-
     const [rates, setRates] = useState<Rate[]>([]);
     const [averageRates, setAverageRates] = useState<Rate[]>([]);
     const [animateAstronaut, setAnimateAstronaut] = useState(false);
+
+    const backgroundData = useRef<{ backgroundSize: Position, starPositions: Position[] }>
+    ({ backgroundSize: { x: 0, y: 0 }, starPositions: [] });
+    const { current: { backgroundSize, starPositions } } = backgroundData;
 
     const getRateList = async () => {
         const response = await fetch('/api/rate', { method: 'GET' });
@@ -20,6 +22,7 @@ const LoginPage = () => {
         if (response.ok && result && validateRateList(result.rateList) && validateAverageRateList(result.averageRateList)) {
             const rateList = result.rateList;
             const averageRateList = result.averageRateList;
+            backgroundData.current = generateStarPositions(averageRateList.length);
             setRates(rateList);
             setAverageRates(averageRateList);
         }
@@ -55,10 +58,14 @@ const LoginPage = () => {
                onTouchMove={event => { event.preventDefault(); event.stopPropagation(); }}
                onMouseMove={event => { event.preventDefault(); event.stopPropagation(); }}
         />
-        <StarsBackground backgroundSize={backgroundSize}
-                         averageRates={averageRates}
-                         rates={rates}
-        />
+        {
+            averageRates.length &&
+            <StarsBackground backgroundSize={backgroundSize}
+                             starPositions={starPositions}
+                             averageRates={averageRates}
+                             rates={rates}
+            />
+        }
     </div>;
 };
 

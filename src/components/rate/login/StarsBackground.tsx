@@ -6,19 +6,16 @@ import { Position } from '../../../utils';
 const StarsBackground: React.FC<{
     averageRates: Rate[]
     rates: Rate[]
-    backgroundSize: number
-}> = ({ averageRates, rates, backgroundSize }) => {
+    backgroundSize: Position
+    starPositions: Position[]
+}> = ({ averageRates, rates, backgroundSize, starPositions }) => {
     const [cursor, setCursor] = useState<'grab' | 'grabbing'>('grab');
     const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
 
-    const getStartPosition = () => {
-        const backgroundWidthPx = Math.floor(backgroundSize / 100 * window.innerWidth);
-        const backgroundHeightPx = Math.floor(backgroundSize / 100 * window.innerHeight);
-        return {
-            x: -(backgroundWidthPx / 2 - window.innerWidth / 2),
-            y: -(backgroundHeightPx / 2 - window.innerHeight / 2),
-        };
-    };
+    const getStartPosition = () => ({
+        x: window.innerWidth / 2 - backgroundSize.x / 2,
+        y: window.innerHeight / 2 - backgroundSize.y / 2
+    });
     const [containerPos, setContainerPos] = useState<Position>({ x: 0, y: 0 });
     useEffect(() => {
         const setPosition = () => {
@@ -83,8 +80,8 @@ const StarsBackground: React.FC<{
 
     return <div className="stars-background"
                 style={{
-                    width: `${backgroundSize}%`,
-                    height: `${backgroundSize}%`,
+                    width: `${backgroundSize.x}px`,
+                    height: `${backgroundSize.y}px`,
                     transform: `translate(${containerPos.x}px, ${containerPos.y}px)`,
                     cursor: cursor
                 }}
@@ -95,10 +92,19 @@ const StarsBackground: React.FC<{
                 onMouseUp={handleMouseUp}
                 onTouchEnd={handleTouchEnd}
     >
-        {
-            !!averageRates.length &&
-            <RateStars rates={rates} averageRates={averageRates} />
-        }
+        {/*{positions.map((p, index) => <div style={{*/}
+        {/*    zIndex: '200',*/}
+        {/*    backgroundColor: 'red',*/}
+        {/*    width: '5px',*/}
+        {/*    height: '5px',*/}
+        {/*    borderRadius: '50%',*/}
+        {/*    position: 'absolute',*/}
+        {/*    color: 'green',*/}
+        {/*    left: p.x,*/}
+        {/*    top: p.y }} >*/}
+        {/*    {index}*/}
+        {/*</div>)}*/}
+        <RateStars rates={rates} averageRates={averageRates} starPositions={starPositions} />
         <div className="stars-background__decor-stars" />
         <div className="stars-background__twinkling" />
     </div>;
