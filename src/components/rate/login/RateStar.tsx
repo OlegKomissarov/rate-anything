@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { Rate } from '../rateUtils';
-import RateCard from './RateCard';
 import { getRandomInteger } from '../../../utils';
 
 const colors = ['#FCFAFB', '#B08B93', '#B5AABA', '#DACFD7', '#785C84', '#D9D2DB', '#C7BECB', '#7F7D7E', '#897891',
@@ -11,14 +10,26 @@ const getRandomTextColor = () => {
     return colors[getRandomInteger(0, colors.length - 1)];
 };
 
+const minNum = -10;
+const maxNum = 10;
+const minFontSize = 6;
+const maxFontSize = 24;
+const getFontSizeByRate = (rate: number) => {
+    // Map the input number from the range [-10, 10] to the range [0, 1]
+    const normalizedNum = (rate - minNum) / (maxNum - minNum);
+
+    // Map the normalized number from the range [0, 1] to the range [minRange, maxRange]
+    return minFontSize + normalizedNum * (maxFontSize - minFontSize);
+};
+
 const RateStar: React.FC<{
     averageRate: Rate
     ratesOfSubject: Rate[]
     leftPosition: number
     topPosition: number
-}> = ({ averageRate, ratesOfSubject, leftPosition, topPosition }) => {
-    const starRef = useRef<HTMLDivElement>(null);
+}> = ({ averageRate, leftPosition, topPosition }) => {
     const color = useRef<string>(getRandomTextColor());
+    const fontSize = useRef<number>(getFontSizeByRate(averageRate.rate));
 
     return <div className="rate-star"
                 style={{
@@ -27,17 +38,10 @@ const RateStar: React.FC<{
                 }}
     >
         <div className="rate-star__text"
-             style={{ color: color?.current }}
+             style={{ color: color.current, fontSize: `${fontSize.current}px` }}
         >
-            {averageRate.subject}
+            {averageRate.subject}: {averageRate.rate}
         </div>
-        <RateCard averageRate={averageRate}
-                  ratesOfSubject={ratesOfSubject}
-                  parentRef={starRef}
-                  darkStyle
-                  showDetails={false}
-                  color={color?.current}
-        />
     </div>;
 };
 
