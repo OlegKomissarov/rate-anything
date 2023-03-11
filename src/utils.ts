@@ -38,8 +38,9 @@ export interface Position {
 const minDistanceBetweenStarsHorizontal = 150; // calc it better
 const minDistanceBetweenStarsVertical = 150; // calc it better
 const minDistanceBetweenStars = Math.hypot(minDistanceBetweenStarsHorizontal, minDistanceBetweenStarsVertical) / 1.5;
-const starsPositionsRatio = 1;
-const minimalBackgroundSizeScreenRatio = 1.2;
+const starsPositionsRatio = 4;
+const minimalBackgroundSizeScreenRatioX = 1.6;
+const minimalBackgroundSizeScreenRatioY = 1.2;
 const getRandomPosition = (startPosition: Position) => (
     {
         x: getRandomDecimal(startPosition.x, startPosition.x + minDistanceBetweenStarsHorizontal),
@@ -51,42 +52,59 @@ export const generateStarPositions = (numStars: number) => {
     let positions: Position[] = [getRandomPosition({ x: 0, y: 0 })];
 
     let i = 0;
+    const minBackgroundWidth = window.innerWidth * minimalBackgroundSizeScreenRatioX;
+    const minBackgroundHeight = window.innerWidth * minimalBackgroundSizeScreenRatioY;
+    let isMinSizeReachedX = false;
+    let isMinSizeReachedY = false;
+    const addPosition = (position: Position) => {
+        positions.push(getRandomPosition(position));
+        isMinSizeReachedX = position.x >= minBackgroundWidth;
+        isMinSizeReachedY = position.y >= minBackgroundHeight;
+    };
     do {
         const amountOfPositionsInNewLine = Math.sqrt(positions.length);
         let j = 0;
         do {
-            positions.push(getRandomPosition({
+            addPosition({
                 x: j === amountOfPositionsInNewLine - 1
                     ? positions[amountOfPositionsInNewLine*amountOfPositionsInNewLine-1].x + minDistanceBetweenStarsHorizontal
                     : positions[(amountOfPositionsInNewLine-1)*(amountOfPositionsInNewLine-1)+j].x + minDistanceBetweenStarsHorizontal,
                 y: j ? (positions.at(-1)!.y + minDistanceBetweenStarsVertical) : 0
-            }));
+            });
             j++;
-        } while(j < amountOfPositionsInNewLine);
+        } while (j < amountOfPositionsInNewLine);
         let k = 0;
         do {
-            positions.push(getRandomPosition({
+            addPosition({
                 x: k ? (positions.at(-1)!.x + minDistanceBetweenStarsHorizontal) : 0,
                 y: k === amountOfPositionsInNewLine - 1
                     ? positions[amountOfPositionsInNewLine*amountOfPositionsInNewLine-1].y + minDistanceBetweenStarsVertical
                     : positions[(amountOfPositionsInNewLine-1)*(amountOfPositionsInNewLine-1)+k+amountOfPositionsInNewLine-1].y + minDistanceBetweenStarsVertical,
-            }));
+            });
             k++;
-        } while(k < amountOfPositionsInNewLine);
-        // this should be calced by the nearest 2, not the prev corner
-        positions.push(getRandomPosition({
+        } while (k < amountOfPositionsInNewLine);
+        addPosition({
             x: positions.at(-1)!.x + minDistanceBetweenStarsHorizontal,
             y: positions.at(-1-amountOfPositionsInNewLine)!.y + minDistanceBetweenStarsVertical
-        }));
+        });
         i++;
-    } while(
-        positions.length < starsPositionsRatio * numStars
-        // todo: find the most big instead, this is not stable. just set some var if condition is ok for it.
-        || positions.at(-1)!.x < window.innerWidth * minimalBackgroundSizeScreenRatio
-        || positions.at(-1)!.y < window.innerHeight * minimalBackgroundSizeScreenRatio
-    );
+    } while(positions.length < starsPositionsRatio * numStars || !isMinSizeReachedX || !isMinSizeReachedY);
 
-    console.log([...positions])
+    const positionWithMaxX = positions.reduce((maxXPosition, currentPosition) => {
+        if (currentPosition.x > maxXPosition.x) {
+            return currentPosition;
+        } else {
+            return maxXPosition;
+        }
+    });
+    const positionWithMaxY = positions.reduce((maxYPosition, currentPosition) => {
+        if (currentPosition.y > maxYPosition.y) {
+            return currentPosition;
+        } else {
+            return maxYPosition;
+        }
+    });
+
     // filter positions to check min distance between all others, n^2
     positions = positions.filter(positionA => {
         return positions.every(positionB => {
@@ -97,12 +115,10 @@ export const generateStarPositions = (numStars: number) => {
             return distance > minDistanceBetweenStars;
         });
     });
-    console.log([...positions])
 
-    // todo: find the most big instead, this is not stable
     const backgroundSize = {
-        x: positions.at(-1)!.x + minDistanceBetweenStarsHorizontal,
-        y: positions.at(-1)!.y + minDistanceBetweenStarsVertical
+        x: positionWithMaxX.x + minDistanceBetweenStarsHorizontal,
+        y: positionWithMaxY.y + minDistanceBetweenStarsVertical
     };
 
     const a = [...positions];
