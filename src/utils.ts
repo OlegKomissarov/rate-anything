@@ -51,7 +51,12 @@ export const generateStarPositions = (numStars: number) => {
     const starPositions: Position[] = [];
     let positions: Position[] = [getRandomPosition({ x: 0, y: 0 })];
 
-    let i = 0;
+    const otherElements = [
+        document.querySelector('.sign-in-button')!,
+        document.querySelector('.sign-in-astronaut-image')!,
+        document.querySelector('.header')!
+    ];
+
     const minBackgroundWidth = window.innerWidth * minimalBackgroundSizeScreenRatioX;
     const minBackgroundHeight = window.innerWidth * minimalBackgroundSizeScreenRatioY;
     let isMinSizeReachedX = false;
@@ -61,6 +66,8 @@ export const generateStarPositions = (numStars: number) => {
         isMinSizeReachedX = position.x >= minBackgroundWidth;
         isMinSizeReachedY = position.y >= minBackgroundHeight;
     };
+
+    let i = 0;
     do {
         const amountOfPositionsInNewLine = Math.sqrt(positions.length);
         let j = 0;
@@ -105,9 +112,28 @@ export const generateStarPositions = (numStars: number) => {
         }
     });
 
+    const backgroundSize = {
+        x: positionWithMaxX.x + minDistanceBetweenStarsHorizontal,
+        y: positionWithMaxY.y + minDistanceBetweenStarsVertical
+    };
+
+    const otherElementRects = otherElements.map(element => {
+        const rect = element.getBoundingClientRect();
+        rect.x = rect.x + backgroundSize.x/2 - window.innerWidth/2;
+        rect.y = rect.y + backgroundSize.y/2 - window.innerHeight/2;
+        return rect;
+    });
+    const isCollidingWithOtherElements = (newPosPx: Position) =>
+        otherElementRects.some(rect =>
+            newPosPx.x > rect.x - minDistanceBetweenStarsHorizontal &&
+            newPosPx.x < rect.x + minDistanceBetweenStarsHorizontal + rect.width &&
+            newPosPx.y > rect.y - minDistanceBetweenStarsVertical &&
+            newPosPx.y < rect.y + minDistanceBetweenStarsVertical + rect.height
+        );
+
     // filter positions to check min distance between all others, n^2
     positions = positions.filter(positionA => {
-        return positions.every(positionB => {
+        return !isCollidingWithOtherElements(positionA) && positions.every(positionB => {
             if (positionA.x === positionB.x && positionA.y === positionB.y) {
                 return true;
             }
@@ -115,11 +141,6 @@ export const generateStarPositions = (numStars: number) => {
             return distance > minDistanceBetweenStars;
         });
     });
-
-    const backgroundSize = {
-        x: positionWithMaxX.x + minDistanceBetweenStarsHorizontal,
-        y: positionWithMaxY.y + minDistanceBetweenStarsVertical
-    };
 
     const a = [...positions];
     for (let i = 0; i < numStars; i++) {
