@@ -1,7 +1,7 @@
 import RateStars from './RateStars';
 import React, { MouseEventHandler, TouchEventHandler, useEffect, useState } from 'react';
 import { Rate } from '../rateUtils';
-import { Position } from '../../../utils';
+import { getLoginStaticElements, Position } from '../../../utils';
 
 const StarsBackground: React.FC<{
     averageRates: Rate[]
@@ -33,10 +33,12 @@ const StarsBackground: React.FC<{
     const handleMouseDown: MouseEventHandler<HTMLDivElement> = event => {
         setMousePos({ x: event.clientX, y: event.clientY });
         setCursor('grabbing');
+        getLoginStaticElements().forEach((element: HTMLElement) => element.style.pointerEvents = 'none');
     };
     const handleTouchStart: TouchEventHandler<HTMLDivElement> = event => {
         setMousePos({ x: event.touches[0].clientX, y: event.touches[0].clientY });
         setCursor('grabbing');
+        getLoginStaticElements().forEach((element: HTMLElement) => element.style.pointerEvents = 'none');
     };
     const handleMouseMove: MouseEventHandler<HTMLDivElement> = event => {
         panSky({ x: event.clientX, y: event.clientY });
@@ -47,10 +49,12 @@ const StarsBackground: React.FC<{
     const handleMouseUp = () => {
         setMousePos(null);
         setCursor('grab');
+        getLoginStaticElements().forEach((element: HTMLElement) => element.style.pointerEvents = 'auto');
     };
     const handleTouchEnd = () => {
         setMousePos(null);
         setCursor('grab');
+        getLoginStaticElements().forEach((element: HTMLElement) => element.style.pointerEvents = 'auto');
     };
     const panSky = (newPos: { x: number, y: number }) => {
         if (!mousePos) {

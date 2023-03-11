@@ -30,6 +30,12 @@ export const getRandomDecimal = (min: number, max: number) => Math.random() * (m
 
 export const getRandomInteger = (min: number, max: number) => Math.round(getRandomDecimal(min, max));
 
+export const getLoginStaticElements = (): HTMLElement[] => [
+    document.querySelector('.sign-in-button')!,
+    document.querySelector('.sign-in-astronaut-image')!,
+    document.querySelector('.header')!
+];
+
 export interface Position {
     x: number;
     y: number;
@@ -51,11 +57,7 @@ export const generateStarPositions = (numStars: number) => {
     const starPositions: Position[] = [];
     let positions: Position[] = [getRandomPosition({ x: 0, y: 0 })];
 
-    const otherElements = [
-        document.querySelector('.sign-in-button')!,
-        document.querySelector('.sign-in-astronaut-image')!,
-        document.querySelector('.header')!
-    ];
+    const otherElements = getLoginStaticElements();
 
     const minBackgroundWidth = window.innerWidth * minimalBackgroundSizeScreenRatioX;
     const minBackgroundHeight = window.innerWidth * minimalBackgroundSizeScreenRatioY;
