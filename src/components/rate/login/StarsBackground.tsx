@@ -10,21 +10,24 @@ const StarsBackground: React.FC<{
     const [cursor, setCursor] = useState<'grab' | 'grabbing'>('grab');
     const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
 
+    const getStartPosition = () => {
+        const backgroundWidthPx = Math.floor(backgroundSize / 100 * window.innerWidth);
+        const backgroundHeightPx = Math.floor(backgroundSize / 100 * window.innerHeight);
+        return {
+            x: -(backgroundWidthPx / 2 - window.innerWidth / 2),
+            y: -(backgroundHeightPx / 2 - window.innerHeight / 2),
+        };
+    };
     const [containerPos, setContainerPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
     useEffect(() => {
-        const calculatePos = () => {
-            const backgroundWidthPx = Math.floor((backgroundSize / 100) * window.innerWidth);
-            const backgroundHeightPx = Math.floor((backgroundSize / 100) * window.innerHeight);
-            setContainerPos({
-                x: -(backgroundWidthPx / 2 - window.innerWidth / 2),
-                y: -(backgroundHeightPx / 2 - window.innerHeight / 2),
-            });
+        const setPosition = () => {
+            setContainerPos(getStartPosition());
         };
         if (typeof window !== 'undefined') {
-            calculatePos();
-            window.addEventListener('resize', calculatePos);
+            setPosition();
+            window.addEventListener('resize', setPosition);
             return () => {
-                window.removeEventListener('resize', calculatePos);
+                window.removeEventListener('resize', setPosition);
             };
         }
     }, []);
@@ -38,10 +41,10 @@ const StarsBackground: React.FC<{
         setCursor('grabbing');
     };
     const handleMouseMove: MouseEventHandler<HTMLDivElement> = event => {
-        panSky({ x: event.clientX, y: event.clientY })
+        panSky({ x: event.clientX, y: event.clientY });
     };
     const handleTouchMove: TouchEventHandler<HTMLDivElement> = event => {
-        panSky({ x: event.touches[0].clientX, y: event.touches[0].clientY })
+        panSky({ x: event.touches[0].clientX, y: event.touches[0].clientY });
     };
     const handleMouseUp = () => {
         setMousePos(null);
@@ -59,7 +62,16 @@ const StarsBackground: React.FC<{
         const y = newPos.y;
         const deltaX = x - mousePos.x;
         const deltaY = y - mousePos.y;
-        setContainerPos({ x: containerPos.x + deltaX, y: containerPos.y + deltaY });
+        const minPosition = {
+            x: getStartPosition().x*2,
+            y: getStartPosition().y*2
+        };
+        const maxPosition = { x: 0, y: 0 };
+        const newX = containerPos.x + deltaX;
+        const newY = containerPos.y + deltaY;
+        if (newX > minPosition.x && newX < maxPosition.x && newY > minPosition.y && newY < maxPosition.y) {
+            setContainerPos({ x: newX, y: newY });
+        }
         setMousePos({ x, y });
     };
 

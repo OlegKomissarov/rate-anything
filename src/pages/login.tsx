@@ -8,7 +8,7 @@ import { getClassName } from '../utils';
 import StarsBackground from "../components/rate/login/StarsBackground";
 
 const LoginPage = () => {
-    const backgroundSize = 200;
+    const backgroundSize = 355;
 
     const [rates, setRates] = useState<Rate[]>([]);
     const [averageRates, setAverageRates] = useState<Rate[]>([]);
