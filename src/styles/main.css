@@ -41,7 +41,7 @@ body {
   font-family: Gilroy-Regular, sans-serif;
   font-size: 18px;
   color: var(--default-text);
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 input, button {
