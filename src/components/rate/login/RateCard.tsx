@@ -14,21 +14,21 @@ const RateCard: React.FC<{
     averageRate, ratesOfSubject, parentRef, withTriangle, darkStyle,
     showDetails, color
 }) => {
-    const hoverBlockRef = useRef<HTMLDivElement>(null);
-    const [shouldDropLeftHoverBlock, setShouldDropLeftHoverBlock] = useState(false);
+    const rateCardRef = useRef<HTMLDivElement>(null);
+    const [shouldDropLeft, setShouldDropLeft] = useState(false);
 
     const dropLeft = () => {
-        if (hoverBlockRef.current) {
+        if (rateCardRef.current) {
             const scrollbarWidth = 20;
             const screenWidth = window.innerWidth;
             const parentElement = parentRef?.current;
-            const hoverBlockElement = hoverBlockRef.current;
-            if (parentElement && hoverBlockElement) {
+            const rateCardElement = rateCardRef.current;
+            if (parentElement && rateCardElement) {
                 const itemOffsetLeft = parentElement.getBoundingClientRect().x;
-                const hoverBlockWidth = hoverBlockElement.offsetWidth;
-                const shouldDrop = screenWidth - scrollbarWidth <= itemOffsetLeft + hoverBlockWidth;
-                if (shouldDropLeftHoverBlock !== shouldDrop) {
-                    setShouldDropLeftHoverBlock(shouldDrop);
+                const rateCardWidth = rateCardElement.offsetWidth;
+                const shouldDrop = screenWidth - scrollbarWidth <= itemOffsetLeft + rateCardWidth;
+                if (shouldDropLeft !== shouldDrop) {
+                    setShouldDropLeft(shouldDrop);
                 }
             }
         }
@@ -38,16 +38,16 @@ const RateCard: React.FC<{
         dropLeft();
     }, [averageRate]);
 
-    return <div ref={hoverBlockRef}
+    return <div ref={rateCardRef}
                 className={getClassName(
-                    'rate-hover-block',
-                    shouldDropLeftHoverBlock && 'rate-hover-block--drop-left',
-                    withTriangle && 'rate-hover-block--with-triangle',
-                    darkStyle && 'rate-hover-block--dark-theme'
+                    'rate-card',
+                    shouldDropLeft && 'rate-card--drop-left',
+                    withTriangle && 'rate-card--with-triangle',
+                    darkStyle && 'rate-card--dark-theme'
                 )}
                 style={{ color, borderColor: color }}
     >
-        <div className="rate-hover-block__unbreakable-string">
+        <div className="rate-card__unbreakable-string">
             <b>
                 {
                     showDetails
@@ -62,7 +62,7 @@ const RateCard: React.FC<{
                 {
                     ratesOfSubject.map(rate =>
                         <div key={rate.username}
-                             className="rate-hover-block__unbreakable-string"
+                             className="rate-card__unbreakable-string"
                         >
                             {rate.username}
                         </div>

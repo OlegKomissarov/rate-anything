@@ -1,0 +1,65 @@
+:root {
+  --dark-theme-background: #000;
+}
+
+.stars-background {
+
+}
+
+.rate-stars-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  box-sizing: border-box;
+  padding: 20px;
+}
+.rate-star {
+  position: absolute;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.rate-star:hover .rate-card {
+  visibility: visible;
+}
+
+.stars-background__decor-stars, .stars-background__twinkling {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: block;
+}
+
+.stars-background__decor-stars {
+  background: var(--dark-theme-background) url(http://www.script-tutorials.com/demos/360/images/stars.png) repeat top center;
+}
+
+.stars-background__twinkling {
+  background: transparent url(http://www.script-tutorials.com/demos/360/images/twinkling.png) repeat top center;
+  -moz-animation: move-twink-back 500s linear infinite;
+  -ms-animation: move-twink-back 500s linear infinite;
+  -o-animation: move-twink-back 500s linear infinite;
+  -webkit-animation: move-twink-back 500s linear infinite;
+  animation: move-twink-back 500s linear infinite;
+}
+
+@keyframes move-twink-back {
+  from { background-position: 0 0; }
+  to { background-position: -10000px 5000px; }
+}
+@-webkit-keyframes move-twink-back {
+  from { background-position: 0 0; }
+  to { background-position: -10000px 5000px; }
+}
+@-moz-keyframes move-twink-back {
+  from { background-position: 0 0; }
+  to { background-position: -10000px 5000px; }
+}
+@-ms-keyframes move-twink-back {
+  from { background-position: 0 0; }
+  to { background-position: -10000px 5000px; }
+}

@@ -34,6 +34,8 @@ const LoginPage = () => {
         await signIn('google', { redirect: true, callbackUrl: '/' });
     };
 
+    const backgroundSize = '100%';
+
     return <div className="page">
         <Button className="button--dark-theme sign-in-button"
                 onClick={onClickSignIn}
@@ -49,12 +51,14 @@ const LoginPage = () => {
                )}
                onClick={onClickSignIn}
         />
-        <div className="stars"></div>
-        <div className="twinkling"></div>
-        {
-            !!averageRates.length &&
-            <RateStars rates={rates} averageRates={averageRates} />
-        }
+        <div className="stars-background" style={{ width: backgroundSize, height: backgroundSize }}>
+            <div className="stars-background__decor-stars" />
+            <div className="stars-background__twinkling" />
+            {
+                !!averageRates.length &&
+                <RateStars rates={rates} averageRates={averageRates} />
+            }
+        </div>
     </div>;
 };
 
