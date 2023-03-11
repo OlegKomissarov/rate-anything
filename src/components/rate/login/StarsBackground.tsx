@@ -1,6 +1,7 @@
 import RateStars from './RateStars';
 import React, { MouseEventHandler, TouchEventHandler, useEffect, useState } from 'react';
 import { Rate } from '../rateUtils';
+import { Position } from '../../../utils';
 
 const StarsBackground: React.FC<{
     averageRates: Rate[]
@@ -18,7 +19,7 @@ const StarsBackground: React.FC<{
             y: -(backgroundHeightPx / 2 - window.innerHeight / 2),
         };
     };
-    const [containerPos, setContainerPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+    const [containerPos, setContainerPos] = useState<Position>({ x: 0, y: 0 });
     useEffect(() => {
         const setPosition = () => {
             setContainerPos(getStartPosition());
@@ -67,11 +68,16 @@ const StarsBackground: React.FC<{
             y: getStartPosition().y*2
         };
         const maxPosition = { x: 0, y: 0 };
+        const newPosition = { x: containerPos.x, y: containerPos.y };
         const newX = containerPos.x + deltaX;
         const newY = containerPos.y + deltaY;
-        if (newX > minPosition.x && newX < maxPosition.x && newY > minPosition.y && newY < maxPosition.y) {
-            setContainerPos({ x: newX, y: newY });
+        if (newX > minPosition.x && newX < maxPosition.x) {
+            newPosition.x = newX;
         }
+        if (newY > minPosition.y && newY < maxPosition.y) {
+            newPosition.y = newY;
+        }
+        setContainerPos(newPosition);
         setMousePos({ x, y });
     };
 

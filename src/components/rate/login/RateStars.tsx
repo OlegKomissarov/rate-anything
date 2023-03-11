@@ -1,12 +1,7 @@
 import React, { useRef } from 'react';
 import { getRatesOfSubject, Rate } from '../rateUtils';
 import RateStar from './RateStar';
-import { getRandomDecimal } from '../../../utils';
-
-interface Position {
-    x: number;
-    y: number;
-}
+import { getRandomDecimal, Position } from '../../../utils';
 
 const generateStarPositions = (numStars: number) => {
     const positions: Position[] = [];

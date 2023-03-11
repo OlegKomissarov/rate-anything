@@ -29,3 +29,8 @@ export const validate = <T>(value: unknown, schema: z.Schema): value is T => {
 export const getRandomDecimal = (min: number, max: number) => Math.random() * (max - min) + min;
 
 export const getRandomInteger = (min: number, max: number) => Math.round(getRandomDecimal(min, max));
+
+export interface Position {
+    x: number;
+    y: number;
+}
