@@ -13,7 +13,7 @@ const getRandomTextColor = () => {
 const minNum = -10;
 const maxNum = 10;
 const minFontSize = 6;
-const maxFontSize = 24;
+const maxFontSize = 20;
 const getFontSizeByRate = (rate: number) => {
     // Map the input number from the range [-10, 10] to the range [0, 1]
     const normalizedNum = (rate - minNum) / (maxNum - minNum);
