@@ -59,7 +59,7 @@ const LoginPage = () => {
                onMouseMove={event => { event.preventDefault(); event.stopPropagation(); }}
         />
         {
-            averageRates.length &&
+            !!averageRates.length &&
             <StarsBackground backgroundSize={backgroundSize}
                              starPositions={starPositions}
                              averageRates={averageRates}

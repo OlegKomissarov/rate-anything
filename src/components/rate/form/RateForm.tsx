@@ -15,7 +15,7 @@ const RateForm: React.FC<{
 
     return <div className="form">
         {
-            session?.user &&
+            !!session?.user &&
             <div className="user-name-label">{session.user.name}</div>
         }
         <Input placeholder="Input what you wanna rate"
