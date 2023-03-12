@@ -12,7 +12,7 @@ const getRandomTextColor = () => {
 
 const minRate = -10;
 const maxRate = 10;
-const minFontSize = 6;
+const minFontSize = 7;
 const maxFontSize = 20;
 const getFontSizeByRate = (rate: number) => {
     // Map the input number from the range [-10, 10] to the range [0, 1]
