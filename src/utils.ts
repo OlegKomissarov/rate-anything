@@ -56,6 +56,11 @@ const getRandomPosition = (startPosition: Position) => (
 export const generateStarPositions = (numStars: number) => {
     const starPositions: Position[] = [];
     let positions: Position[] = [getRandomPosition({ x: 0, y: 0 })];
+    let backgroundSize = { x: 0, y: 0 };
+
+    if (!numStars || typeof window === 'undefined') {
+        return { starPositions, backgroundSize, positions };
+    }
 
     const otherElements = getLoginStaticElements();
 
@@ -114,7 +119,7 @@ export const generateStarPositions = (numStars: number) => {
         }
     });
 
-    const backgroundSize = {
+    backgroundSize = {
         x: positionWithMaxX.x + minDistanceBetweenStarsHorizontal,
         y: positionWithMaxY.y + minDistanceBetweenStarsVertical
     };
@@ -144,7 +149,6 @@ export const generateStarPositions = (numStars: number) => {
         });
     });
 
-    const a = [...positions];
     for (let i = 0; i < numStars; i++) {
         const randomPositionIndex = getRandomInteger(0, positions.length - 1);
         const randomPosition = positions[randomPositionIndex];
@@ -152,5 +156,5 @@ export const generateStarPositions = (numStars: number) => {
         positions.splice(randomPositionIndex, 1);
     }
 
-    return { starPositions, backgroundSize, positions: a };
+    return { starPositions, backgroundSize };
 };

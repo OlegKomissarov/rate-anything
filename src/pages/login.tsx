@@ -2,25 +2,32 @@ import React, { useEffect, useRef, useState } from 'react';
 import Button from '../components/elements/Button';
 import { Rate } from '../components/rate/rateUtils';
 import { signIn } from 'next-auth/react';
-import { validateRateList, validateAverageRateList } from '../components/rate/rateUtils';
+import { validateAverageRateList } from '../components/rate/rateUtils';
 import Image from 'next/image';
 import { generateStarPositions, getClassName, Position } from '../utils';
-import StarsBackground from "../components/rate/login/StarsBackground";
+import StarsBackground from '../components/rate/login/StarsBackground';
 
 const LoginPage = () => {
     const [averageRates, setAverageRates] = useState<Rate[]>([]);
     const [animateAstronaut, setAnimateAstronaut] = useState(false);
 
-    const backgroundData = useRef<{ backgroundSize: Position, starPositions: Position[] }>
-    ({ backgroundSize: { x: 0, y: 0 }, starPositions: [] });
+    const backgroundData = useRef<{ backgroundSize: Position, starPositions: Position[] }>(
+        generateStarPositions(averageRates.length)
+    );
     const { current: { backgroundSize, starPositions } } = backgroundData;
+    const [panPos, setPanPos] = useState<Position>({ x: 0, y: 0 });
 
     const getRateList = async () => {
         const response = await fetch('/api/rate', { method: 'GET' });
         const result = await response.json();
         if (response.ok && result && validateAverageRateList(result.averageRateList)) {
             const averageRateList = result.averageRateList;
-            backgroundData.current = generateStarPositions(averageRateList.length);
+            const newBackgroundData = generateStarPositions(averageRateList.length);
+            backgroundData.current = newBackgroundData;
+            setPanPos({
+                x: (window.innerWidth - newBackgroundData.backgroundSize.x) / 2,
+                y: (window.innerHeight - newBackgroundData.backgroundSize.y) / 2
+            });
             setAverageRates(averageRateList);
         }
         if (!response.ok) {
@@ -55,13 +62,12 @@ const LoginPage = () => {
                onTouchMove={event => { event.preventDefault(); event.stopPropagation(); }}
                onMouseMove={event => { event.preventDefault(); event.stopPropagation(); }}
         />
-        {
-            !!averageRates.length &&
-            <StarsBackground backgroundSize={backgroundSize}
-                             starPositions={starPositions}
-                             averageRates={averageRates}
-            />
-        }
+        <StarsBackground backgroundSize={backgroundSize}
+                         starPositions={starPositions}
+                         averageRates={averageRates}
+                         panPos={panPos}
+                         setPanPos={setPanPos}
+        />
     </div>;
 };
 

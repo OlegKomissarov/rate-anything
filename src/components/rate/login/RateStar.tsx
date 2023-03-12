@@ -10,13 +10,13 @@ const getRandomTextColor = () => {
     return colors[getRandomInteger(0, colors.length - 1)];
 };
 
-const minNum = -10;
-const maxNum = 10;
+const minRate = -10;
+const maxRate = 10;
 const minFontSize = 6;
 const maxFontSize = 20;
 const getFontSizeByRate = (rate: number) => {
     // Map the input number from the range [-10, 10] to the range [0, 1]
-    const normalizedNum = (rate - minNum) / (maxNum - minNum);
+    const normalizedNum = (rate - minRate) / (maxRate - minRate);
 
     // Map the normalized number from the range [0, 1] to the range [minRange, maxRange]
     return minFontSize + normalizedNum * (maxFontSize - minFontSize);
