@@ -44,7 +44,7 @@ export interface Position {
 const minDistanceBetweenStarsHorizontal = 150; // calc it better
 const minDistanceBetweenStarsVertical = 150; // calc it better
 const minDistanceBetweenStars = Math.hypot(minDistanceBetweenStarsHorizontal, minDistanceBetweenStarsVertical) / 1.5;
-const starsPositionsRatio = 4;
+const starsPositionsRatio = 2;
 const minimalBackgroundSizeScreenRatioX = 1.6;
 const minimalBackgroundSizeScreenRatioY = 1.2;
 const getRandomPosition = (startPosition: Position) => (
