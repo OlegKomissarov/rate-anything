@@ -1,4 +1,4 @@
-import React, { Dispatch, MouseEventHandler, SetStateAction, TouchEventHandler, useState } from 'react';
+import React, { Dispatch, MouseEventHandler, SetStateAction, TouchEventHandler, useEffect, useState } from 'react';
 import { Rate } from '../rateUtils';
 import { getLoginStaticElements, Position } from '../../../utils';
 import RateStar from "./RateStar";
@@ -39,6 +39,14 @@ const StarsBackground: React.FC<{
         setCursor('grab');
         getLoginStaticElements().forEach((element: HTMLElement) => element.style.pointerEvents = 'auto');
     };
+    useEffect(() => {
+        document.addEventListener('mouseup', handleMouseUp);
+        document.addEventListener('touchend', handleTouchEnd);
+        return () => {
+            document.removeEventListener('mouseup', handleMouseUp);
+            document.removeEventListener('touchend', handleTouchEnd);
+        }
+    }, []);
     const panSky = (newPos: { x: number, y: number }) => {
         if (!mousePos) {
             return;
@@ -76,10 +84,6 @@ const StarsBackground: React.FC<{
                 onTouchStart={handleTouchStart}
                 onMouseMove={handleMouseMove}
                 onTouchMove={handleTouchMove}
-                onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseUp}
-                onTouchEnd={handleTouchEnd}
-                onTouchCancel={handleTouchEnd}
     >
         <div className="rate-stars-container">
             {
