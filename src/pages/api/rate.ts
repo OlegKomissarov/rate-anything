@@ -3,17 +3,10 @@ import { Client } from '@planetscale/database';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from './auth/[...nextauth]';
 
-// TODO: add .env
-// DATABASE_USERNAME=750sx7i23l18ezjfbu91
-// DATABASE_HOST=eu-central.connect.psdb.cloud
-// DATABASE_PASSWORD=pscale_pw_x5WFjzecW6lNm6FrPnpoSM3NjEX8Qq36FO9xfcG84fo
 const client = new Client({
-    host: 'aws.connect.psdb.cloud',
-    username: '750sx7i23l18ezjfbu91',
-    password: 'pscale_pw_x5WFjzecW6lNm6FrPnpoSM3NjEX8Qq36FO9xfcG84fo'
-    // host: process.env.DATABASE_HOST,
-    // username: process.env.DATABASE_USERNAME,
-    // password: process.env.DATABASE_PASSWORD
+    host: process.env.DATABASE_HOST,
+    username: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASSWORD
 });
 
 const connection = client.connection();
