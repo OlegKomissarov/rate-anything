@@ -21,9 +21,8 @@
 }
 .rate-star {
   position: absolute;
-  pointer-events: auto;
-  cursor: pointer;
   z-index: 1;
+  user-select: none;
 }
 .rate-star:hover .rate-card {
   visibility: visible;
