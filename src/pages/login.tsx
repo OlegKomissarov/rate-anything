@@ -18,7 +18,7 @@ const LoginPage = () => {
     const getRateList = async () => {
         const response = await fetch('/api/rate', { method: 'GET' });
         const result = await response.json();
-        if (response.ok && result && validateRateList(result.rateList) && validateAverageRateList(result.averageRateList)) {
+        if (response.ok && result && validateAverageRateList(result.averageRateList)) {
             const averageRateList = result.averageRateList;
             backgroundData.current = generateStarPositions(averageRateList.length);
             setAverageRates(averageRateList);
