@@ -5,10 +5,9 @@ import { getLoginStaticElements, Position } from '../../../utils';
 
 const StarsBackground: React.FC<{
     averageRates: Rate[]
-    rates: Rate[]
     backgroundSize: Position
     starPositions: Position[]
-}> = ({ averageRates, rates, backgroundSize, starPositions }) => {
+}> = ({ averageRates, backgroundSize, starPositions }) => {
     const [cursor, setCursor] = useState<'grab' | 'grabbing'>('grab');
     const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
 
@@ -108,7 +107,7 @@ const StarsBackground: React.FC<{
         {/*    top: p.y }} >*/}
         {/*    {index}*/}
         {/*</div>)}*/}
-        <RateStars rates={rates} averageRates={averageRates} starPositions={starPositions} />
+        <RateStars averageRates={averageRates} starPositions={starPositions} />
         <div className="stars-background__decor-stars" />
         <div className="stars-background__twinkling" />
     </div>;

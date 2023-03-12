@@ -8,7 +8,6 @@ import { generateStarPositions, getClassName, Position } from '../utils';
 import StarsBackground from "../components/rate/login/StarsBackground";
 
 const LoginPage = () => {
-    const [rates, setRates] = useState<Rate[]>([]);
     const [averageRates, setAverageRates] = useState<Rate[]>([]);
     const [animateAstronaut, setAnimateAstronaut] = useState(false);
 
@@ -23,7 +22,6 @@ const LoginPage = () => {
             const rateList = result.rateList;
             const averageRateList = result.averageRateList;
             backgroundData.current = generateStarPositions(averageRateList.length);
-            setRates(rateList);
             setAverageRates(averageRateList);
         }
         if (!response.ok) {
@@ -62,8 +60,7 @@ const LoginPage = () => {
             !!averageRates.length &&
             <StarsBackground backgroundSize={backgroundSize}
                              starPositions={starPositions}
-                             averageRates={averageRates}
-                             rates={rates}
+                             averageRates={[]}
             />
         }
     </div>;

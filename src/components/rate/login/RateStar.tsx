@@ -24,7 +24,6 @@ const getFontSizeByRate = (rate: number) => {
 
 const RateStar: React.FC<{
     averageRate: Rate
-    ratesOfSubject: Rate[]
     leftPosition: number
     topPosition: number
 }> = ({ averageRate, leftPosition, topPosition }) => {

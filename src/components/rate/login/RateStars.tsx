@@ -5,9 +5,8 @@ import { Position } from '../../../utils';
 
 const RateStars: React.FC<{
     averageRates: Rate[]
-    rates: Rate[]
     starPositions: Position[]
-}> = ({ averageRates, rates, starPositions }) => {
+}> = ({ averageRates, starPositions }) => {
     return <div className="rate-stars-container">
         {
             averageRates.map((averageRate, index) =>
@@ -15,7 +14,6 @@ const RateStars: React.FC<{
                           averageRate={averageRate}
                           leftPosition={starPositions[index].x}
                           topPosition={starPositions[index].y}
-                          ratesOfSubject={getRatesOfSubject(rates, averageRate.subject)}
                 />
             )
         }
