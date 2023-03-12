@@ -59,7 +59,7 @@ const LoginPage = () => {
             !!averageRates.length &&
             <StarsBackground backgroundSize={backgroundSize}
                              starPositions={starPositions}
-                             averageRates={[]}
+                             averageRates={averageRates}
             />
         }
     </div>;
