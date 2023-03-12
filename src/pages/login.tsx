@@ -8,6 +8,8 @@ import { getClassName, Position } from '../utils';
 import StarsBackground from '../components/rate/login/StarsBackground';
 import generateStarsBackgroundData from '../generateStarsBackgroundData';
 
+const maxSubjectLengthForLoginBackground = 12;
+
 const LoginPage = () => {
     const [averageRates, setAverageRates] = useState<Rate[]>([]);
     const [animateAstronaut, setAnimateAstronaut] = useState(false);
@@ -19,7 +21,10 @@ const LoginPage = () => {
     const [panPos, setPanPos] = useState<Position>({ x: 0, y: 0 });
 
     const getRateList = async () => {
-        const response = await fetch('/api/rate', { method: 'GET' });
+        const response = await fetch(
+            `/api/rate?maxSubjectLength=${maxSubjectLengthForLoginBackground}`,
+            { method: 'GET' }
+        );
         const result = await response.json();
         if (response.ok && result && validateAverageRateList(result.averageRateList)) {
             const averageRateList = result.averageRateList;

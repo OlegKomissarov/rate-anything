@@ -11,13 +11,23 @@ const client = new Client({
 
 const connection = client.connection();
 
-const getRateList = () => connection.execute('SELECT * from rates');
+const getRateList = (maxSubjectLength?: number) => {
+    const query = maxSubjectLength
+        ? 'SELECT * from rates WHERE CHAR_LENGTH(subject) <= ?'
+        : 'SELECT * from rates';
+    return connection.execute(query, [maxSubjectLength]);
+}
 
-const getAverageRateList = () =>
-    connection.execute('SELECT subject, CAST(ROUND(AVG(rate), 2) as FLOAT) as rate FROM rates GROUP BY subject');
+const getAverageRateList = (maxSubjectLength?: number) => {
+    const query = maxSubjectLength ? `
+        SELECT subject, CAST(ROUND(AVG(rate), 2) as FLOAT)
+        as rate FROM rates WHERE CHAR_LENGTH(subject) <= ? GROUP BY subject
+    ` : 'SELECT subject, CAST(ROUND(AVG(rate), 2) as FLOAT) as rate FROM rates GROUP BY subject';
+    return connection.execute(query, [maxSubjectLength]);
+}
 
 const getRateByUseremailAndSubject = (useremail: string, subject: string) =>
-    connection.execute(`SELECT 1 FROM rates WHERE useremail = ? AND subject = ?;`, [useremail, subject]);
+    connection.execute('SELECT 1 FROM rates WHERE useremail = ? AND subject = ?;', [useremail, subject]);
 
 const createRate = (subject: string, rate: string, username: string, useremail: string) =>
     connection.execute(
@@ -37,7 +47,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getServerSession(req, res, authOptions);
     try {
         if (req.method === 'GET') {
-            const [rateListResult, averageRateListResult] = await Promise.all([getRateList(), getAverageRateList()]);
+            let maxSubjectLength;
+            if (req.query.maxSubjectLength && !isNaN(+req.query.maxSubjectLength) && +req.query.maxSubjectLength > 0) {
+                maxSubjectLength = +req.query.maxSubjectLength;
+            }
+            const [rateListResult, averageRateListResult] = await Promise.all([
+                getRateList(maxSubjectLength),
+                getAverageRateList(maxSubjectLength)
+            ]);
             res.status(200).json({ rateList: rateListResult.rows, averageRateList: averageRateListResult.rows });
         } else if (req.method === 'POST') {
             const { subject, rate } = req.body;
@@ -58,9 +75,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 res.status(403).json({ message: 'Deleting rates denied for this user.' });
             }
         } else {
-            res.status(400).send('');
+            res.status(400).json({ message: 'Wrong api method.' });
         }
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: 'Internal server error.' });
     }
 };
