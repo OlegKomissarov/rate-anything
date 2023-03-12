@@ -77,7 +77,9 @@ const StarsBackground: React.FC<{
                 onMouseMove={handleMouseMove}
                 onTouchMove={handleTouchMove}
                 onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
                 onTouchEnd={handleTouchEnd}
+                onTouchCancel={handleTouchEnd}
     >
         <div className="rate-stars-container">
             {

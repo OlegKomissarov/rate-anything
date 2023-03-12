@@ -9,6 +9,7 @@
     font-family: Gilroy-Medium, sans-serif;
     font-size: 60px;
     z-index: 1;
+    user-select: none;
 }
 .header--theme--dark {
     color: var(--dark-theme-header);

@@ -23,6 +23,10 @@ body {
   overflow: hidden;
 }
 
+a {
+  text-decoration: none;
+}
+
 .app {
   padding: 50px;
   min-height: 100vh;

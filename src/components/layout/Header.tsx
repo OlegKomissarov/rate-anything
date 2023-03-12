@@ -3,9 +3,9 @@ import React from 'react';
 const Header: React.FC<{
     theme: 'light' | 'dark'
 }> = ({ theme }) => {
-    return <header className={`header header--theme--${theme}`}>
+    return <a href="/" rel="noopener noreferrer" className={`header header--theme--${theme}`}>
         Rate Anything
-    </header>;
+    </a>;
 };
 
 export default Header;

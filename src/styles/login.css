@@ -3,6 +3,7 @@
     transform: rotateZ(-10deg) translate3d(-100px, 35px, 0);
     transition: transform 350ms;
     z-index: 2;
+    user-select: none;
 }
 .sign-in-astronaut-image {
     margin-left: 100px;
@@ -10,6 +11,7 @@
     transform: rotateY(170deg);
     transition: transform 350ms;
     z-index: 2;
+    user-select: none;
 }
 .sign-in-astronaut-image:hover, .sign-in-button:hover ~ .sign-in-astronaut-image {
     transform: rotateY(170deg) rotateZ(-20deg);
