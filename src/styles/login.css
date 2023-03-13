@@ -1,36 +1,47 @@
-.sign-in-button {
-    margin-left: 100px;
-    transform: rotateZ(-10deg) translate3d(-100px, 35px, 0);
-    transition: transform 350ms;
-    z-index: 2;
-    user-select: none;
-}
-.sign-in-astronaut-image {
-    margin-left: 100px;
-    cursor: pointer;
-    transform: rotateY(170deg);
-    transition: transform 350ms;
-    z-index: 2;
-    user-select: none;
-}
-.sign-in-astronaut-image:hover, .sign-in-button:hover ~ .sign-in-astronaut-image {
-    transform: rotateY(170deg) rotateZ(-20deg);
-}
-.sign-in-button:hover, .sign-in-button:has(~.sign-in-astronaut-image:hover) {
-    background-color: var(--dark-theme-button-hover);
-    transform: rotateZ(-5deg) translate3d(-100px, 35px, 0);
+.login__header {
+    position: fixed;
+    top: 12%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.sign-in-astronaut-image--animated {
+.login__button {
+    position: fixed;
+    top: calc(58% - 125px);
+    left: calc(50% + 50px);
+    transform: translate(-50%, -50%) rotateZ(-10deg) translate(-100px, 35px);
+    transition: transform 350ms;
+    z-index: 2;
+    user-select: none;
+}
+.login__astronaut {
+    position: fixed;
+    top: 58%;
+    left: calc(50% + 50px);
+    cursor: pointer;
+    transform: translate(-50%, -50%) rotateY(170deg);
+    transition: transform 350ms;
+    z-index: 2;
+    user-select: none;
+}
+.login__astronaut:hover, .login__button:hover ~ .login__astronaut {
+    transform: translate(-50%, -50%) rotateY(170deg) rotateZ(-20deg);
+}
+.login__button:hover, .login__button:has(~.login__astronaut:hover) {
+    background-color: var(--dark-theme-button-hover);
+    transform: translate(calc(-50% - 100px), calc(-50% + 35px)) rotateZ(-5deg);
+}
+
+.login__astronaut--animated {
     animation: fly 2s;
 }
 @keyframes fly {
     0% {
-        transform: rotateY(170deg) rotateZ(-20deg);
+        transform: translate(-50%, -50%) rotateY(170deg) rotateZ(-20deg);
         opacity: 1;
     }
     100% {
         opacity: 0;
-        transform: rotateY(170deg) rotateZ(-30deg) translate3d(-1000%, -800%, 0) scale3d(0.2, 0.2, 0.2);
+        transform: rotateY(170deg) rotateZ(-30deg) translate(-1000%, -800%) scale3d(0.2, 0.2, 0.2);
     }
 }

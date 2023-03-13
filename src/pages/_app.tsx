@@ -1,6 +1,5 @@
 import React from 'react';
 import '../styles/main.css';
-import Header from '../components/layout/Header';
 import Head from 'next/head';
 import { SessionProvider } from 'next-auth/react';
 import { useRouter } from 'next/router';
@@ -18,7 +17,6 @@ const App = (props: any) => {
             <Head>
                 <title>Rate Anything</title>
             </Head>
-            <Header theme={theme} />
             <Component {...pageProps} />
         </div>
     </SessionProvider>;

@@ -9,6 +9,7 @@ import {
 import { useRouter } from 'next/router';
 import RateTable from "../components/rate/table/RateTable";
 import RateLineChart from "../components/rate/form/RateLineChart";
+import Header from "../components/layout/Header";
 
 const RatePage = () => {
     const router = useRouter();
@@ -90,6 +91,7 @@ const RatePage = () => {
     }
 
     return <>
+        <Header theme="light" />
         <RateForm rateInputRef={rateInputRef}
                   createRate={createRate}
                   subject={subject}

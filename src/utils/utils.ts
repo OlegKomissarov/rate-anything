@@ -31,8 +31,8 @@ export const getRandomDecimal = (min: number, max: number) => Math.random() * (m
 export const getRandomInteger = (min: number, max: number) => Math.round(getRandomDecimal(min, max));
 
 export const getLoginStaticElements = (): HTMLElement[] => [
-    document.querySelector('.sign-in-button')!,
-    document.querySelector('.sign-in-astronaut-image')!,
+    document.querySelector('.login__button')!,
+    document.querySelector('.login__astronaut')!,
     document.querySelector('.header')!
 ];
 

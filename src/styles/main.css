@@ -20,11 +20,14 @@ body {
   font-family: Gilroy-Regular, sans-serif;
   font-size: 18px;
   color: var(--default-text);
-  overflow: hidden;
 }
 
 a {
   text-decoration: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 .app {

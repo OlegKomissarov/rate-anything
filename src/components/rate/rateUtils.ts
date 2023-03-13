@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { validate } from '../../utils';
+import { validate } from '../../utils/utils';
 
 export interface Rate {
     subject: string;
@@ -40,3 +40,5 @@ export const checkIfSubjectExists = (averageRates: Rate[], subject: string) => {
     alert('There is no such subject. Please provide an existing subject in the input above');
     return false;
 };
+
+export const maxSubjectLengthForLoginBackground = 12;
