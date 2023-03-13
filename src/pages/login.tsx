@@ -25,7 +25,7 @@ const LoginPage = () => {
         >
             Sign In To Create Your Rate
         </Button>
-        <Image src="/astronaut-1.webp"
+        <Image src="/astronaut.webp"
                alt="Astronaut"
                width={200} height={200}
                className={getClassName(
