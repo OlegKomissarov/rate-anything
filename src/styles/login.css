@@ -24,12 +24,14 @@
     z-index: 2;
     user-select: none;
 }
-.login__astronaut:hover, .login__button:hover ~ .login__astronaut {
-    transform: translate(-50%, -50%) rotateY(170deg) rotateZ(-20deg);
-}
-.login__button:hover, .login__button:has(~.login__astronaut:hover) {
-    background-color: var(--dark-theme-button-hover);
-    transform: translate(calc(-50% - 100px), calc(-50% + 35px)) rotateZ(-5deg);
+@media (hover: hover) {
+    .login__astronaut:hover, .login__button:hover ~ .login__astronaut {
+        transform: translate(-50%, -50%) rotateY(170deg) rotateZ(-20deg);
+    }
+    .login__button:hover, .login__button:has(~.login__astronaut:hover) {
+        background-color: var(--dark-theme-button-hover);
+        transform: translate(calc(-50% - 100px), calc(-50% + 35px)) rotateZ(-5deg);
+    }
 }
 
 .login__astronaut--animated {

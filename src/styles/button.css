@@ -33,8 +33,10 @@
     position: relative;
     overflow: hidden;
 }
-.button--dark-theme:hover {
-    background-color: var(--dark-theme-button-hover);
+@media (hover: hover) {
+    .button--dark-theme:hover {
+        background-color: var(--dark-theme-button-hover);
+    }
 }
 .button--secondary {
     padding: 8px 12px;

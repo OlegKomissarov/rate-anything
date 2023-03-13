@@ -25,9 +25,6 @@
   z-index: 1;
   user-select: none;
 }
-.rate-star:hover .rate-card {
-  visibility: visible;
-}
 
 .stars-background__decor-stars, .stars-background__twinkling {
   position: absolute;
