@@ -1,34 +1,33 @@
 import { useEffect, useRef } from 'react';
 import { Position } from './utils';
-import {getLoginStaticElements} from "./loginUtils";
 
 const setBodyCursor = (cursor: 'grab' | 'grabbing' | '') => {
     const body = document.getElementsByTagName('body')[0];
     body.style.cursor = cursor;
 };
 
-const setOtherElementsPointerEvents = (pointerEvents: 'none' | 'auto') => {
-    getLoginStaticElements().forEach((element: HTMLElement) => element.style.pointerEvents = pointerEvents);
+const setOtherElementsPointerEvents = (otherElements: HTMLElement[], pointerEvents: 'none' | 'auto') => {
+    otherElements.forEach((element: HTMLElement) => element.style.pointerEvents = pointerEvents);
 };
 
-export default (backgroundSize: Position) => {
+export default (backgroundSize: Position, otherElements: HTMLElement[]) => {
     const isPanning = useRef(false);
 
     useEffect(() => {
         const handleMouseDown = () => {
             isPanning.current = true;
             setBodyCursor('grabbing');
-            setOtherElementsPointerEvents('none');
+            setOtherElementsPointerEvents(otherElements, 'none');
         };
         const handleMouseMove = (event: MouseEvent) => {
-            panSky(event);
+            panScreen(event);
         };
         const handleMouseUp = () => {
             isPanning.current = false;
             setBodyCursor('grab');
-            setOtherElementsPointerEvents('auto');
+            setOtherElementsPointerEvents(otherElements, 'auto');
         };
-        const panSky = (event: MouseEvent) => {
+        const panScreen = (event: MouseEvent) => {
             if (!isPanning.current) {
                 return;
             }

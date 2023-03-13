@@ -1,13 +1,13 @@
-import React from 'react';
-import { Rate } from '../../../utils/rateUtils';
-import useRateStarStyle from "../../../utils/useRateStarStyle";
+import React, {useRef} from 'react';
+import {getFontSizeByRate, getRandomTextColor, Rate} from "../../../utils/utils";
 
 const RateStar: React.FC<{
     averageRate: Rate
     leftPosition: number
     topPosition: number
 }> = ({ averageRate, leftPosition, topPosition }) => {
-    const { color, fontSize } = useRateStarStyle(averageRate.rate);
+    const color = useRef<string>(getRandomTextColor());
+    const fontSize = useRef<number>(getFontSizeByRate(averageRate.rate));
 
     return <div className="rate-star"
                 style={{
@@ -16,7 +16,7 @@ const RateStar: React.FC<{
                 }}
     >
         <div className="rate-star__text"
-             style={{ color, fontSize: `${fontSize}px` }}
+             style={{ color: color.current, fontSize: `${fontSize.current}px` }}
         >
             {averageRate.subject}: {averageRate.rate}
         </div>

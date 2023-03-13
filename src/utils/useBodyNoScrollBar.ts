@@ -7,5 +7,5 @@ export default () => {
         return (() => {
             body.classList.remove('no-scrollbar');
         });
-    });
+    }, []);
 };

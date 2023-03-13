@@ -1,11 +1,17 @@
-import { z } from 'zod';
-import { validate } from './utils';
+import {z} from "zod";
+import {fromZodError} from "zod-validation-error";
+import {Rate} from "./utils";
 
-export interface Rate {
-    subject: string;
-    rate: number;
-    username?: string | null;
-}
+export const validate = <T>(value: unknown, schema: z.Schema): value is T => {
+    try {
+        schema.parse(value);
+        return true;
+    } catch (err) {
+        console.log('Validation error occurred for the value: ', value, err instanceof z.ZodError ? fromZodError(err) : err);
+        alert(err instanceof z.ZodError ? fromZodError(err) : err);
+        return false;
+    }
+};
 
 export const rateSubjectSchema = z.string().min(1);
 
@@ -38,5 +44,3 @@ export const checkIfSubjectExists = (averageRateList: Rate[], subject: string) =
     alert('There is no such subject. Please provide an existing subject in the input above');
     return false;
 };
-
-export const getRatesOfSubject = (rateList: Rate[], subject: string) => rateList.filter(rate => rate.subject === subject);

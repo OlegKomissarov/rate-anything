@@ -1,6 +1,6 @@
-import {maxSubjectLengthForLoginBackground} from "./loginUtils";
-import {Rate, validateAverageRateList, validateRateList} from "./rateUtils";
 import {useState} from "react";
+import {Rate} from "./utils";
+import {validateAverageRateList, validateRateList} from "./validations";
 
 export default (maxSubjectLength?: number) => {
     const [rateList, setRateList] = useState<Rate[]>([]);
@@ -9,7 +9,7 @@ export default (maxSubjectLength?: number) => {
     const getRateList = async () => {
         let url = '/api/rate';
         if (maxSubjectLength) {
-            url += `?maxSubjectLength=${maxSubjectLengthForLoginBackground}`;
+            url += `?maxSubjectLength=${maxSubjectLength}`;
         }
         const response = await fetch(url, { method: 'GET' });
         const result = await response.json();

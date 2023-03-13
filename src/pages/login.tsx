@@ -1,40 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Button from '../components/elements/Button';
 import Header from "../components/layout/Header";
 import StarsBackground from '../components/rate/login/StarsBackground';
 import { signIn } from 'next-auth/react';
-import { getClassName, Position } from '../utils/utils';
-import generateStarsBackgroundData from '../utils/generateStarsBackgroundData';
-import useBodyNoScrollBar from "../utils/useBodyNoScrollBar";
-import useRateList from "../utils/useRateList";
-import {maxSubjectLengthForLoginBackground} from "../utils/loginUtils";
+import { getClassName } from '../utils/utils';
 
 const LoginPage = () => {
-    const { averageRateList, getRateList } = useRateList(maxSubjectLengthForLoginBackground);
-
-    useEffect(() => {
-        const loadData = async () => {
-            const { averageRateList } = await getRateList();
-            setBackgroundData(generateStarsBackgroundData(averageRateList.length));
-        };
-        loadData();
-    }, []);
+    const [shouldAnimateAstronaut, setShouldAnimateAstronaut] = useState(false);
 
     const onClickSignIn = async () => {
         setShouldAnimateAstronaut(true);
         await signIn('google', { redirect: true, callbackUrl: '/' });
     };
-
-    const [shouldAnimateAstronaut, setShouldAnimateAstronaut] = useState(false);
-    const [backgroundData, setBackgroundData] = useState<{ backgroundSize: Position, starPositions: Position[] }>(
-        generateStarsBackgroundData(averageRateList.length)
-    );
-    const { backgroundSize, starPositions } = backgroundData;
-    useEffect(() => {
-        window.scrollTo((backgroundSize.x - window.innerWidth) / 2, (backgroundSize.y - window.innerHeight) / 2);
-    }, [backgroundSize.x, backgroundSize.y]);
-    useBodyNoScrollBar();
 
     return <div className="page login">
         <Header theme="dark"
@@ -57,9 +35,11 @@ const LoginPage = () => {
                onMouseDown={event => event.stopPropagation()}
                onClick={onClickSignIn}
         />
-        <StarsBackground backgroundSize={backgroundSize}
-                         starPositions={starPositions}
-                         averageRateList={averageRateList}
+        <StarsBackground otherElements={typeof window !== 'undefined' ? [
+                             document.querySelector('.login__button')!,
+                             document.querySelector('.login__astronaut')!,
+                             document.querySelector('.header')!
+                         ] : []}
         />
     </div>;
 };
