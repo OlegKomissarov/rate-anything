@@ -1,42 +1,41 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { getLoginStaticElements, Position } from './utils';
 
 const setBodyCursor = (cursor: 'grab' | 'grabbing' | '') => {
     const body = document.getElementsByTagName('body')[0];
     body.style.cursor = cursor;
-}
+};
 
-// todo: don't use state here?
+const setOtherElementsPointerEvents = (pointerEvents: 'none' | 'auto') => {
+    getLoginStaticElements().forEach((element: HTMLElement) => element.style.pointerEvents = pointerEvents);
+};
+
 export default (backgroundSize: Position) => {
-    const [mousePos, setMousePos] = useState<Position | null>(null);
+    const isPanning = useRef(false);
 
     useEffect(() => {
-        const handleMouseDown = (event: MouseEvent) => {
-            setMousePos({ x: event.clientX, y: event.clientY });
+        const handleMouseDown = () => {
+            isPanning.current = true;
             setBodyCursor('grabbing');
-            getLoginStaticElements().forEach((element: HTMLElement) => element.style.pointerEvents = 'none');
+            setOtherElementsPointerEvents('none');
         };
         const handleMouseMove = (event: MouseEvent) => {
-            panSky({ x: event.clientX, y: event.clientY });
+            panSky(event);
         };
         const handleMouseUp = () => {
-            setMousePos(null);
+            isPanning.current = false;
             setBodyCursor('grab');
-            getLoginStaticElements().forEach((element: HTMLElement) => element.style.pointerEvents = 'auto');
+            setOtherElementsPointerEvents('auto');
         };
-        const panSky = (newPos: { x: number, y: number }) => {
-            if (!mousePos) {
+        const panSky = (event: MouseEvent) => {
+            if (!isPanning.current) {
                 return;
             }
-            const x = newPos.x;
-            const y = newPos.y;
-            const deltaX = x - mousePos.x;
-            const deltaY = y - mousePos.y;
             const minPosition = { x: 0, y: 0 };
             const maxPosition = { x: backgroundSize.x - window.innerWidth, y: backgroundSize.y - window.innerHeight };
             const newPosition = { x: window.scrollX, y: window.scrollY };
-            const newX = window.scrollX - deltaX;
-            const newY = window.scrollY - deltaY;
+            const newX = window.scrollX - event.movementX;
+            const newY = window.scrollY - event.movementY;
             if (newX >= minPosition.x && newX <= maxPosition.x) {
                 newPosition.x = newX;
             }
@@ -44,7 +43,6 @@ export default (backgroundSize: Position) => {
                 newPosition.y = newY;
             }
             window.scrollTo(newPosition.x, newPosition.y);
-            setMousePos({ x, y });
         };
         document.addEventListener('mousedown', handleMouseDown);
         document.addEventListener('mousemove', handleMouseMove);

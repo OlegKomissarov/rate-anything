@@ -6,6 +6,7 @@ const minDistanceBetweenStars = Math.hypot(minDistanceBetweenStarsHorizontal, mi
 const starsPositionsRatio = 2;
 const minimalBackgroundSizeScreenRatioX = 1.6;
 const minimalBackgroundSizeScreenRatioY = 1.2;
+
 const getRandomPosition = (startPosition: Position) => (
     {
         x: getRandomDecimal(startPosition.x, startPosition.x + minDistanceBetweenStarsHorizontal),
