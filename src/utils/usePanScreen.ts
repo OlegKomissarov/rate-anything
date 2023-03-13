@@ -61,18 +61,18 @@ export default (backgroundSize: Position, panPos: Position, setPanPos: Dispatch<
             setMousePos({ x, y });
         };
         document.addEventListener('mousedown', handleMouseDown);
-        document.addEventListener('touchstart', handleTouchStart);
+        // document.addEventListener('touchstart', handleTouchStart);
         document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('touchmove', handleTouchMove);
+        // document.addEventListener('touchmove', handleTouchMove);
         document.addEventListener('mouseup', handleMouseUp);
-        document.addEventListener('touchend', handleTouchEnd);
+        // document.addEventListener('touchend', handleTouchEnd);
         return () => {
             document.removeEventListener('mousedown', handleMouseDown);
-            document.removeEventListener('touchstart', handleTouchStart);
+            // document.removeEventListener('touchstart', handleTouchStart);
             document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('touchmove', handleTouchMove);
+            // document.removeEventListener('touchmove', handleTouchMove);
             document.removeEventListener('mouseup', handleMouseUp);
-            document.removeEventListener('touchend', handleTouchEnd);
+            // document.removeEventListener('touchend', handleTouchEnd);
         }
     });
 
