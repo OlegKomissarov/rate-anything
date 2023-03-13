@@ -1,17 +1,13 @@
-import React, { MouseEventHandler, TouchEventHandler } from 'react';
+import React, {ButtonHTMLAttributes} from 'react';
 import { getClassName } from '../../utils/utils';
 
-// TODO: refactor props. use kind of ...rest?
-const Button: React.FC<{
-    children: React.ReactNode
-    onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
-    className?: string
-    onMouseDown?: MouseEventHandler<HTMLButtonElement>
-}> = ({ onClick, className, children, onMouseDown
+const Button: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({
+    className,
+    children,
+    ...props
 }) => {
     return <button className={getClassName('button', className)}
-                   onClick={onClick}
-                   onMouseDown={onMouseDown}
+                   {...props}
     >
         {children}
     </button>;

@@ -1,18 +1,11 @@
-import React from 'react';
+import React, {InputHTMLAttributes} from 'react';
 
-const Input: React.FC<{
-    value: string
-    onChange: ((event: React.ChangeEvent<HTMLInputElement>) => void)
-    type?: string
-    inputMode?: 'search' | 'text' | 'email' | 'tel' | 'url' | 'none' | 'numeric' | 'decimal'
-    pattern?: string
-    placeholder?: string
-    className?: string
+const Input: React.FC<InputHTMLAttributes<HTMLInputElement> & {
     selectOnFocus?: boolean
     refValue?: React.Ref<HTMLInputElement>
 }> = ({
-    type, inputMode, placeholder, className, pattern, selectOnFocus,
-    onChange, value, refValue
+    type, inputMode, placeholder, className, pattern,
+    selectOnFocus, onChange, value, refValue
 }) => {
     return <input type={type}
                   inputMode={inputMode}

@@ -1,12 +1,9 @@
-import React, {MouseEventHandler, TouchEventHandler} from 'react';
+import React, {AnchorHTMLAttributes} from 'react';
 import {getClassName} from "../../utils/utils";
 
-const Header: React.FC<{
+const Header: React.FC<AnchorHTMLAttributes<HTMLAnchorElement> & {
     theme: 'light' | 'dark'
-    className?: string
-    onMouseDown?: MouseEventHandler<HTMLAnchorElement>
-}> = ({ theme, className, onMouseDown
-}) => {
+}> = ({ theme, className, onMouseDown }) => {
     return <a href="/"
               rel="noopener noreferrer"
               className={getClassName(`header header--theme--${theme}`, className)}
