@@ -3,11 +3,11 @@ import {getClassName} from "../../utils/utils";
 
 const Header: React.FC<AnchorHTMLAttributes<HTMLAnchorElement> & {
     theme: 'light' | 'dark'
-}> = ({ theme, className, onMouseDown }) => {
-    return <a href="/"
+}> = ({ theme, className, ...props }) => {
+    return <a {...props}
+              href="/"
               rel="noopener noreferrer"
               className={getClassName(`header header--theme--${theme}`, className)}
-              onMouseDown={onMouseDown}
     >
         Rate Anything
     </a>;

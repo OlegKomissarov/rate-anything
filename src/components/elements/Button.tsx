@@ -6,8 +6,8 @@ const Button: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({
     children,
     ...props
 }) => {
-    return <button className={getClassName('button', className)}
-                   {...props}
+    return <button {...props}
+                   className={getClassName('button', className)}
     >
         {children}
     </button>;

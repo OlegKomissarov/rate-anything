@@ -8,7 +8,7 @@ const RateTable: React.FC<{
     return <div className="rate-table">
         {
             averageRateList.map(averageRate =>
-                <div className="rate-table__row">
+                <div className="rate-table__row" key={averageRate.subject}>
                     <div className="rate-table__item rate-table__item--name">
                         {averageRate.subject}
                     </div>
@@ -16,7 +16,9 @@ const RateTable: React.FC<{
                         {averageRate.rate}
                     </div>
                     <div className="rate-table__item rate-table__item--users">
-                        {getRatesOfSubject(rateList, averageRate.subject).map(rate => <div>{rate.username}</div>)}
+                        {getRatesOfSubject(rateList, averageRate.subject).map(rate =>
+                            <div key={rate.username}>{rate.username}</div>
+                        )}
                     </div>
                 </div>
             )

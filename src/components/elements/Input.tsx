@@ -4,17 +4,11 @@ const Input: React.FC<InputHTMLAttributes<HTMLInputElement> & {
     selectOnFocus?: boolean
     refValue?: React.Ref<HTMLInputElement>
 }> = ({
-    type, inputMode, placeholder, className, pattern,
-    selectOnFocus, onChange, value, refValue
+    className, selectOnFocus, refValue, ...props
 }) => {
-    return <input type={type}
-                  inputMode={inputMode}
-                  placeholder={placeholder}
+    return <input {...props}
                   className={className ? `input ${className}` : 'input'}
-                  pattern={pattern}
                   onFocus={selectOnFocus ? event => event.target.select() : undefined}
-                  value={value}
-                  onChange={onChange}
                   ref={refValue}
     />;
 };
