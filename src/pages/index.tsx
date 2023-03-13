@@ -1,15 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import RateForm from '../components/rate/form/RateForm';
 import Button from '../components/elements/Button';
-import { Rate } from '../components/rate/rateUtils';
 import { useSession } from 'next-auth/react';
-import {
-    validateRateSubject, validateRateValue, validateRateList, validateAverageRateList, checkIfSubjectExists
-} from '../components/rate/rateUtils';
+import {validateRateSubject, validateRateValue, checkIfSubjectExists} from '../utils/rateUtils';
 import { useRouter } from 'next/router';
 import RateTable from "../components/rate/table/RateTable";
 import RateLineChart from "../components/rate/form/RateLineChart";
 import Header from "../components/layout/Header";
+import useRateList from "../utils/useRateList";
+import {maxSubjectLengthForLoginBackground} from "../utils/loginUtils";
 
 const RatePage = () => {
     const router = useRouter();
@@ -21,8 +20,7 @@ const RatePage = () => {
         onUnauthenticated: () => { router.push('login') }
     });
 
-    const [rates, setRates] = useState<Rate[]>([]);
-    const [averageRates, setAverageRates] = useState<Rate[]>([]);
+    const { rateList, averageRateList, getRateList } = useRateList(maxSubjectLengthForLoginBackground);
 
     const [subject, setSubject] = useState('');
     const [rate, setRate] = useState<string>('');
@@ -31,19 +29,6 @@ const RatePage = () => {
         setRate('');
     };
 
-    const getRateList = async () => {
-        const response = await fetch('/api/rate', { method: 'GET' });
-        const result = await response.json();
-        if (response.ok && result && validateRateList(result.rateList) && validateAverageRateList(result.averageRateList)) {
-            const rateList = result.rateList;
-            const averageRateList = result.averageRateList;
-            setRates(rateList);
-            setAverageRates(averageRateList);
-        }
-        if (!response.ok) {
-            alert(result?.message || `Failed to get rate list, error code is ${response.status}`);
-        }
-    };
     useEffect(() => {
         getRateList();
     }, []);
@@ -69,7 +54,7 @@ const RatePage = () => {
     const removeRate = async () => {
         if (
             session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL
-            && validateRateSubject(subject) && checkIfSubjectExists(averageRates, subject)
+            && validateRateSubject(subject) && checkIfSubjectExists(averageRateList, subject)
         ) {
             const response = await fetch('/api/rate', {
                 method: 'DELETE',
@@ -107,8 +92,8 @@ const RatePage = () => {
                   rate={rate}
                   changeRate={setRate}
         />
-        <RateLineChart rates={rates}
-                       averageRates={averageRates}
+        <RateLineChart rateList={rateList}
+                       averageRateList={averageRateList}
                        changeSubject={
                            (subject: string) => {
                                if (!session) {
@@ -128,7 +113,7 @@ const RatePage = () => {
                 REMOVE RATE
             </Button>
         }
-        <RateTable rates={rates} averageRates={averageRates} />
+        <RateTable rateList={rateList} averageRateList={averageRateList} />
     </>;
 };
 

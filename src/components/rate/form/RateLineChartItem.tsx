@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Rate } from '../rateUtils';
+import { Rate } from '../../../utils/rateUtils';
 import RateCard from '../login/RateCard';
 
 const RateLineChartItem: React.FC<{

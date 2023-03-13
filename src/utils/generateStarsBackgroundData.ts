@@ -1,4 +1,5 @@
-import { getLoginStaticElements, getRandomDecimal, getRandomInteger, Position } from './utils';
+import { getRandomDecimal, getRandomInteger, Position } from './utils';
+import {getLoginStaticElements} from "./loginUtils";
 
 const minDistanceBetweenStarsHorizontal = 150;
 const minDistanceBetweenStarsVertical = 150;

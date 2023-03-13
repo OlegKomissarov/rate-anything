@@ -1,14 +1,14 @@
-import React, { Dispatch, SetStateAction } from 'react';
-import { Rate } from '../rateUtils';
+import React from 'react';
+import { Rate } from '../../../utils/rateUtils';
 import { Position } from '../../../utils/utils';
 import RateStar from './RateStar';
 import usePanScreen from '../../../utils/usePanScreen';
 
 const StarsBackground: React.FC<{
-    averageRates: Rate[]
+    averageRateList: Rate[]
     backgroundSize: Position
     starPositions: Position[]
-}> = ({ averageRates, backgroundSize, starPositions }) => {
+}> = ({ averageRateList, backgroundSize, starPositions }) => {
     usePanScreen(backgroundSize);
 
     return <div className="stars-background"
@@ -16,7 +16,7 @@ const StarsBackground: React.FC<{
     >
         <div className="rate-stars-container">
             {
-                averageRates.map((averageRate, index) =>
+                averageRateList.map((averageRate, index) =>
                     <RateStar key={averageRate.subject}
                               averageRate={averageRate}
                               leftPosition={starPositions[index].x}

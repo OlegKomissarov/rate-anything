@@ -1,12 +1,12 @@
 import React from 'react';
 import RateLineChartItem from './RateLineChartItem';
-import { getRatesOfSubject, Rate } from '../rateUtils';
+import { getRatesOfSubject, Rate } from '../../../utils/rateUtils';
 
 const RateLineChart: React.FC<{
-    rates: Rate[]
-    averageRates: Rate[]
+    rateList: Rate[]
+    averageRateList: Rate[]
     changeSubject: (subject: string) => void
-}> = ({ rates, averageRates, changeSubject }) => {
+}> = ({ rateList, averageRateList, changeSubject }) => {
     return <div className="line-chart">
         <div className="line-chart__main-line" />
         {
@@ -20,11 +20,11 @@ const RateLineChart: React.FC<{
             )
         }
         {
-            averageRates.map(averageRate =>
+            averageRateList.map(averageRate =>
                 <RateLineChartItem key={averageRate.subject}
                                    averageRate={averageRate}
                                    onClickRateItem={() => changeSubject(averageRate.subject)}
-                                   ratesOfSubject={getRatesOfSubject(rates, averageRate.subject)}
+                                   ratesOfSubject={getRatesOfSubject(rateList, averageRate.subject)}
                 />
             )
         }

@@ -30,12 +30,6 @@ export const getRandomDecimal = (min: number, max: number) => Math.random() * (m
 
 export const getRandomInteger = (min: number, max: number) => Math.round(getRandomDecimal(min, max));
 
-export const getLoginStaticElements = (): HTMLElement[] => [
-    document.querySelector('.login__button')!,
-    document.querySelector('.login__astronaut')!,
-    document.querySelector('.header')!
-];
-
 export interface Position {
     x: number;
     y: number;

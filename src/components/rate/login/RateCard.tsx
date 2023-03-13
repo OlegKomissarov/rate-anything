@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Rate } from '../rateUtils';
+import { Rate } from '../../../utils/rateUtils';
 import { getClassName } from '../../../utils/utils';
 
 const RateCard: React.FC<{

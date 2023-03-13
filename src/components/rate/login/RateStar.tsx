@@ -1,5 +1,5 @@
 import React from 'react';
-import { Rate } from '../rateUtils';
+import { Rate } from '../../../utils/rateUtils';
 import useRateStarStyle from "../../../utils/useRateStarStyle";
 
 const RateStar: React.FC<{

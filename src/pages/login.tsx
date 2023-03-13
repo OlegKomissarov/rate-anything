@@ -1,35 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import Button from '../components/elements/Button';
-import {maxSubjectLengthForLoginBackground, Rate} from '../components/rate/rateUtils';
-import { signIn } from 'next-auth/react';
-import { validateAverageRateList } from '../components/rate/rateUtils';
 import Image from 'next/image';
-import { getClassName, Position } from '../utils/utils';
-import StarsBackground from '../components/rate/login/StarsBackground';
-import generateStarsBackgroundData from '../utils/generateStarsBackgroundData';
+import Button from '../components/elements/Button';
 import Header from "../components/layout/Header";
+import StarsBackground from '../components/rate/login/StarsBackground';
+import { signIn } from 'next-auth/react';
+import { getClassName, Position } from '../utils/utils';
+import generateStarsBackgroundData from '../utils/generateStarsBackgroundData';
 import useBodyNoScrollBar from "../utils/useBodyNoScrollBar";
+import useRateList from "../utils/useRateList";
+import {maxSubjectLengthForLoginBackground} from "../utils/loginUtils";
 
 const LoginPage = () => {
-    const [averageRates, setAverageRates] = useState<Rate[]>([]);
+    const { averageRateList, getRateList } = useRateList(maxSubjectLengthForLoginBackground);
 
-    const getRateList = async () => {
-        const response = await fetch(
-            `/api/rate?maxSubjectLength=${maxSubjectLengthForLoginBackground}`,
-            { method: 'GET' }
-        );
-        const result = await response.json();
-        if (response.ok && result && validateAverageRateList(result.averageRateList)) {
-            const averageRateList = result.averageRateList;
-            setBackgroundData(generateStarsBackgroundData(averageRateList.length));
-            setAverageRates(averageRateList);
-        }
-        if (!response.ok) {
-            alert(result?.message || `Failed to get rate list, error code is ${response.status}`);
-        }
-    };
     useEffect(() => {
-        getRateList();
+        const loadData = async () => {
+            const { averageRateList } = await getRateList();
+            setBackgroundData(generateStarsBackgroundData(averageRateList.length));
+        };
+        loadData();
     }, []);
 
     const onClickSignIn = async () => {
@@ -39,7 +28,7 @@ const LoginPage = () => {
 
     const [shouldAnimateAstronaut, setShouldAnimateAstronaut] = useState(false);
     const [backgroundData, setBackgroundData] = useState<{ backgroundSize: Position, starPositions: Position[] }>(
-        generateStarsBackgroundData(averageRates.length)
+        generateStarsBackgroundData(averageRateList.length)
     );
     const { backgroundSize, starPositions } = backgroundData;
     useEffect(() => {
@@ -70,7 +59,7 @@ const LoginPage = () => {
         />
         <StarsBackground backgroundSize={backgroundSize}
                          starPositions={starPositions}
-                         averageRates={averageRates}
+                         averageRateList={averageRateList}
         />
     </div>;
 };

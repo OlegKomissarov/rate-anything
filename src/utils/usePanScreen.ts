@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { getLoginStaticElements, Position } from './utils';
+import { Position } from './utils';
+import {getLoginStaticElements} from "./loginUtils";
 
 const setBodyCursor = (cursor: 'grab' | 'grabbing' | '') => {
     const body = document.getElementsByTagName('body')[0];

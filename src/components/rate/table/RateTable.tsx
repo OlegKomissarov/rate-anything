@@ -1,13 +1,13 @@
 import React from 'react';
-import { getRatesOfSubject, Rate } from '../rateUtils';
+import { getRatesOfSubject, Rate } from '../../../utils/rateUtils';
 
 const RateTable: React.FC<{
-    rates: Rate[]
-    averageRates: Rate[]
-}> = ({ rates, averageRates }) => {
+    rateList: Rate[]
+    averageRateList: Rate[]
+}> = ({ rateList, averageRateList }) => {
     return <div className="rate-table">
         {
-            averageRates.map(averageRate =>
+            averageRateList.map(averageRate =>
                 <div className="rate-table__row">
                     <div className="rate-table__item rate-table__item--name">
                         {averageRate.subject}
@@ -16,7 +16,7 @@ const RateTable: React.FC<{
                         {averageRate.rate}
                     </div>
                     <div className="rate-table__item rate-table__item--users">
-                        {getRatesOfSubject(rates, averageRate.subject).map(rate => <div>{rate.username}</div>)}
+                        {getRatesOfSubject(rateList, averageRate.subject).map(rate => <div>{rate.username}</div>)}
                     </div>
                 </div>
             )
