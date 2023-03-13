@@ -38,14 +38,12 @@ a {
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
+  background-color: var(--light-theme-background);
 }
 @media (max-width: 640px) {
   .app {
     padding: 50px 20px;
   }
-}
-.app--theme--light {
-  background-color: var(--light-theme-background);
 }
 
 .page {
