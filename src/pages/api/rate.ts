@@ -61,7 +61,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             const { subject, rate } = req.body;
             if (!validateRateSubject(subject)) {
                 res.status(403).json({ message: 'Validation of subject is failed.' });
-            } else if (!validateRateValue(+rate)) {
+            } else if (!validateRateValue(rate)) {
                 res.status(403).json({ message: 'Validation of rate value is failed.' });
             } else if (!session?.user?.name || !session?.user?.email) {
                 res.status(401).json({ message: 'Only signed in user can create rates.' });

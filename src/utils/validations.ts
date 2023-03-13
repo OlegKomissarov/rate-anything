@@ -36,7 +36,12 @@ export const rateDataSchema = z.object({
 
 export const validateRateSubject = (subject: unknown): subject is string => validate<string>(subject, rateSubjectSchema);
 
-export const validateRateValue = (rate: unknown): rate is string => validate<string>(rate, rateValueSchema);
+export const validateRateValue = (rate: unknown): rate is string => {
+    if (rate) {
+        return validate<string>(+rate, rateValueSchema);
+    }
+    return validate<string>(null, rateValueSchema);
+};
 
 export const validateRateData = (rateData: unknown): rateData is { rateList: Rate[], averageRateList: Rate[] } =>
     validate<{ rateList: Rate[], averageRateList: Rate[] }>(rateData, rateDataSchema);
