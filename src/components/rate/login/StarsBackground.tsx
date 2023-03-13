@@ -8,10 +8,8 @@ const StarsBackground: React.FC<{
     averageRates: Rate[]
     backgroundSize: Position
     starPositions: Position[]
-    panPos: Position
-    setPanPos: Dispatch<SetStateAction<Position>>
-}> = ({ averageRates, backgroundSize, starPositions, panPos, setPanPos }) => {
-    usePanScreen(backgroundSize, panPos, setPanPos);
+}> = ({ averageRates, backgroundSize, starPositions }) => {
+    usePanScreen(backgroundSize);
 
     return <div className="stars-background"
                 style={{width: `${backgroundSize.x}px`, height: `${backgroundSize.y}px`}}

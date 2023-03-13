@@ -7,7 +7,7 @@ const setBodyCursor = (cursor: 'grab' | 'grabbing' | '') => {
 }
 
 // todo: don't use state here?
-export default (backgroundSize: Position, panPos: Position, setPanPos: Dispatch<SetStateAction<Position>>) => {
+export default (backgroundSize: Position) => {
     const [mousePos, setMousePos] = useState<Position | null>(null);
 
     useEffect(() => {
@@ -16,23 +16,10 @@ export default (backgroundSize: Position, panPos: Position, setPanPos: Dispatch<
             setBodyCursor('grabbing');
             getLoginStaticElements().forEach((element: HTMLElement) => element.style.pointerEvents = 'none');
         };
-        const handleTouchStart = (event: TouchEvent) => {
-            setMousePos({ x: event.touches[0].clientX, y: event.touches[0].clientY });
-            setBodyCursor('grabbing');
-            getLoginStaticElements().forEach((element: HTMLElement) => element.style.pointerEvents = 'none');
-        };
         const handleMouseMove = (event: MouseEvent) => {
             panSky({ x: event.clientX, y: event.clientY });
         };
-        const handleTouchMove = (event: TouchEvent) => {
-            panSky({ x: event.touches[0].clientX, y: event.touches[0].clientY });
-        };
         const handleMouseUp = () => {
-            setMousePos(null);
-            setBodyCursor('grab');
-            getLoginStaticElements().forEach((element: HTMLElement) => element.style.pointerEvents = 'auto');
-        };
-        const handleTouchEnd = () => {
             setMousePos(null);
             setBodyCursor('grab');
             getLoginStaticElements().forEach((element: HTMLElement) => element.style.pointerEvents = 'auto');
@@ -47,9 +34,9 @@ export default (backgroundSize: Position, panPos: Position, setPanPos: Dispatch<
             const deltaY = y - mousePos.y;
             const minPosition = { x: 0, y: 0 };
             const maxPosition = { x: backgroundSize.x - window.innerWidth, y: backgroundSize.y - window.innerHeight };
-            const newX = panPos.x - deltaX;
-            const newY = panPos.y - deltaY;
-            const newPosition = { ...panPos };
+            const newPosition = { x: window.scrollX, y: window.scrollY };
+            const newX = window.scrollX - deltaX;
+            const newY = window.scrollY - deltaY;
             if (newX >= minPosition.x && newX <= maxPosition.x) {
                 newPosition.x = newX;
             }
@@ -57,22 +44,15 @@ export default (backgroundSize: Position, panPos: Position, setPanPos: Dispatch<
                 newPosition.y = newY;
             }
             window.scrollTo(newPosition.x, newPosition.y);
-            setPanPos(newPosition);
             setMousePos({ x, y });
         };
         document.addEventListener('mousedown', handleMouseDown);
-        // document.addEventListener('touchstart', handleTouchStart);
         document.addEventListener('mousemove', handleMouseMove);
-        // document.addEventListener('touchmove', handleTouchMove);
         document.addEventListener('mouseup', handleMouseUp);
-        // document.addEventListener('touchend', handleTouchEnd);
         return () => {
             document.removeEventListener('mousedown', handleMouseDown);
-            // document.removeEventListener('touchstart', handleTouchStart);
             document.removeEventListener('mousemove', handleMouseMove);
-            // document.removeEventListener('touchmove', handleTouchMove);
             document.removeEventListener('mouseup', handleMouseUp);
-            // document.removeEventListener('touchend', handleTouchEnd);
         }
     });
 

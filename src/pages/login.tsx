@@ -12,13 +12,6 @@ import useBodyNoScrollBar from "../utils/useBodyNoScrollBar";
 
 const LoginPage = () => {
     const [averageRates, setAverageRates] = useState<Rate[]>([]);
-    const [animateAstronaut, setAnimateAstronaut] = useState(false);
-
-    const backgroundData = useRef<{ backgroundSize: Position, starPositions: Position[] }>(
-        generateStarsBackgroundData(averageRates.length)
-    );
-    const { current: { backgroundSize, starPositions } } = backgroundData;
-    const [panPos, setPanPos] = useState<Position>({ x: 0, y: 0 });
 
     const getRateList = async () => {
         const response = await fetch(
@@ -28,14 +21,7 @@ const LoginPage = () => {
         const result = await response.json();
         if (response.ok && result && validateAverageRateList(result.averageRateList)) {
             const averageRateList = result.averageRateList;
-            const newBackgroundData = generateStarsBackgroundData(averageRateList.length);
-            backgroundData.current = newBackgroundData;
-            const newPanPos = {
-                x: (newBackgroundData.backgroundSize.x - window.innerWidth) / 2,
-                y: (newBackgroundData.backgroundSize.y - window.innerHeight) / 2
-            };
-            setPanPos(newPanPos);
-            setTimeout(() => window.scrollTo(newPanPos.x, newPanPos.y));
+            setBackgroundData(generateStarsBackgroundData(averageRateList.length));
             setAverageRates(averageRateList);
         }
         if (!response.ok) {
@@ -46,12 +32,20 @@ const LoginPage = () => {
         getRateList();
     }, []);
 
-    useBodyNoScrollBar();
-
     const onClickSignIn = async () => {
-        setAnimateAstronaut(true);
+        setShouldAnimateAstronaut(true);
         await signIn('google', { redirect: true, callbackUrl: '/' });
     };
+
+    const [shouldAnimateAstronaut, setShouldAnimateAstronaut] = useState(false);
+    const [backgroundData, setBackgroundData] = useState<{ backgroundSize: Position, starPositions: Position[] }>(
+        generateStarsBackgroundData(averageRates.length)
+    );
+    const { backgroundSize, starPositions } = backgroundData;
+    useEffect(() => {
+        window.scrollTo((backgroundSize.x - window.innerWidth) / 2, (backgroundSize.y - window.innerHeight) / 2);
+    }, [backgroundSize.x, backgroundSize.y]);
+    useBodyNoScrollBar();
 
     // todo: remove unnecessary event listeners here and other places
     return <div className="page login">
@@ -80,7 +74,7 @@ const LoginPage = () => {
                width={200} height={200}
                className={getClassName(
                    'login__astronaut',
-                   animateAstronaut && 'login__astronaut--animated'
+                   shouldAnimateAstronaut && 'login__astronaut--animated'
                )}
                onClick={onClickSignIn}
                onTouchMove={event => { event.preventDefault(); event.stopPropagation(); }}
@@ -93,8 +87,6 @@ const LoginPage = () => {
         <StarsBackground backgroundSize={backgroundSize}
                          starPositions={starPositions}
                          averageRates={averageRates}
-                         panPos={panPos}
-                         setPanPos={setPanPos}
         />
     </div>;
 };
