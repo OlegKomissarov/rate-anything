@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../components/elements/Button';
 import {maxSubjectLengthForLoginBackground, Rate} from '../components/rate/rateUtils';
 import { signIn } from 'next-auth/react';
@@ -47,25 +47,14 @@ const LoginPage = () => {
     }, [backgroundSize.x, backgroundSize.y]);
     useBodyNoScrollBar();
 
-    // todo: remove unnecessary event listeners here and other places
     return <div className="page login">
         <Header theme="dark"
                 className="login__header"
-                onTouchMove={event => { event.preventDefault(); event.stopPropagation(); }}
-                onMouseMove={event => { event.preventDefault(); event.stopPropagation(); }}
-                onTouchStart={event => event.stopPropagation()}
                 onMouseDown={event => event.stopPropagation()}
-                onTouchEnd={event => event.stopPropagation()}
-                onMouseUp={event => event.stopPropagation()}
         />
         <Button className="button--dark-theme login__button"
-                onClick={onClickSignIn}
-                onTouchMove={event => { event.preventDefault(); event.stopPropagation(); }}
-                onMouseMove={event => { event.preventDefault(); event.stopPropagation(); }}
-                onTouchStart={event => event.stopPropagation()}
                 onMouseDown={event => event.stopPropagation()}
-                onTouchEnd={event => event.stopPropagation()}
-                onMouseUp={event => event.stopPropagation()}
+                onClick={onClickSignIn}
         >
             Sign In To Create Your Rate
         </Button>
@@ -76,13 +65,8 @@ const LoginPage = () => {
                    'login__astronaut',
                    shouldAnimateAstronaut && 'login__astronaut--animated'
                )}
-               onClick={onClickSignIn}
-               onTouchMove={event => { event.preventDefault(); event.stopPropagation(); }}
-               onMouseMove={event => { event.preventDefault(); event.stopPropagation(); }}
-               onTouchStart={event => event.stopPropagation()}
                onMouseDown={event => event.stopPropagation()}
-               onTouchEnd={event => event.stopPropagation()}
-               onMouseUp={event => event.stopPropagation()}
+               onClick={onClickSignIn}
         />
         <StarsBackground backgroundSize={backgroundSize}
                          starPositions={starPositions}
