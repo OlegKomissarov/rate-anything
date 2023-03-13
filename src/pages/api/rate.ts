@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { Client } from '@planetscale/database';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from './auth/[...nextauth]';
+import {validateRateSubject, validateRateValue} from "../../utils/validations";
 
 const client = new Client({
     host: process.env.DATABASE_HOST,
@@ -58,7 +59,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             res.status(200).json({ rateList: rateListResult.rows, averageRateList: averageRateListResult.rows });
         } else if (req.method === 'POST') {
             const { subject, rate } = req.body;
-            if (!session?.user?.name || !session?.user?.email) {
+            if (!validateRateSubject(subject)) {
+                res.status(403).json({ message: 'Validation of subject is failed.' });
+            } else if (!validateRateValue(+rate)) {
+                res.status(403).json({ message: 'Validation of rate value is failed.' });
+            } else if (!session?.user?.name || !session?.user?.email) {
                 res.status(401).json({ message: 'Only signed in user can create rates.' });
             } else if (await checkIfUserRatedSubject(session.user.email, subject)) {
                 res.status(409).json({ message: `You have already rated ${subject}.` });
@@ -67,12 +72,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 res.status(200).send('');
             }
         } else if (req.method === 'DELETE') {
-            if (session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL) {
-                const { subject } = req.body;
+            const { subject } = req.body;
+            if (!validateRateSubject(subject)) {
+                res.status(403).json({ message: 'Validation of subject is failed.' });
+            } else if (session?.user?.email !== process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL) {
+                res.status(403).json({ message: 'Deleting rates denied for this user.' });
+            } else {
                 await removeRate(subject);
                 res.status(200).send('');
-            } else {
-                res.status(403).json({ message: 'Deleting rates denied for this user.' });
             }
         } else {
             res.status(400).json({ message: 'Wrong api method.' });

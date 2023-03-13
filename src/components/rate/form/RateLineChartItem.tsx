@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
-import { Rate } from '../../../utils/rateUtils';
 import RateCard from '../login/RateCard';
+import {Rate} from "../../../utils/utils";
 
 const RateLineChartItem: React.FC<{
     averageRate: Rate

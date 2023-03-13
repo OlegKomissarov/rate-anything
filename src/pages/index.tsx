@@ -2,13 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import RateForm from '../components/rate/form/RateForm';
 import Button from '../components/elements/Button';
 import { useSession } from 'next-auth/react';
-import {validateRateSubject, validateRateValue, checkIfSubjectExists} from '../utils/rateUtils';
 import { useRouter } from 'next/router';
 import RateTable from "../components/rate/table/RateTable";
 import RateLineChart from "../components/rate/form/RateLineChart";
 import Header from "../components/layout/Header";
-import useRateList from "../utils/useRateList";
-import {maxSubjectLengthForLoginBackground} from "../utils/loginUtils";
+import { useRateList } from "../utils/useDataHooks";
+import {checkIfSubjectExists, validateRateSubject, validateRateValue} from "../utils/validations";
 
 const RatePage = () => {
     const router = useRouter();
@@ -20,7 +19,7 @@ const RatePage = () => {
         onUnauthenticated: () => { router.push('login') }
     });
 
-    const { rateList, averageRateList, getRateList } = useRateList(maxSubjectLengthForLoginBackground);
+    const { rateList, averageRateList, getRateList } = useRateList();
 
     const [subject, setSubject] = useState('');
     const [rate, setRate] = useState<string>('');
@@ -34,7 +33,7 @@ const RatePage = () => {
     }, []);
 
     const createRate = async () => {
-        if (validateRateSubject(subject) && validateRateValue(+rate)) {
+        if (validateRateSubject(subject) && validateRateValue(rate)) {
             const modifiedSubject = subject.charAt(0).toUpperCase() + subject.slice(1).toLowerCase();
             const response = await fetch('/api/rate', {
                 method: 'POST',

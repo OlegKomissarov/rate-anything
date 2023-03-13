@@ -29,13 +29,17 @@ export const rateListSchema = z.array(z.object({
     id: z.number()
 }));
 
+export const rateDataSchema = z.object({
+    rateList: rateListSchema,
+    averageRateList: averageRateListSchema
+});
+
 export const validateRateSubject = (subject: unknown): subject is string => validate<string>(subject, rateSubjectSchema);
 
-export const validateRateValue = (rate: unknown): rate is number => validate<number>(rate, rateValueSchema);
+export const validateRateValue = (rate: unknown): rate is string => validate<string>(rate, rateValueSchema);
 
-export const validateRateList = (rateList: unknown): rateList is Rate[] => validate<Rate[]>(rateList, rateListSchema);
-
-export const validateAverageRateList = (rateList: unknown): rateList is Rate[] => validate<Rate[]>(rateList, averageRateListSchema);
+export const validateRateData = (rateData: unknown): rateData is { rateList: Rate[], averageRateList: Rate[] } =>
+    validate<{ rateList: Rate[], averageRateList: Rate[] }>(rateData, rateDataSchema);
 
 export const checkIfSubjectExists = (averageRateList: Rate[], subject: string) => {
     if (averageRateList.find(averageRate => averageRate.subject === subject)) {

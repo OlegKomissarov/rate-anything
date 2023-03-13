@@ -2,14 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {Position} from '../../../utils/utils';
 import RateStar from './RateStar';
 import usePanScreen from '../../../utils/usePanScreen';
-import useRateList from "../../../utils/useRateList";
+import { useRateList } from "../../../utils/useDataHooks";
 import generateBackgroundData from "../../../utils/generateBackgroundData";
 import useBodyNoScrollBar from "../../../utils/useBodyNoScrollBar";
 
 const maxRateSubjectLength = 12;
 
 const StarsBackground: React.FC<{ otherElements: HTMLElement[] }> = ({ otherElements }) => {
-    const { averageRateList, getRateList } = useRateList(maxRateSubjectLength);
+    const { averageRateList, getRateList } = useRateList();
     const [backgroundData, setBackgroundData] = useState<{ backgroundSize: Position, itemPositions: Position[] }>(
         generateBackgroundData(averageRateList.length, otherElements)
     );
@@ -17,7 +17,7 @@ const StarsBackground: React.FC<{ otherElements: HTMLElement[] }> = ({ otherElem
 
     useEffect(() => {
         const loadData = async () => {
-            const { averageRateList } = await getRateList();
+            const { averageRateList } = await getRateList({ maxRateSubjectLength });
             setBackgroundData(generateBackgroundData(averageRateList.length, otherElements));
         };
         loadData();
