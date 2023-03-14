@@ -1,43 +1,35 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Client } from '@planetscale/database';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from './auth/[...nextauth]';
 import {validateRateSubject, validateRateValue} from "../../utils/validations";
-
-const client = new Client({
-    host: process.env.DATABASE_HOST,
-    username: process.env.DATABASE_USERNAME,
-    password: process.env.DATABASE_PASSWORD
-});
-
-const connection = client.connection();
+import {dbConnection} from "../../utils/utils";
 
 const getRateList = (maxSubjectLength?: number) => {
     const query = maxSubjectLength
         ? 'SELECT * from rates WHERE CHAR_LENGTH(subject) <= ?'
         : 'SELECT * from rates';
-    return connection.execute(query, [maxSubjectLength]);
-}
+    return dbConnection.execute(query, [maxSubjectLength]);
+};
 
 const getAverageRateList = (maxSubjectLength?: number) => {
     const query = maxSubjectLength ? `
         SELECT subject, CAST(ROUND(AVG(rate), 2) as FLOAT)
         as rate FROM rates WHERE CHAR_LENGTH(subject) <= ? GROUP BY subject
     ` : 'SELECT subject, CAST(ROUND(AVG(rate), 2) as FLOAT) as rate FROM rates GROUP BY subject';
-    return connection.execute(query, [maxSubjectLength]);
-}
+    return dbConnection.execute(query, [maxSubjectLength]);
+};
 
 const getRateByUseremailAndSubject = (useremail: string, subject: string) =>
-    connection.execute('SELECT 1 FROM rates WHERE useremail = ? AND subject = ?;', [useremail, subject]);
+    dbConnection.execute('SELECT 1 FROM rates WHERE useremail = ? AND subject = ?;', [useremail, subject]);
 
 const createRate = (subject: string, rate: string, username: string, useremail: string) =>
-    connection.execute(
+    dbConnection.execute(
         'INSERT INTO rates (`subject`, `rate`, `username`, `useremail`) VALUES (?, ?, ?, ?);',
         [subject, rate, username, useremail]
     );
 
 const removeRate = (subject: string) =>
-    connection.execute('DELETE FROM rates WHERE subject = ?;', [subject]);
+    dbConnection.execute('DELETE FROM rates WHERE subject = ?;', [subject]);
 
 const checkIfUserRatedSubject = async (useremail: string, subject: string) => {
     const rates = await getRateByUseremailAndSubject(useremail, subject);

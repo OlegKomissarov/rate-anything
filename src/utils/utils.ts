@@ -1,3 +1,11 @@
+import { Client } from '@planetscale/database';
+
+export const dbConnection = new Client({
+    host: process.env.DATABASE_HOST,
+    username: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASSWORD
+}).connection();
+
 export const getClassName = (...classNames: Array<string | boolean | undefined>) => {
     let classNamesString = '';
     classNames.forEach(className => {
