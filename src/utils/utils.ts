@@ -12,14 +12,14 @@ export const getClassName = (...classNames: Array<string | boolean | undefined>)
     return classNamesString.trim();
 };
 
-export const getRandomDecimal = (min: number, max: number) => Math.random() * (max - min) + min;
-
-export const getRandomInteger = (min: number, max: number) => Math.round(getRandomDecimal(min, max));
-
 export interface Position {
     x: number;
     y: number;
 }
+
+export const getRandomDecimal = (min: number, max: number) => Math.random() * (max - min) + min;
+
+export const getRandomInteger = (min: number, max: number) => Math.round(getRandomDecimal(min, max));
 
 const colors = [
     '#FCFAFB', '#B08B93', '#B5AABA', '#DACFD7', '#785C84', '#D9D2DB', '#C7BECB', '#7F7D7E', '#897891', '#B5CFAC',
@@ -29,17 +29,18 @@ export const getRandomTextColor = () => {
     return colors[getRandomInteger(0, colors.length - 1)];
 };
 
+const minNumber = -10;
+const maxNumber = 10;
+const minFontSize = 7;
+const maxFontSize = 20;
+export const getFontSizeByNumber = (number: number) =>
+    minFontSize + (number - minNumber) / (maxNumber - minNumber) * (maxFontSize - minFontSize);
+
 export interface Rate {
     subject: string;
     rate: number;
     username?: string | null;
 }
 
-const minRate = -10;
-const maxRate = 10;
-const minFontSize = 7;
-const maxFontSize = 20;
-export const getFontSizeByRate = (rate: number) =>
-    minFontSize + (rate - minRate) / (maxRate - minRate) * (maxFontSize - minFontSize);
-
-export const getRatesOfSubject = (rateList: Rate[], subject: string) => rateList.filter(rate => rate.subject === subject);
+export const getRatesOfSubject = (rateList: Rate[], subject: string) =>
+    rateList.filter(rate => rate.subject === subject);
