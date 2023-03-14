@@ -1,5 +1,5 @@
 import React from 'react';
-import {getRatesOfSubject, Rate} from "../../../utils/utils";
+import {getRatesOfSubject, Rate} from "../../utils/utils";
 
 const RateTable: React.FC<{
     rateList: Rate[]

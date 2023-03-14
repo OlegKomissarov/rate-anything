@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Button from '../components/elements/Button';
 import Header from "../components/layout/Header";
-import StarsBackground from '../components/rate/login/StarsBackground';
+import StarsBackground from '../components/login/StarsBackground';
 import { signIn } from 'next-auth/react';
 import { getClassName } from '../utils/utils';
 

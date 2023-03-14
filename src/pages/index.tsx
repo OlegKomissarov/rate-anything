@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import RateForm from '../components/rate/form/RateForm';
+import RateForm from '../components/form/RateForm';
 import Button from '../components/elements/Button';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import RateTable from "../components/rate/table/RateTable";
-import RateLineChart from "../components/rate/form/RateLineChart";
+import RateTable from "../components/table/RateTable";
+import RateLineChart from "../components/form/RateLineChart";
 import Header from "../components/layout/Header";
 import { useRateList } from "../utils/useDataHooks";
 import {checkIfSubjectExists, validateRateSubject, validateRateValue} from "../utils/validations";

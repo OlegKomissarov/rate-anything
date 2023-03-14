@@ -1,6 +1,6 @@
 import React from 'react';
-import Input from '../../elements/Input';
-import Button from '../../elements/Button';
+import Input from '../elements/Input';
+import Button from '../elements/Button';
 import { useSession } from 'next-auth/react';
 
 const RateForm: React.FC<{

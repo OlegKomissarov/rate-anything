@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import RateStar from './RateStar';
-import usePanScreen from '../../../utils/usePanScreen';
-import { useRateList } from "../../../utils/useDataHooks";
-import useBackgroundData from "../../../utils/useBackgroundData";
-import useBodyNoScrollBar from "../../../utils/useBodyNoScrollBar";
+import usePanScreen from '../../utils/usePanScreen';
+import { useRateList } from "../../utils/useDataHooks";
+import useBackgroundData from "../../utils/useBackgroundData";
+import useBodyNoScrollBar from "../../utils/useBodyNoScrollBar";
 
 const maxRateSubjectLength = 12;
 
