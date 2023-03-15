@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Image from 'next/image';
 import Button from '../components/elements/Button';
 import Header from "../components/layout/Header";
@@ -13,12 +13,6 @@ const LoginPage = () => {
         setShouldAnimateAstronaut(true);
         await signIn('google', { redirect: true, callbackUrl: '/' });
     };
-
-    useEffect(() => {
-        return () => {
-            setShouldAnimateAstronaut(false); // for ios
-        };
-    }, []);
 
     return <div className="page login">
         <Header theme="dark"

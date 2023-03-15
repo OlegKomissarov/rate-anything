@@ -22,7 +22,11 @@ const StarsBackground: React.FC<{ otherElements: HTMLElement[] }> = ({ otherElem
 
     useEffect(() => {
         // need to wait next tick when background is rendered with the new size
-        window.scrollTo((backgroundSize.x - window.innerWidth) / 2, (backgroundSize.y - window.innerHeight) / 2);
+        window.scrollTo({
+            top: (backgroundSize.x - window.innerWidth) / 2,
+            left: (backgroundSize.y - window.innerHeight) / 2,
+            behavior: 'smooth'
+        });
     }, [backgroundSize.x, backgroundSize.y]);
 
     usePanScreen(backgroundSize, otherElements);
