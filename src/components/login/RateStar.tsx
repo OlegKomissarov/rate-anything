@@ -1,5 +1,5 @@
-import React, {useRef} from 'react';
-import {getFontSizeByNumber, getRandomTextColor, Rate} from "../../utils/utils";
+import React, { useRef } from 'react';
+import { getFontSizeByNumber, getRandomTextColor, Rate } from '../../utils/utils';
 
 const RateStar: React.FC<{
     averageRate: Rate

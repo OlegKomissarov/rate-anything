@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {getClassName, Rate} from '../../utils/utils';
+import { getClassName, Rate } from '../../utils/utils';
 
 const RateCard: React.FC<{
     averageRate: Rate

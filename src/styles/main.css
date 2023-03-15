@@ -8,10 +8,10 @@
 @import 'login.css';
 
 :root {
-  --default-text: #3b3a3a;
-  --border: #3b3a3a;
+  --default-text: #3B3A3A;
+  --border: #3B3A3A;
   --user-name-text: #335C67;
-  --light-theme-background: #fff4db;
+  --light-theme-background: #FFF4DB;
 }
 
 body {
@@ -40,6 +40,7 @@ a {
   box-sizing: border-box;
   background-color: var(--light-theme-background);
 }
+
 @media (max-width: 640px) {
   .app {
     padding: 50px 20px;

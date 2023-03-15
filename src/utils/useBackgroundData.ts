@@ -1,5 +1,5 @@
 import { getRandomDecimal, getRandomInteger, Position } from './utils';
-import {useState} from "react";
+import { useState } from 'react';
 
 const minDistanceBetweenItemsHorizontal = 150;
 const minDistanceBetweenItemsVertical = 150;
@@ -46,8 +46,8 @@ export default () => {
             do {
                 addPosition({
                     x: j === amountOfPositionsInNewLine - 1
-                        ? positions[amountOfPositionsInNewLine*amountOfPositionsInNewLine-1].x + minDistanceBetweenItemsHorizontal
-                        : positions[(amountOfPositionsInNewLine-1)*(amountOfPositionsInNewLine-1)+j].x + minDistanceBetweenItemsHorizontal,
+                        ? positions[amountOfPositionsInNewLine * amountOfPositionsInNewLine - 1].x + minDistanceBetweenItemsHorizontal
+                        : positions[(amountOfPositionsInNewLine - 1) * (amountOfPositionsInNewLine - 1) + j].x + minDistanceBetweenItemsHorizontal,
                     y: j ? (positions.at(-1)!.y + minDistanceBetweenItemsVertical) : 0
                 });
                 j++;
@@ -57,17 +57,17 @@ export default () => {
                 addPosition({
                     x: k ? (positions.at(-1)!.x + minDistanceBetweenItemsHorizontal) : 0,
                     y: k === amountOfPositionsInNewLine - 1
-                        ? positions[amountOfPositionsInNewLine*amountOfPositionsInNewLine-1].y + minDistanceBetweenItemsVertical
-                        : positions[(amountOfPositionsInNewLine-1)*(amountOfPositionsInNewLine-1)+k+amountOfPositionsInNewLine-1].y + minDistanceBetweenItemsVertical,
+                        ? positions[amountOfPositionsInNewLine * amountOfPositionsInNewLine - 1].y + minDistanceBetweenItemsVertical
+                        : positions[(amountOfPositionsInNewLine - 1) * (amountOfPositionsInNewLine - 1) + k + amountOfPositionsInNewLine - 1].y + minDistanceBetweenItemsVertical
                 });
                 k++;
             } while (k < amountOfPositionsInNewLine);
             addPosition({
                 x: positions.at(-1)!.x + minDistanceBetweenItemsHorizontal,
-                y: positions.at(-1-amountOfPositionsInNewLine)!.y + minDistanceBetweenItemsVertical
+                y: positions.at(-1 - amountOfPositionsInNewLine)!.y + minDistanceBetweenItemsVertical
             });
             i++;
-        } while(positions.length < itemPositionsRatio * itemsAmount || !isMinSizeReachedX || !isMinSizeReachedY);
+        } while (positions.length < itemPositionsRatio * itemsAmount || !isMinSizeReachedX || !isMinSizeReachedY);
 
         const positionWithMaxX = positions.reduce((maxXPosition, currentPosition) => {
             if (currentPosition.x > maxXPosition.x) {

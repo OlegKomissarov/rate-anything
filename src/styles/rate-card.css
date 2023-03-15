@@ -1,57 +1,64 @@
 :root {
-    --dark-theme-rate-card: #121111;
-    --light-theme-rate-card: #fff;
-    --rate-card-triangle: #fff;
+  --dark-theme-rate-card: #121111;
+  --light-theme-rate-card: #FFFFFF;
+  --rate-card-triangle: #FFFFFF;
 }
 
 .rate-card {
-    position: absolute;
-    top: 21px;
-    left: -8px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    background-color: var(--light-theme-rate-card);
-    padding: 4px 12px;
-    visibility: hidden;
-    z-index: 1;
+  position: absolute;
+  top: 21px;
+  left: -8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background-color: var(--light-theme-rate-card);
+  padding: 4px 12px;
+  visibility: hidden;
+  z-index: 1;
 }
+
 .rate-card--dark-theme {
-    background-color: var(--dark-theme-rate-card);
+  background-color: var(--dark-theme-rate-card);
 }
+
 .rate-card--with-triangle::before {
-    content: "";
-    position: absolute;
-    top: -15px;
-    left: 8px;
-    transform: rotate(90deg);
-    border-width: 10px 10px 10px 0;
-    border-color: transparent;
-    border-style: solid;
-    border-right-color: var(--border);
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: 8px;
+  transform: rotate(90deg);
+  border-width: 10px 10px 10px 0;
+  border-color: transparent;
+  border-style: solid;
+  border-right-color: var(--border);
 }
+
 .rate-card--with-triangle::after {
-    content: "";
-    position: absolute;
-    top: -14px;
-    left: 8px;
-    transform: rotate(90deg);
-    border-width: 10px 10px 10px 0;
-    border-color: transparent;
-    border-style: solid;
-    border-right-color: var(--rate-card-triangle);
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: 8px;
+  transform: rotate(90deg);
+  border-width: 10px 10px 10px 0;
+  border-color: transparent;
+  border-style: solid;
+  border-right-color: var(--rate-card-triangle);
 }
+
 .rate-card--drop-left {
-    right: -8px;
-    left: initial;
+  right: -8px;
+  left: initial;
 }
+
 .rate-card--drop-left::before {
-    right: 8px;
-    left: initial;
+  right: 8px;
+  left: initial;
 }
+
 .rate-card--drop-left::after {
-    right: 8px;
-    left: initial;
+  right: 8px;
+  left: initial;
 }
+
 .rate-card__unbreakable-string {
-    white-space: nowrap;
+  white-space: nowrap;
 }

@@ -1,98 +1,103 @@
 .login__header {
-    position: fixed;
-    top: 12%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    white-space: nowrap;
-    z-index: 2;
-    background-color: var(--dark-theme-background);
+  position: fixed;
+  top: 12%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  z-index: 2;
+  background-color: var(--dark-theme-background);
 }
+
 @media (max-width: 640px) {
-    .login__header {
-        top: 15vw;
-    }
+  .login__header {
+    top: 15vw;
+  }
 }
 
 .login__button {
-    position: fixed;
-    top: calc(58% - 125px);
-    left: calc(50% + 50px);
-    transform: translate(-50%, -50%) rotateZ(-10deg) translate(-100px, 35px);
-    transition: transform 350ms;
-    z-index: 2;
-    user-select: none;
-    font-size: 18px;
+  position: fixed;
+  top: calc(58% - 125px);
+  left: calc(50% + 50px);
+  transform: translate(-50%, -50%) rotateZ(-10deg) translate(-100px, 35px);
+  transition: transform 350ms;
+  z-index: 2;
+  user-select: none;
+  font-size: 18px;
 }
+
 @media (max-width: 640px) {
-    .login__button {
-        top: auto;
-        bottom: 8vw;
-        left: auto;
-        right: auto;
-        transform: none;
-        width: 90%;
-        padding-top: 3vw;
-        padding-bottom: 3vw;
-        font-size: 4vw;
-        line-height: 4vw;
-    }
+  .login__button {
+    top: auto;
+    bottom: 8vw;
+    left: auto;
+    right: auto;
+    transform: none;
+    width: 90%;
+    padding-top: 3vw;
+    padding-bottom: 3vw;
+    font-size: 4vw;
+    line-height: 4vw;
+  }
 }
 
 .login__astronaut {
-    position: fixed;
-    top: 58%;
-    left: calc(50% + 50px);
-    cursor: pointer;
-    transform: translate(-50%, -50%);
-    transition: transform 350ms;
-    z-index: 3;
-    user-select: none;
+  position: fixed;
+  top: 58%;
+  left: calc(50% + 50px);
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition: transform 350ms;
+  z-index: 3;
+  user-select: none;
 }
+
 .login__astronaut--animated {
-    animation: fly 2s;
+  animation: fly 2s;
 }
+
 @media (max-width: 640px) {
-    .login__astronaut {
-        top: auto;
-        bottom: 7vw;
-        left: 5vw;
-        right: auto;
-        transform: none;
-        height: 40vw;
-        width: 40vw;
-    }
-    .login__astronaut--animated {
-        animation: flyMobile 2s;
-    }
+  .login__astronaut {
+    top: auto;
+    bottom: 7vw;
+    left: 5vw;
+    right: auto;
+    transform: none;
+    height: 40vw;
+    width: 40vw;
+  }
+  .login__astronaut--animated {
+    animation: flyMobile 2s;
+  }
 }
 
 @media (hover: hover) and (min-width: calc(640px + 1px)) {
-    .login__astronaut:hover, .login__button:hover ~ .login__astronaut {
-        transform: translate(-50%, -50%) rotateZ(15deg);
-    }
-    .login__button:hover, .login__button:has(~.login__astronaut:hover) {
-        background-color: var(--dark-theme-button-hover);
-        transform: translate(calc(-50% - 100px), calc(-50% + 35px)) rotateZ(-5deg);
-    }
+  .login__astronaut:hover, .login__button:hover ~ .login__astronaut {
+    transform: translate(-50%, -50%) rotateZ(15deg);
+  }
+  .login__button:hover, .login__button:has(~.login__astronaut:hover) {
+    background-color: var(--dark-theme-button-hover);
+    transform: translate(calc(-50% - 100px), calc(-50% + 35px)) rotateZ(-5deg);
+  }
 }
 
 @keyframes fly {
-    0% {
-        transform: translate(-50%, -50%) rotateZ(20deg);
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        transform: rotateZ(30deg) translate(2000px, -2000px) scale3d(0.2, 0.2, 0.2);
-    }
+  0% {
+    transform: translate(-50%, -50%) rotateZ(20deg);
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotateZ(30deg) translate(2000px, -2000px) scale3d(0.2, 0.2, 0.2);
+  }
 }
+
 @keyframes flyMobile {
-    0% {
-        opacity: 1;
-        transform: none;
-    }
-    100% {
-        opacity: 0;
-        transform: rotateZ(30deg) translate(2000px, -1000px) scale3d(0.2, 0.2, 0.2);
-    }
+  0% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: rotateZ(30deg) translate(2000px, -1000px) scale3d(0.2, 0.2, 0.2);
+  }
 }

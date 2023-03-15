@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from './auth/[...nextauth]';
-import {validateRateSubject, validateRateValue} from "../../utils/validations";
-import {dbConnection} from "../../utils/utils";
+import { validateRateSubject, validateRateValue } from '../../utils/validations';
+import { dbConnection } from '../../utils/utils';
 
 const getRateList = (maxSubjectLength?: number) => {
     const query = maxSubjectLength

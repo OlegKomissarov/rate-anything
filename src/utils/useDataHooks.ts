@@ -1,6 +1,6 @@
-import {useState} from "react";
-import {Rate} from "./utils";
-import {validateRateData} from "./validations";
+import { useState } from 'react';
+import { Rate } from './utils';
+import { validateRateData } from './validations';
 
 const useData = <T>(requestUrl: string, validate: (data: T) => data is T) => {
     const [data, setData] = useState<T | null>(null);

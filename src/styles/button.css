@@ -1,48 +1,51 @@
 :root {
-    --secondary-button-background: #868585;
-    --secondary-button: #335C67;
-    --secondary-button-text: #fff;
-    --dark-theme-button: #1d3557;
-    --dark-theme-button-hover: #243B5B;
-    --dark-theme-button-text: #fff;
-    --light-theme-button: #9E2A2B;
-    --light-theme-button-text: #fff;
+  --secondary-button-background: #868585;
+  --secondary-button: #335C67;
+  --secondary-button-text: #FFFFFF;
+  --dark-theme-button: #1D3557;
+  --dark-theme-button-hover: #243B5B;
+  --dark-theme-button-text: #FFFFFF;
+  --light-theme-button: #9E2A2B;
+  --light-theme-button-text: #FFFFFF;
 }
 
 .button {
-    font-size: 24px;
-    line-height: 24px;
-    cursor: pointer;
-    padding: 16px 24px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background-color: var(--light-theme-button);
-    color: var(--light-theme-button-text);
+  font-size: 24px;
+  line-height: 24px;
+  cursor: pointer;
+  padding: 16px 24px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background-color: var(--light-theme-button);
+  color: var(--light-theme-button-text);
 }
+
 .button--theme--dark {
-    background-color: var(--dark-theme-button);
-    color: var(--dark-theme-button-text);
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-    overflow: hidden;
+  background-color: var(--dark-theme-button);
+  color: var(--dark-theme-button-text);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
 }
+
 @media (hover: hover) {
-    .button--theme--dark:hover {
-        background-color: var(--dark-theme-button-hover);
-    }
+  .button--theme--dark:hover {
+    background-color: var(--dark-theme-button-hover);
+  }
 }
+
 .button--secondary {
-    padding: 8px 12px;
-    font-size: 16px;
-    line-height: 16px;
-    border: 1px solid var(--secondary-button-background);
-    border-radius: 5px;
-    background-color: var(--secondary-button);
-    color: var(--secondary-button-text);
+  padding: 8px 12px;
+  font-size: 16px;
+  line-height: 16px;
+  border: 1px solid var(--secondary-button-background);
+  border-radius: 5px;
+  background-color: var(--secondary-button);
+  color: var(--secondary-button-text);
 }

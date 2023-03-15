@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import RateStar from './RateStar';
 import usePanScreen from '../../utils/usePanScreen';
-import { useRateList } from "../../utils/useDataHooks";
-import useBackgroundData from "../../utils/useBackgroundData";
-import useBodyNoScrollBar from "../../utils/useBodyNoScrollBar";
+import { useRateList } from '../../utils/useDataHooks';
+import useBackgroundData from '../../utils/useBackgroundData';
+import useBodyNoScrollBar from '../../utils/useBodyNoScrollBar';
 
 const maxRateSubjectLength = 12;
 
@@ -34,7 +34,7 @@ const StarsBackground: React.FC<{ otherElements: HTMLElement[] }> = ({ otherElem
     useBodyNoScrollBar();
 
     return <div className="stars-background"
-                style={{width: `${backgroundSize.x}px`, height: `${backgroundSize.y}px`}}
+                style={{ width: `${backgroundSize.x}px`, height: `${backgroundSize.y}px` }}
     >
         <div className="rate-stars-container">
             {

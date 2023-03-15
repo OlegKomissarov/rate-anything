@@ -1,10 +1,8 @@
-import React, {ButtonHTMLAttributes} from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
 import { getClassName } from '../../utils/utils';
 
 const Button: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({
-    className,
-    children,
-    ...props
+    className, children, ...props
 }) => {
     return <button {...props}
                    className={getClassName('button', className)}

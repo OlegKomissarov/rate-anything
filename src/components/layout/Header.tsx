@@ -1,5 +1,5 @@
-import React, {AnchorHTMLAttributes} from 'react';
-import {getClassName} from "../../utils/utils";
+import React, { AnchorHTMLAttributes } from 'react';
+import { getClassName } from '../../utils/utils';
 
 const Header: React.FC<AnchorHTMLAttributes<HTMLAnchorElement> & {
     theme: 'light' | 'dark'

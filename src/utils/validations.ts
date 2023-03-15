@@ -1,6 +1,6 @@
-import {z} from "zod";
-import {fromZodError} from "zod-validation-error";
-import {Rate} from "./utils";
+import { z } from 'zod';
+import { fromZodError } from 'zod-validation-error';
+import { Rate } from './utils';
 
 export const validate = <T>(value: unknown, schema: z.Schema): value is T => {
     try {
