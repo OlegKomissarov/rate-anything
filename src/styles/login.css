@@ -41,9 +41,9 @@
     top: 58%;
     left: calc(50% + 50px);
     cursor: pointer;
-    transform: translate(-50%, -50%) rotateY(170deg);
+    transform: translate(-50%, -50%);
     transition: transform 350ms;
-    z-index: 2;
+    z-index: 3;
     user-select: none;
 }
 .login__astronaut--animated {
@@ -55,7 +55,7 @@
         bottom: 7vw;
         left: 5vw;
         right: auto;
-        transform: rotateY(170deg);
+        transform: none;
         height: 40vw;
         width: 40vw;
     }
@@ -66,7 +66,7 @@
 
 @media (hover: hover) and (min-width: calc(640px + 1px)) {
     .login__astronaut:hover, .login__button:hover ~ .login__astronaut {
-        transform: translate(-50%, -50%) rotateY(170deg) rotateZ(-20deg);
+        transform: translate(-50%, -50%) rotateZ(15deg);
     }
     .login__button:hover, .login__button:has(~.login__astronaut:hover) {
         background-color: var(--dark-theme-button-hover);
@@ -76,21 +76,21 @@
 
 @keyframes fly {
     0% {
-        transform: translate(-50%, -50%) rotateY(170deg) rotateZ(-20deg);
+        transform: translate(-50%, -50%) rotateZ(20deg);
         opacity: 1;
     }
     100% {
         opacity: 0;
-        transform: rotateY(170deg) rotateZ(-30deg) translate(-1000%, -800%) scale3d(0.2, 0.2, 0.2);
+        transform: rotateZ(30deg) translate(2000px, -2000px) scale3d(0.2, 0.2, 0.2);
     }
 }
 @keyframes flyMobile {
     0% {
-        transform: rotateY(170deg);
         opacity: 1;
+        transform: none;
     }
     100% {
         opacity: 0;
-        transform: rotateY(170deg) rotateZ(-30deg) translate(-3000px, -1000px) scale3d(0.2, 0.2, 0.2);
+        transform: rotateZ(30deg) translate(2000px, -1000px) scale3d(0.2, 0.2, 0.2);
     }
 }
