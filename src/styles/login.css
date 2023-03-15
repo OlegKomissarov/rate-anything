@@ -3,6 +3,12 @@
     top: 12%;
     left: 50%;
     transform: translate(-50%, -50%);
+    white-space: nowrap;
+}
+@media (max-width: 640px) {
+    .login__header {
+        top: 15vw;
+    }
 }
 
 .login__button {
@@ -13,7 +19,23 @@
     transition: transform 350ms;
     z-index: 2;
     user-select: none;
+    font-size: 18px;
 }
+@media (max-width: 640px) {
+    .login__button {
+        top: auto;
+        bottom: 8vw;
+        left: auto;
+        right: auto;
+        transform: none;
+        width: 90%;
+        padding-top: 3vw;
+        padding-bottom: 3vw;
+        font-size: 4vw;
+        line-height: 4vw;
+    }
+}
+
 .login__astronaut {
     position: fixed;
     top: 58%;
@@ -24,7 +46,25 @@
     z-index: 2;
     user-select: none;
 }
-@media (hover: hover) {
+.login__astronaut--animated {
+    animation: fly 2s;
+}
+@media (max-width: 640px) {
+    .login__astronaut {
+        top: auto;
+        bottom: 7vw;
+        left: 5vw;
+        right: auto;
+        transform: rotateY(170deg);
+        height: 40vw;
+        width: 40vw;
+    }
+    .login__astronaut--animated {
+        animation: flyMobile 2s;
+    }
+}
+
+@media (hover: hover) and (min-width: calc(640px + 1px)) {
     .login__astronaut:hover, .login__button:hover ~ .login__astronaut {
         transform: translate(-50%, -50%) rotateY(170deg) rotateZ(-20deg);
     }
@@ -34,9 +74,6 @@
     }
 }
 
-.login__astronaut--animated {
-    animation: fly 2s;
-}
 @keyframes fly {
     0% {
         transform: translate(-50%, -50%) rotateY(170deg) rotateZ(-20deg);
@@ -45,5 +82,15 @@
     100% {
         opacity: 0;
         transform: rotateY(170deg) rotateZ(-30deg) translate(-1000%, -800%) scale3d(0.2, 0.2, 0.2);
+    }
+}
+@keyframes flyMobile {
+    0% {
+        transform: rotateY(170deg);
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: rotateY(170deg) rotateZ(-30deg) translate(-3000px, -1000px) scale3d(0.2, 0.2, 0.2);
     }
 }

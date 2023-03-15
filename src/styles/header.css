@@ -18,3 +18,8 @@
 .header--theme--light {
     color: var(--light-theme-header);
 }
+@media (max-width: 640px) {
+    .header {
+        font-size: 10vw;
+    }
+}

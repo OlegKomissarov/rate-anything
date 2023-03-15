@@ -19,10 +19,9 @@
     background-color: var(--light-theme-button);
     color: var(--light-theme-button-text);
 }
-.button--dark-theme {
+.button--theme--dark {
     background-color: var(--dark-theme-button);
     color: var(--dark-theme-button-text);
-    font-size: 18px;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -34,7 +33,7 @@
     overflow: hidden;
 }
 @media (hover: hover) {
-    .button--dark-theme:hover {
+    .button--theme--dark:hover {
         background-color: var(--dark-theme-button-hover);
     }
 }

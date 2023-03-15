@@ -19,7 +19,7 @@ const LoginPage = () => {
                 className="login__header"
                 onMouseDown={event => event.stopPropagation()}
         />
-        <Button className="button--dark-theme login__button"
+        <Button className="button--theme--dark login__button"
                 onMouseDown={event => event.stopPropagation()}
                 onClick={onClickSignIn}
         >
@@ -34,6 +34,7 @@ const LoginPage = () => {
                )}
                onMouseDown={event => event.stopPropagation()}
                onClick={onClickSignIn}
+               priority
         />
         <StarsBackground otherElements={typeof window !== 'undefined' ? [
                              document.querySelector('.login__button')!,
