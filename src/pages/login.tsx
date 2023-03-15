@@ -15,7 +15,9 @@ const LoginPage = () => {
     };
 
     useEffect(() => {
-        setShouldAnimateAstronaut(false); // for ios
+        return () => {
+            setShouldAnimateAstronaut(false); // for ios
+        };
     }, []);
 
     return <div className="page login">
