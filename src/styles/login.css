@@ -5,6 +5,7 @@
     transform: translate(-50%, -50%);
     white-space: nowrap;
     z-index: 2;
+    background-color: var(--dark-theme-background);
 }
 @media (max-width: 640px) {
     .login__header {

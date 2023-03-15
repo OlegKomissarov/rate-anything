@@ -16,7 +16,7 @@ const getRandomPosition = (itemPosition: Position) => (
     }
 );
 
-export default (otherElements: HTMLElement[]) => {
+export default () => {
     const [backgroundData, setBackgroundData] = useState<{ backgroundSize: Position, itemPositions: Position[] }>(
         { itemPositions: [], backgroundSize: zeroPosition }
     );
@@ -89,23 +89,9 @@ export default (otherElements: HTMLElement[]) => {
             y: positionWithMaxY.y + minDistanceBetweenItemsVertical
         };
 
-        const otherElementRects = otherElements.map(element => {
-            const rect = element.getBoundingClientRect();
-            rect.x = rect.x + backgroundSize.x/2 - window.innerWidth/2;
-            rect.y = rect.y + backgroundSize.y/2 - window.innerHeight/2;
-            return rect;
-        });
-        const isCollidingWithOtherElements = (newPosPx: Position) =>
-            otherElementRects.some(rect =>
-                newPosPx.x > rect.x - minDistanceBetweenItemsHorizontal &&
-                newPosPx.x < rect.x + minDistanceBetweenItemsHorizontal + rect.width &&
-                newPosPx.y > rect.y - minDistanceBetweenItemsVertical &&
-                newPosPx.y < rect.y + minDistanceBetweenItemsVertical + rect.height
-            );
-
         // filter positions to check min distance between all others, n^2
         positions = positions.filter(positionA => {
-            return !isCollidingWithOtherElements(positionA) && positions.every(positionB => {
+            return positions.every(positionB => {
                 if (positionA.x === positionB.x && positionA.y === positionB.y) {
                     return true;
                 }

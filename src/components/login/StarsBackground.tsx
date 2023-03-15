@@ -9,7 +9,7 @@ const maxRateSubjectLength = 12;
 
 const StarsBackground: React.FC<{ otherElements: HTMLElement[] }> = ({ otherElements }) => {
     const { averageRateList, getRateList } = useRateList();
-    const { backgroundData, generateBackgroundData } = useBackgroundData(otherElements);
+    const { backgroundData, generateBackgroundData } = useBackgroundData();
     const { backgroundSize, itemPositions } = backgroundData;
 
     useEffect(() => {
