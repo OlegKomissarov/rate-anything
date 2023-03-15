@@ -38,3 +38,4 @@ export const useRateList = () => {
 
     return { averageRateList: rateData?.averageRateList || [], rateList: rateData?.rateList || [], getRateList };
 };
+
