@@ -4,8 +4,8 @@ export default () => {
     useEffect(() => {
         const body = document.getElementsByTagName('body')[0];
         body.classList.add('no-scrollbar');
-        return (() => {
+        return () => {
             body.classList.remove('no-scrollbar');
-        });
+        };
     }, []);
 };
