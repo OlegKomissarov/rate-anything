@@ -16,7 +16,7 @@ const getRandomPosition = (itemPosition: Position) => (
     }
 );
 
-export default () => {
+const useBackgroundData = () => {
     const [backgroundData, setBackgroundData] = useState<{ backgroundSize: Position, itemPositions: Position[] }>(
         { itemPositions: [], backgroundSize: zeroPosition }
     );
@@ -39,7 +39,6 @@ export default () => {
             isMinSizeReachedY = position.y >= minBackgroundHeight;
         };
 
-        let i = 0;
         do {
             const amountOfPositionsInNewLine = Math.sqrt(positions.length);
             let j = 0;
@@ -66,7 +65,6 @@ export default () => {
                 x: positions.at(-1)!.x + minDistanceBetweenItemsHorizontal,
                 y: positions.at(-1 - amountOfPositionsInNewLine)!.y + minDistanceBetweenItemsVertical
             });
-            i++;
         } while (positions.length < itemPositionsRatio * itemsAmount || !isMinSizeReachedX || !isMinSizeReachedY);
 
         const positionWithMaxX = positions.reduce((maxXPosition, currentPosition) => {
@@ -112,3 +110,5 @@ export default () => {
 
     return { backgroundData, generateBackgroundData };
 };
+
+export default useBackgroundData;

@@ -31,7 +31,7 @@ const RateForm: React.FC<{
                value={rate}
                onChange={event => {
                    const { value } = event.target;
-                   if ((!value || value === '-') || /^([-]?[1-9]\d*|0)$/.test(value) && +value >= -10 && +value <= 10) {
+                   if ((!value || value === '-') || (/^([-]?[1-9]\d*|0)$/.test(value) && +value >= -10 && +value <= 10)) {
                        changeRate(value);
                    }
                }}

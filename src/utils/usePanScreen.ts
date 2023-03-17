@@ -10,7 +10,7 @@ const setOtherElementsPointerEvents = (otherElements: HTMLElement[], pointerEven
     otherElements.forEach((element: HTMLElement) => element.style.pointerEvents = pointerEvents);
 };
 
-export default (backgroundSize: Position, otherElements: HTMLElement[]) => {
+const usePanScreen = (backgroundSize: Position, otherElements: HTMLElement[]) => {
     const isPanning = useRef(false);
 
     useEffect(() => {
@@ -61,3 +61,5 @@ export default (backgroundSize: Position, otherElements: HTMLElement[]) => {
         }
     }, []);
 };
+
+export default usePanScreen;

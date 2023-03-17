@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export default () => {
+const useBodyNoScrollBar = () => {
     useEffect(() => {
         const body = document.getElementsByTagName('body')[0];
         body.classList.add('no-scrollbar');
@@ -9,3 +9,5 @@ export default () => {
         };
     }, []);
 };
+
+export default useBodyNoScrollBar;

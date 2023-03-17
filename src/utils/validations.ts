@@ -8,7 +8,9 @@ export const validate = <T>(value: unknown, schema: z.Schema): value is T => {
         return true;
     } catch (err) {
         console.log('Validation error occurred for the value: ', value, err instanceof z.ZodError ? fromZodError(err) : err);
-        alert(err instanceof z.ZodError ? fromZodError(err) : err);
+        if (typeof window !== 'undefined') {
+            alert(err instanceof z.ZodError ? fromZodError(err) : err);
+        }
         return false;
     }
 };
