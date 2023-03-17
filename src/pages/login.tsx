@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Button from '../components/elements/Button';
 import Header from '../components/layout/Header';
@@ -9,6 +9,11 @@ import { getClassName, isClient } from '../utils/utils';
 const LoginPage = () => {
     const [shouldAnimateAstronaut, setShouldAnimateAstronaut] = useState(false);
     const [isAnimatedAstronaut, setIsAnimatedAstronaut] = useState(false);
+    const [counter, setCounter] = useState(0);
+
+    useEffect(() => {
+        setInterval(() => setCounter(counter => counter + 1), 1000);
+    }, []);
 
     const onClickSignIn = async () => {
         setShouldAnimateAstronaut(true);
@@ -26,6 +31,9 @@ const LoginPage = () => {
         >
             Sign In To Create Your Rate
         </Button>
+        <div style={{ position: 'fixed', left: '25px', top: '75px', color: 'white', zIndex: 99999 }}>
+            {counter}
+        </div>
         <div style={{ position: 'fixed', left: '25px', top: '25px', color: 'white', zIndex: 99999 }}>
             {
                 isClient
