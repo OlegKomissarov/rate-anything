@@ -3,12 +3,11 @@ import Image from 'next/image';
 import Button from '../components/elements/Button';
 import Header from '../components/layout/Header';
 import StarsBackground from '../components/login/StarsBackground';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { getClassName, isClient } from '../utils/utils';
-import { useRouter } from 'next/router';
 
 const LoginPage = () => {
-    const router = useRouter();
+    const { data: session } = useSession();
 
     const [shouldAnimateAstronaut, setShouldAnimateAstronaut] = useState(false);
 
@@ -18,8 +17,11 @@ const LoginPage = () => {
     };
 
     useEffect(() => {
-        setShouldAnimateAstronaut(false);
-    }, [router.pathname]);
+        // hack to fix animation on ios
+        if (session === undefined) {
+            setShouldAnimateAstronaut(false);
+        }
+    });
 
     return <div className="page login">
         <Header theme="dark"
