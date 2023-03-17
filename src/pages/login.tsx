@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Button from '../components/elements/Button';
 import Header from '../components/layout/Header';
 import StarsBackground from '../components/login/StarsBackground';
 import { signIn } from 'next-auth/react';
 import { getClassName, isClient } from '../utils/utils';
+import { useRouter } from 'next/router';
 
 const LoginPage = () => {
+    const router = useRouter();
+
     const [shouldAnimateAstronaut, setShouldAnimateAstronaut] = useState(false);
 
     const onClickSignIn = async () => {
         setShouldAnimateAstronaut(true);
         await signIn('google', { redirect: true, callbackUrl: '/' });
     };
+
+    useEffect(() => {
+        setShouldAnimateAstronaut(false);
+    }, [router.pathname]);
 
     return <div className="page login">
         <Header theme="dark"
