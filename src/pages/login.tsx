@@ -4,7 +4,7 @@ import Button from '../components/elements/Button';
 import Header from '../components/layout/Header';
 import StarsBackground from '../components/login/StarsBackground';
 import { signIn } from 'next-auth/react';
-import { getClassName } from '../utils/utils';
+import { getClassName, isClient } from '../utils/utils';
 
 const LoginPage = () => {
     const [shouldAnimateAstronaut, setShouldAnimateAstronaut] = useState(false);
@@ -36,7 +36,7 @@ const LoginPage = () => {
                onClick={onClickSignIn}
                priority
         />
-        <StarsBackground otherElements={typeof window !== 'undefined' ? [
+        <StarsBackground otherElements={isClient ? [
             document.querySelector('.login__button')!,
             document.querySelector('.login__astronaut')!,
             document.querySelector('.header')!

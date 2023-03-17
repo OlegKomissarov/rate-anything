@@ -1,4 +1,4 @@
-import { getRandomDecimal, getRandomInteger, Position } from './utils';
+import { getRandomDecimal, getRandomInteger, isClient, Position } from './utils';
 import { useState } from 'react';
 
 const minDistanceBetweenItemsHorizontal = 150;
@@ -25,7 +25,7 @@ const useBackgroundData = () => {
         const itemPositions: Position[] = [];
         let positions: Position[] = [getRandomPosition(zeroPosition)];
         let backgroundSize = zeroPosition;
-        if (!itemsAmount || typeof window === 'undefined') {
+        if (!itemsAmount || !isClient) {
             return { itemPositions, backgroundSize };
         }
 

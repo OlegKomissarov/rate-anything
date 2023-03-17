@@ -6,6 +6,8 @@ export const dbConnection = new Client({
     password: process.env.DATABASE_PASSWORD
 }).connection();
 
+export const isClient = typeof window !== 'undefined';
+
 export const getClassName = (...classNames: Array<string | boolean | undefined>) => {
     let classNamesString = '';
     classNames.forEach(className => {

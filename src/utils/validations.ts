@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
-import { Rate } from './utils';
+import { isClient, Rate } from './utils';
 
 export const validate = <T>(value: unknown, schema: z.Schema): value is T => {
     try {
@@ -8,7 +8,7 @@ export const validate = <T>(value: unknown, schema: z.Schema): value is T => {
         return true;
     } catch (err) {
         console.log('Validation error occurred for the value: ', value, err instanceof z.ZodError ? fromZodError(err) : err);
-        if (typeof window !== 'undefined') {
+        if (isClient) {
             alert(err instanceof z.ZodError ? fromZodError(err) : err);
         }
         return false;
