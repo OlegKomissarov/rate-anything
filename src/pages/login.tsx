@@ -26,8 +26,15 @@ const LoginPage = () => {
         >
             Sign In To Create Your Rate
         </Button>
-        {/*// @ts-ignore*/}
-        {document.querySelector('.login__astronaut').classList.join(', ')}
+        <div style={{ position: 'fixed', left: '25px', top: '25px', color: 'white', zIndex: 99999 }}>
+            {
+                isClient
+                && document.querySelector('.login__astronaut')
+                // @ts-ignore
+                && document.querySelector('.login__astronaut').classList
+                // @ts-ignore
+                && JSON.stringify(document.querySelector('.login__astronaut').classList)        }
+        </div>
         <Image src="/astronaut.webp"
                alt="Astronaut"
                width={200} height={200}
