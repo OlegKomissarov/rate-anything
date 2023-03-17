@@ -1,27 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Button from '../components/elements/Button';
 import Header from '../components/layout/Header';
 import StarsBackground from '../components/login/StarsBackground';
-import { signIn, useSession } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { getClassName, isClient } from '../utils/utils';
 
 const LoginPage = () => {
-    const { data: session } = useSession();
-
     const [shouldAnimateAstronaut, setShouldAnimateAstronaut] = useState(false);
+    const [isAnimatedAstronaut, setIsAnimatedAstronaut] = useState(false);
 
     const onClickSignIn = async () => {
         setShouldAnimateAstronaut(true);
         await signIn('google', { redirect: true, callbackUrl: '/' });
     };
-
-    useEffect(() => {
-        // hack to fix animation on ios
-        if (session === undefined) {
-            setShouldAnimateAstronaut(false);
-        }
-    });
 
     return <div className="page login">
         <Header theme="dark"
@@ -39,11 +31,13 @@ const LoginPage = () => {
                width={200} height={200}
                className={getClassName(
                    'login__astronaut',
-                   shouldAnimateAstronaut && 'login__astronaut--animated'
+                   shouldAnimateAstronaut && 'login__astronaut--animating',
+                   isAnimatedAstronaut && 'login__astronaut--animated'
                )}
                onMouseDown={event => event.stopPropagation()}
                onClick={onClickSignIn}
                priority
+               onAnimationEnd={() => setIsAnimatedAstronaut(true)}
         />
         <StarsBackground otherElements={isClient ? [
             document.querySelector('.login__button')!,
