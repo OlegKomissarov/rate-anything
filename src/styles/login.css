@@ -84,8 +84,8 @@
 
 @keyframes fly {
   0% {
-    transform: translate(-50%, -50%) rotateZ(20deg);
     opacity: 1;
+    transform: translate(-50%, -50%) rotateZ(20deg);
   }
   100% {
     opacity: 0;
