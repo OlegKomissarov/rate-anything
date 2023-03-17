@@ -51,13 +51,9 @@
   user-select: none;
 }
 
-.login__astronaut--animating {
+.login__astronaut--animated {
   transform: rotateZ(30deg) translate(2000px, -2000px) scale3d(0.2, 0.2, 0.2);
   animation: fly 2s;
-}
-
-.login__astronaut--animated {
-  animation: none !important;
 }
 
 @media (max-width: 640px) {
@@ -70,14 +66,14 @@
     height: 40vw;
     width: 40vw;
   }
-  .login__astronaut--animating {
+  .login__astronaut--animated {
     transform: rotateZ(30deg) translate(2000px, -1000px) scale3d(0.2, 0.2, 0.2);
     animation: flyMobile 2s;
   }
 }
 
 @media (hover: hover) and (min-width: calc(640px + 1px)) {
-  .login__astronaut:hover, .login__button:hover ~ .login__astronaut:not(.login__astronaut--animating) {
+  .login__astronaut:hover, .login__button:hover ~ .login__astronaut:not(.login__astronaut--animated) {
     transform: translate(-50%, -50%) rotateZ(15deg);
   }
   .login__button:hover, .login__button:has(~.login__astronaut:hover) {
