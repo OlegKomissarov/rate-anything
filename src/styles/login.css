@@ -57,7 +57,7 @@
 }
 
 .login__astronaut--animated {
-  transform: rotateZ(30deg) translate(2000px, -2000px) scale3d(0.2, 0.2, 0.2) !important;
+  animation: none !important;
 }
 
 @media (max-width: 640px) {
@@ -73,9 +73,6 @@
   .login__astronaut--animating {
     transform: rotateZ(30deg) translate(2000px, -1000px) scale3d(0.2, 0.2, 0.2);
     animation: flyMobile 2s;
-  }
-  .login__astronaut--animated {
-    transform: rotateZ(30deg) translate(2000px, -1000px) scale3d(0.2, 0.2, 0.2) !important;
   }
 }
 
