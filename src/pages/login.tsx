@@ -26,6 +26,8 @@ const LoginPage = () => {
         >
             Sign In To Create Your Rate
         </Button>
+        {/*// @ts-ignore*/}
+        {document.querySelector('.login__astronaut').classList.join(', ')}
         <Image src="/astronaut.webp"
                alt="Astronaut"
                width={200} height={200}
