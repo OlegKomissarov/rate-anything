@@ -1,12 +1,14 @@
 import React from 'react';
 import RateLineChartItem from './RateLineChartItem';
-import { getRatesOfSubject, Rate } from '../../utils/utils';
+import { getRatesOfSubject } from '../../utils/utils';
+import { trpc } from '../../utils/trpcClient';
 
 const RateLineChart: React.FC<{
-    rateList: Rate[]
-    averageRateList: Rate[]
     changeSubject: (subject: string) => void
-}> = ({ rateList, averageRateList, changeSubject }) => {
+}> = ({ changeSubject }) => {
+    const { data: rateList } = trpc.rate.getRateList.useQuery();
+    const { data: averageRateList } = trpc.rate.getAverageRateList.useQuery();
+
     return <div className="line-chart">
         <div className="line-chart__main-line" />
         {
@@ -20,7 +22,8 @@ const RateLineChart: React.FC<{
             )
         }
         {
-            averageRateList.map(averageRate =>
+            !!(averageRateList && rateList)
+            && averageRateList.map(averageRate =>
                 <RateLineChartItem key={averageRate.subject}
                                    averageRate={averageRate}
                                    onClickRateItem={() => changeSubject(averageRate.subject)}

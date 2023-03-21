@@ -1,13 +1,15 @@
 import React from 'react';
-import { getRatesOfSubject, Rate } from '../../utils/utils';
+import { getRatesOfSubject } from '../../utils/utils';
+import { trpc } from '../../utils/trpcClient';
 
-const RateTable: React.FC<{
-    rateList: Rate[]
-    averageRateList: Rate[]
-}> = ({ rateList, averageRateList }) => {
+const RateTable = () => {
+    const { data: rateList } = trpc.rate.getRateList.useQuery();
+    const { data: averageRateList } = trpc.rate.getAverageRateList.useQuery();
+
     return <div className="rate-table">
         {
-            averageRateList.map(averageRate =>
+            !!(averageRateList && rateList)
+            && averageRateList.map(averageRate =>
                 <div className="rate-table__row" key={averageRate.subject}>
                     <div className="rate-table__item rate-table__item--name">
                         {averageRate.subject}

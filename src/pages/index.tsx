@@ -1,15 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Button from '../components/elements/Button';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Header from '../components/layout/Header';
-import { useRateList } from '../utils/useDataHooks';
-import { checkIfSubjectExists, validateRateSubject, validateRateValue } from '../utils/validations';
+import { validateRateSubject, validateRateValue } from '../utils/validations';
 import RateForm from '../components/rate-form/RateForm';
 import RateTable from '../components/rate-table/RateTable';
 import RateLineChart from '../components/rate-form/RateLineChart';
+import { trpc } from '../utils/trpcClient';
+import { getQueryKey } from '@trpc/react-query';
+import { useQueryClient } from '@tanstack/react-query';
+import { Rate } from '../utils/utils';
 
 const RatePage = () => {
+    const queryClient = useQueryClient();
     const router = useRouter();
 
     const rateInputRef = useRef<HTMLInputElement>(null);
@@ -21,7 +25,7 @@ const RatePage = () => {
         }
     });
 
-    const { rateList, averageRateList, getRateList } = useRateList();
+    const { data: averageRateList } = trpc.rate.getAverageRateList.useQuery();
 
     const [subject, setSubject] = useState('');
     const [rate, setRate] = useState<string>('');
@@ -30,9 +34,10 @@ const RatePage = () => {
         setRate('');
     };
 
-    useEffect(() => {
-        getRateList();
-    }, []);
+    const invalidateRateLists = () => {
+        queryClient.invalidateQueries({ queryKey: getQueryKey(trpc.rate.getRateList) });
+        queryClient.invalidateQueries({ queryKey: getQueryKey(trpc.rate.getAverageRateList) });
+    };
 
     const createRate = async () => {
         if (validateRateSubject(subject) && validateRateValue(rate)) {
@@ -44,12 +49,20 @@ const RatePage = () => {
             });
             if (response.ok) {
                 resetForm();
-                getRateList();
+                invalidateRateLists();
             } else {
                 const result = await response.json();
                 alert(result?.message || `Failed to create rate, error code is ${response.status}`);
             }
         }
+    };
+
+    const checkIfSubjectExists = (averageRateList: Rate[] | undefined, subject: string) => {
+        if (averageRateList?.find(averageRate => averageRate.subject === subject)) {
+            return true;
+        }
+        alert('There is no such subject. Please provide an existing subject in the input above');
+        return false;
     };
 
     const removeRate = async () => {
@@ -64,7 +77,7 @@ const RatePage = () => {
             });
             if (response.ok) {
                 resetForm();
-                getRateList();
+                invalidateRateLists();
             } else {
                 const result = await response.json();
                 alert(result?.message || `Failed to delete rate, error code is ${response.status}`);
@@ -93,20 +106,18 @@ const RatePage = () => {
                   rate={rate}
                   changeRate={setRate}
         />
-        <RateLineChart rateList={rateList}
-                       averageRateList={averageRateList}
-                       changeSubject={
-                           (subject: string) => {
-                               if (!session) {
-                                   return;
-                               }
-                               setSubject(subject);
-                               setRate('');
-                               if (rateInputRef.current) {
-                                   rateInputRef.current.focus();
-                               }
-                           }
-                       }
+        <RateLineChart changeSubject={
+            (subject: string) => {
+                if (!session) {
+                    return;
+                }
+                setSubject(subject);
+                setRate('');
+                if (rateInputRef.current) {
+                    rateInputRef.current.focus();
+                }
+            }
+        }
         />
         {
             session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL &&
@@ -114,7 +125,7 @@ const RatePage = () => {
                 REMOVE RATE
             </Button>
         }
-        <RateTable rateList={rateList} averageRateList={averageRateList} />
+        <RateTable />
     </>;
 };
 

@@ -1,24 +1,19 @@
 import React, { useEffect } from 'react';
 import RateStar from './RateStar';
 import usePanScreen from '../../utils/usePanScreen';
-import { useRateList } from '../../utils/useDataHooks';
 import useBackgroundData from '../../utils/useBackgroundData';
 import useBodyNoScrollBar from '../../utils/useBodyNoScrollBar';
+import { trpc } from '../../utils/trpcClient';
 
 const maxRateSubjectLength = 12;
 
 const StarsBackground: React.FC<{ otherElements: HTMLElement[] }> = ({ otherElements }) => {
-    const { averageRateList, getRateList } = useRateList();
     const { backgroundData, generateBackgroundData } = useBackgroundData();
     const { backgroundSize, itemPositions } = backgroundData;
 
-    useEffect(() => {
-        const loadData = async () => {
-            const { averageRateList } = await getRateList({ maxRateSubjectLength });
-            generateBackgroundData(averageRateList.length);
-        };
-        loadData();
-    }, []);
+    const { data: averageRateList } = trpc.rate.getAverageRateList.useQuery({ maxRateSubjectLength },
+        { onSuccess: averageRateList => { generateBackgroundData(averageRateList.length); } }
+    );
 
     useEffect(() => {
         // need to wait next tick when background is rendered with the new size
@@ -38,7 +33,8 @@ const StarsBackground: React.FC<{ otherElements: HTMLElement[] }> = ({ otherElem
     >
         <div className="rate-stars-container">
             {
-                averageRateList.map((averageRate, index) =>
+                itemPositions?.length === averageRateList?.length
+                && averageRateList.map((averageRate, index) =>
                     <RateStar key={averageRate.subject}
                               averageRate={averageRate}
                               leftPosition={itemPositions[index].x}

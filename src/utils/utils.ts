@@ -1,11 +1,3 @@
-import { Client } from '@planetscale/database';
-
-export const dbConnection = new Client({
-    host: process.env.DATABASE_HOST,
-    username: process.env.DATABASE_USERNAME,
-    password: process.env.DATABASE_PASSWORD
-}).connection();
-
 export const isClient = typeof window !== 'undefined';
 
 export const getClassName = (...classNames: Array<string | boolean | undefined>) => {
