@@ -1,6 +1,8 @@
 import { z } from 'zod';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../api';
-import { rateSubjectSchema, rateValueSchema, validateAverageRateList, validateRateList } from '../../utils/validations';
+import {
+    rateSubjectSchema, rateValueSchema, validateAverageRateList, validateRateList
+} from '../../utils/validations';
 import { TRPCError } from '@trpc/server';
 
 export const rateRouter = createTRPCRouter({
@@ -28,11 +30,23 @@ export const rateRouter = createTRPCRouter({
             }
             throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Average rate list is invalid' });
         }),
-    // createRate: protectedProcedure
-    //     .input(z.object({ subject: rateSubjectSchema, rate: rateValueSchema }))
-    //     .mutation(async ({ input: { subject, rate } }) => {
-    //
-    //     })
+    createRate: protectedProcedure
+        .input(z.object({ subject: rateSubjectSchema, rate: rateValueSchema }))
+        .mutation(async ({ input: { subject, rate: rateValue }, ctx: { session, dbConnection } }) => {
+            const existingRateData = await dbConnection.execute(
+                'SELECT 1 FROM rates WHERE useremail = ? AND subject = ?;',
+                [session.user.email, subject]
+            );
+            if (existingRateData.rows.length) {
+                throw new TRPCError({ code: 'FORBIDDEN', message: `You have already rated ${subject}.` });
+            } else {
+                const modifiedSubject = subject.charAt(0).toUpperCase() + subject.slice(1).toLowerCase();
+                return await dbConnection.execute(
+                    'INSERT INTO rates (`subject`, `rate`, `username`, `useremail`) VALUES (?, ?, ?, ?);',
+                    [modifiedSubject, rateValue, session.user.name, session.user.email]
+                );
+            }
+        })
     // create: protectedProcedure
     //     .input(
     //         z.object({

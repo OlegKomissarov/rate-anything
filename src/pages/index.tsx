@@ -29,31 +29,25 @@ const RatePage = () => {
 
     const [subject, setSubject] = useState('');
     const [rate, setRate] = useState<string>('');
+
     const resetForm = () => {
         setSubject('');
         setRate('');
     };
-
     const invalidateRateLists = () => {
         queryClient.invalidateQueries({ queryKey: getQueryKey(trpc.rate.getRateList) });
         queryClient.invalidateQueries({ queryKey: getQueryKey(trpc.rate.getAverageRateList) });
     };
+    const onMutationSuccess = () => {
+        resetForm();
+        invalidateRateLists();
+    }
 
-    const createRate = async () => {
+    const createRateMutation = trpc.rate.createRate.useMutation();
+
+    const createRate = () => {
         if (validateRateSubject(subject) && validateRateValue(rate)) {
-            const modifiedSubject = subject.charAt(0).toUpperCase() + subject.slice(1).toLowerCase();
-            const response = await fetch('/api/rate', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ subject: modifiedSubject, rate: +rate })
-            });
-            if (response.ok) {
-                resetForm();
-                invalidateRateLists();
-            } else {
-                const result = await response.json();
-                alert(result?.message || `Failed to create rate, error code is ${response.status}`);
-            }
+            createRateMutation.mutate({ subject, rate: +rate }, { onSuccess: onMutationSuccess });
         }
     };
 
@@ -76,8 +70,7 @@ const RatePage = () => {
                 body: JSON.stringify({ subject })
             });
             if (response.ok) {
-                resetForm();
-                invalidateRateLists();
+                onMutationSuccess();
             } else {
                 const result = await response.json();
                 alert(result?.message || `Failed to delete rate, error code is ${response.status}`);

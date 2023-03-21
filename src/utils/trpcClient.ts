@@ -15,6 +15,7 @@ const getBaseUrl = () => {
 const shouldRetry = (error: unknown) =>
     !(error instanceof TRPCClientError && (
         error.data.code === 'UNAUTHORIZED'
+        || error.data.code === 'FORBIDDEN'
         // || error.data.code === ''    // todo: add validation errors here, and check other error types
     ));
 
