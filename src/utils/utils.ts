@@ -39,7 +39,13 @@ export const getFontSizeByNumber = (number: number) =>
 export interface Rate {
     subject: string;
     rate: number;
-    username?: string | null;
+    username: string;
+    id: number;
+}
+
+export interface AverageRate {
+    subject: string;
+    rate: number;
 }
 
 export const getRatesOfSubject = (rateList: Rate[], subject: string) =>

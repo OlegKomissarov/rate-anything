@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
-import { getFontSizeByNumber, getRandomTextColor, Rate } from '../../utils/utils';
+import { AverageRate, getFontSizeByNumber, getRandomTextColor } from '../../utils/utils';
 
 const RateStar: React.FC<{
-    averageRate: Rate
+    averageRate: AverageRate
     leftPosition: number
     topPosition: number
 }> = ({ averageRate, leftPosition, topPosition }) => {

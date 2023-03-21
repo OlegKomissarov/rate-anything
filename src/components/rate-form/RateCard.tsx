@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { getClassName, Rate } from '../../utils/utils';
+import { AverageRate, getClassName, Rate } from '../../utils/utils';
 
 const RateCard: React.FC<{
-    averageRate: Rate
+    averageRate: AverageRate
     ratesOfSubject: Rate[]
     parentRef: React.RefObject<HTMLDivElement>
     withTriangle?: boolean

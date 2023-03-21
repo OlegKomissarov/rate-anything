@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { createTRPCRouter, publicProcedure } from '../api';
-import { validateAverageRateList, validateRateList } from '../../utils/validations';
+import { createTRPCRouter, protectedProcedure, publicProcedure } from '../api';
+import { rateSubjectSchema, rateValueSchema, validateAverageRateList, validateRateList } from '../../utils/validations';
 import { TRPCError } from '@trpc/server';
 
 export const rateRouter = createTRPCRouter({
@@ -27,7 +27,12 @@ export const rateRouter = createTRPCRouter({
                 return averageRateListResult.rows;
             }
             throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Average rate list is invalid' });
-        })
+        }),
+    // createRate: protectedProcedure
+    //     .input(z.object({ subject: rateSubjectSchema, rate: rateValueSchema }))
+    //     .mutation(async ({ input: { subject, rate } }) => {
+    //
+    //     })
     // create: protectedProcedure
     //     .input(
     //         z.object({

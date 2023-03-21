@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
-import { isClient, Rate } from './utils';
+import { AverageRate, isClient, Rate } from './utils';
 
 export const validate = <T>(value: unknown, schema: z.Schema): value is T => {
     try {
@@ -40,5 +40,5 @@ export const averageRateListSchema = z.array(z.object({
     subject: rateSubjectSchema,
     rate: rateValueSchema
 }));
-export const validateAverageRateList = (averageRateList: unknown): averageRateList is Rate[] =>
-    validate<Rate[]>(averageRateList, averageRateListSchema);
+export const validateAverageRateList = (averageRateList: unknown): averageRateList is AverageRate[] =>
+    validate<AverageRate[]>(averageRateList, averageRateListSchema);

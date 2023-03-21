@@ -10,7 +10,7 @@ import RateLineChart from '../components/rate-form/RateLineChart';
 import { trpc } from '../utils/trpcClient';
 import { getQueryKey } from '@trpc/react-query';
 import { useQueryClient } from '@tanstack/react-query';
-import { Rate } from '../utils/utils';
+import { AverageRate } from '../utils/utils';
 
 const RatePage = () => {
     const queryClient = useQueryClient();
@@ -57,7 +57,7 @@ const RatePage = () => {
         }
     };
 
-    const checkIfSubjectExists = (averageRateList: Rate[] | undefined, subject: string) => {
+    const checkIfSubjectExists = (averageRateList: AverageRate[] | undefined, subject: string) => {
         if (averageRateList?.find(averageRate => averageRate.subject === subject)) {
             return true;
         }

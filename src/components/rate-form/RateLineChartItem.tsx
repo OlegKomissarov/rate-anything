@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import RateCard from './RateCard';
-import { Rate } from '../../utils/utils';
+import { AverageRate, Rate } from '../../utils/utils';
 
 const RateLineChartItem: React.FC<{
-    averageRate: Rate
+    averageRate: AverageRate
     ratesOfSubject: Rate[]
     onClickRateItem: () => void
 }> = ({ averageRate, ratesOfSubject, onClickRateItem }) => {
