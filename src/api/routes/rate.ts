@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure, publicProcedure } from '../api';
+import { adminProcedure, createTRPCRouter, protectedProcedure, publicProcedure } from '../api';
 import {
     rateSubjectSchema, rateValueSchema, validateAverageRateList, validateRateList
 } from '../../utils/validations';
@@ -46,42 +46,9 @@ export const rateRouter = createTRPCRouter({
                     [modifiedSubject, rateValue, session.user.name, session.user.email]
                 );
             }
-        })
-    // create: protectedProcedure
-    //     .input(
-    //         z.object({
-    //             id: z.string().optional(),
-    //             text: z.string().min(1)
-    //         })
-    //     )
-    //     .mutation(async ({ ctx: { session }, input }) => {
-    //         const todo = await ctx.task.create({
-    //             data: input
-    //         });
-    //         return todo;
-    //     }),
-    // update: protectedProcedure
-    //     .input(
-    //         z.object({
-    //             id: z.string().uuid(),
-    //             data: z.object({
-    //                 completed: z.boolean().optional(),
-    //                 text: z.string().min(1).optional()
-    //             })
-    //         })
-    //     )
-    //     .mutation(async ({ ctx: { session }, input }) => {
-    //         const { id, data } = input;
-    //         const todo = await ctx.task.update({
-    //             where: { id },
-    //             data
-    //         });
-    //         return todo;
-    //     }),
-    // delete: protectedProcedure
-    //     .input(z.string().uuid())
-    //     .mutation(async ({ ctx: { session }, input: id }) => {
-    //         await ctx.task.delete({ where: { id } });
-    //         return id;
-    //     })
+        }),
+    removeRate: adminProcedure
+        .input(z.object({ subject: rateSubjectSchema }))
+        .mutation(async ({ input: { subject }, ctx: { dbConnection } }) =>
+            await dbConnection.execute('DELETE FROM rates WHERE subject = ?;', [subject]))
 });

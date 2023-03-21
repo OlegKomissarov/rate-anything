@@ -6,11 +6,15 @@ const setBodyCursor = (cursor: 'grab' | 'grabbing' | '') => {
     body.style.cursor = cursor;
 };
 
-const setOtherElementsPointerEvents = (otherElements: HTMLElement[], pointerEvents: 'none' | 'auto') => {
-    otherElements.forEach((element: HTMLElement) => element.style.pointerEvents = pointerEvents);
+const setOtherElementsPointerEvents = (otherElements: (HTMLElement | null)[], pointerEvents: 'none' | 'auto') => {
+    otherElements.forEach((element: HTMLElement | null) => {
+        if (element) {
+            element.style.pointerEvents = pointerEvents;
+        }
+    });
 };
 
-const usePanScreen = (backgroundSize: Position, otherElements: HTMLElement[]) => {
+const usePanScreen = (backgroundSize: Position, otherElements: (HTMLElement | null)[]) => {
     const isPanning = useRef(false);
 
     useEffect(() => {

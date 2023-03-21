@@ -28,6 +28,17 @@ const requireAuth = trpc.middleware(({ ctx, next }) => {
     return next({ ctx: { session: { ...ctx.session, user: ctx.session.user } } });
 });
 
+const requireAdmin = trpc.middleware(({ ctx, next }) => {
+    if (!ctx.session?.user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Please sign in to make this request' });
+    }
+    if (ctx.session.user.email !== process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL) {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Deleting rates is not allowed for this user.' });
+    }
+    return next({ ctx: { session: { ...ctx.session } } });
+});
+
 export const publicProcedure = trpc.procedure;
 export const protectedProcedure = trpc.procedure.use(requireAuth);
+export const adminProcedure = trpc.procedure.use(requireAdmin);
 export const createTRPCRouter = trpc.router;

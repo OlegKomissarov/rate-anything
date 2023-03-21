@@ -37,9 +37,9 @@ const LoginPage = () => {
                priority
         />
         <StarsBackground otherElements={isClient ? [
-            document.querySelector('.login__button')!,
-            document.querySelector('.login__astronaut')!,
-            document.querySelector('.header')!
+            document.querySelector('.login__button'),
+            document.querySelector('.login__astronaut'),
+            document.querySelector('.header')
         ] : []}
         />
     </div>;

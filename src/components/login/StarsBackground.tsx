@@ -7,7 +7,7 @@ import { trpc } from '../../utils/trpcClient';
 
 const maxRateSubjectLength = 12;
 
-const StarsBackground: React.FC<{ otherElements: HTMLElement[] }> = ({ otherElements }) => {
+const StarsBackground: React.FC<{ otherElements: (HTMLElement | null)[] }> = ({ otherElements }) => {
     const { backgroundData, generateBackgroundData } = useBackgroundData();
     const { backgroundSize, itemPositions } = backgroundData;
 

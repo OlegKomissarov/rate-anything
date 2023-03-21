@@ -51,6 +51,8 @@ const RatePage = () => {
         }
     };
 
+    const removeRateMutation = trpc.rate.removeRate.useMutation();
+
     const checkIfSubjectExists = (averageRateList: AverageRate[] | undefined, subject: string) => {
         if (averageRateList?.find(averageRate => averageRate.subject === subject)) {
             return true;
@@ -59,22 +61,9 @@ const RatePage = () => {
         return false;
     };
 
-    const removeRate = async () => {
-        if (
-            session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL
-            && validateRateSubject(subject) && checkIfSubjectExists(averageRateList, subject)
-        ) {
-            const response = await fetch('/api/rate', {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ subject })
-            });
-            if (response.ok) {
-                onMutationSuccess();
-            } else {
-                const result = await response.json();
-                alert(result?.message || `Failed to delete rate, error code is ${response.status}`);
-            }
+    const removeRate = () => {
+        if (validateRateSubject(subject) && checkIfSubjectExists(averageRateList, subject)) {
+            removeRateMutation.mutate({ subject }, { onSuccess: onMutationSuccess });
         }
     };
 
