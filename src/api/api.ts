@@ -5,7 +5,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '../pages/api/auth/[...nextauth]';
 import superjson from 'superjson';
 
-export const dbConnection = new Client({
+const dbConnection = new Client({
     host: process.env.DATABASE_HOST,
     username: process.env.DATABASE_USERNAME,
     password: process.env.DATABASE_PASSWORD
@@ -14,7 +14,7 @@ export const dbConnection = new Client({
 export const createTRPCContext = async (opts: CreateNextContextOptions) => {
     const { req, res } = opts;
     const session = await getServerSession(req, res, authOptions);
-    return { session };
+    return { session, dbConnection };
 };
 
 export const trpc = initTRPC
