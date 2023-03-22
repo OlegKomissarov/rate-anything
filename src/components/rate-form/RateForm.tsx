@@ -26,7 +26,6 @@ const RateForm: React.FC<{
         />
         <Input placeholder="Input your rate"
                className="form__input form__input--number"
-               type="tel"
                selectOnFocus
                value={rate}
                onChange={event => {
