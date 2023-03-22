@@ -10,7 +10,7 @@ import RateLineChart from '../components/rate-form/RateLineChart';
 import { trpc } from '../utils/trpcClient';
 import { getQueryKey } from '@trpc/react-query';
 import { useQueryClient } from '@tanstack/react-query';
-import { AverageRate } from '../utils/utils';
+import { AverageRate, showError } from '../utils/utils';
 
 const RatePage = () => {
     const queryClient = useQueryClient();
@@ -57,7 +57,7 @@ const RatePage = () => {
         if (averageRateList?.find(averageRate => averageRate.subject === subject)) {
             return true;
         }
-        alert('There is no such subject. Please provide an existing subject in the input above');
+        showError('There is no such subject. Please provide an existing subject in the input above.');
         return false;
     };
 

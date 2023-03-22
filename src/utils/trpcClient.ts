@@ -3,7 +3,7 @@ import { createTRPCNext } from '@trpc/next';
 import { type inferRouterInputs, type inferRouterOutputs } from '@trpc/server';
 import { type AppRouter } from '../api/routes/_app';
 import superjson from 'superjson';
-import { isClient } from './utils';
+import { isClient, showError } from './utils';
 
 const getBaseUrl = () => {
     if (isClient) {
@@ -14,26 +14,6 @@ const getBaseUrl = () => {
 
 const shouldRetry = (error: unknown) =>
     !(error instanceof TRPCClientError) || error.data.code === 'INTERNAL_SERVER_ERROR';
-
-const handleError = (error: unknown) => {
-    if (isClient) {
-        if (error instanceof TRPCClientError && error.data.zodError) {
-            // todo: use this instead of 'zod-validation-error' lib. make this a common function maybe
-            const fieldErrors = error.data.zodError.fieldErrors;
-            const formErrors = error.data.zodError.formErrors;
-            const fieldErrorsOutput = Object.keys(fieldErrors)
-                .map(errorSubject => `${errorSubject}: ${fieldErrors[errorSubject]}`);
-            const formErrorsOutput = Object.keys(formErrors)
-                .map(errorSubject => `${errorSubject}: ${formErrors[errorSubject]}`);
-            const errorsOutput = [...fieldErrorsOutput, ...formErrorsOutput].join('. ');
-            alert(errorsOutput);
-            console.log(errorsOutput);
-        } else {
-            alert(error);
-            console.log(error);
-        }
-    }
-};
 
 export const trpc = createTRPCNext<AppRouter>({
     config: () => ({
@@ -47,11 +27,11 @@ export const trpc = createTRPCNext<AppRouter>({
             defaultOptions: {
                 queries: {
                     refetchOnWindowFocus: false,
-                    onError: handleError,
+                    onError: error => showError(error),
                     retry: (failureCount, error) => shouldRetry(error)
                 },
                 mutations: {
-                    onError: handleError,
+                    onError: error => showError(error),
                     retry: (failureCount, error) => shouldRetry(error)
                 }
             }

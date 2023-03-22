@@ -1,3 +1,6 @@
+import { ZodError } from 'zod';
+import { TRPCClientError } from '@trpc/client';
+
 export const isClient = typeof window !== 'undefined';
 
 export const getClassName = (...classNames: Array<string | boolean | undefined>) => {
@@ -12,6 +15,31 @@ export const getClassName = (...classNames: Array<string | boolean | undefined>)
         }
     });
     return classNamesString.trim();
+};
+
+export const showError = (error: unknown, validationFieldName?: string, validationValue?: unknown) => {
+    let errorOutput = error;
+    if (error instanceof TRPCClientError && error.data.code === 'BAD_REQUEST' && error.data.zodError) { // backend validation error
+        errorOutput = 'Validation error occurred. ';
+        errorOutput += Object.keys(error.data.zodError.fieldErrors)
+            .map(errorSubject => `${errorSubject}: ${error.data.zodError.fieldErrors[errorSubject]}`).join('; ');
+        errorOutput += `.`;
+    } else if (error instanceof ZodError) { // frontend validation error
+        errorOutput = `Validation error occurred`;
+        if (validationFieldName !== undefined) {
+            errorOutput += ` for the field "${validationFieldName}"`;
+        }
+        if (validationValue !== undefined) {
+            errorOutput += ` for the value "${validationValue}"`;
+        }
+        errorOutput += `. `;
+        errorOutput += error.issues.map(issue => issue.message).join('; ');
+        errorOutput += `.`;
+    }
+    if (isClient) {
+        alert(errorOutput);
+    }
+    console.log(errorOutput);
 };
 
 export interface Position {
