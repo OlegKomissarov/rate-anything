@@ -67,6 +67,7 @@ export const getFontSizeByNumber = (number: number) =>
 export interface Rate {
     subject: string;
     rate: number;
+    useremail: string;
     username: string;
     id: number;
 }

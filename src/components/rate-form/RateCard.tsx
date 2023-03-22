@@ -60,7 +60,7 @@ const RateCard: React.FC<{
             <div>
                 {
                     ratesOfSubject.map(rate =>
-                        <div key={rate.username}
+                        <div key={rate.useremail}
                              className="rate-card__unbreakable-string"
                         >
                             {rate.username}

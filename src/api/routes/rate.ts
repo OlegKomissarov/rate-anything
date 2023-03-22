@@ -47,8 +47,8 @@ export const rateRouter = createTRPCRouter({
             } else {
                 const modifiedSubject = subject.charAt(0).toUpperCase() + subject.slice(1).toLowerCase();
                 return await dbConnection.execute(
-                    'INSERT INTO rates (`subject`, `rate`, `username`, `useremail`) VALUES (?, ?, ?, ?);',
-                    [modifiedSubject, rateValue, session.user.name, session.user.email]
+                    'INSERT INTO rates (`subject`, `rate`, `useremail`, `username`) VALUES (?, ?, ?, ?);',
+                    [modifiedSubject, rateValue, session.user.email, session.user.name]
                 );
             }
         }),

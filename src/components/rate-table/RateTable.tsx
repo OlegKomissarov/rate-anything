@@ -19,7 +19,7 @@ const RateTable = () => {
                     </div>
                     <div className="rate-table__item rate-table__item--users">
                         {getRatesOfSubject(rateList, averageRate.subject).map(rate =>
-                            <div key={rate.username}>{rate.username}</div>
+                            <div key={rate.useremail}>{rate.username}</div>
                         )}
                     </div>
                 </div>

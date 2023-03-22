@@ -22,6 +22,7 @@ export const validateRateValue = (rate: unknown): rate is number =>
 export const rateListSchema = z.array(z.object({
     subject: rateSubjectSchema,
     rate: rateValueSchema,
+    useremail: z.string(),
     username: z.string(),
     id: z.number()
 }));
