@@ -24,8 +24,8 @@ const RateForm: React.FC<{
                value={subject}
                onChange={event => changeSubject(event.target.value)}
         />
-        <Input placeholder="Input your rate"
-               className="form__input form__input--number"
+        <Input placeholder="Input your rate from -10 to 10"
+               className="form__input"
                selectOnFocus
                value={rate}
                onChange={event => {
