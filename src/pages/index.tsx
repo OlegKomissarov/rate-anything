@@ -28,7 +28,7 @@ const RatePage = () => {
     const { data: averageRateList } = trpc.rate.getAverageRateList.useQuery();
 
     const [subject, setSubject] = useState('');
-    const [rate, setRate] = useState<string>('');
+    const [rate, setRate] = useState<number | string>('');
 
     const resetForm = () => {
         setSubject('');
@@ -47,7 +47,7 @@ const RatePage = () => {
 
     const createRate = () => {
         if (validateRateSubject(subject) && validateRateValue(rate)) {
-            createRateMutation.mutate({ subject, rate: +rate }, { onSuccess: onMutationSuccess });
+            createRateMutation.mutate({ subject, rate }, { onSuccess: onMutationSuccess });
         }
     };
 

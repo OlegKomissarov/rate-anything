@@ -8,8 +8,8 @@ const RateForm: React.FC<{
     createRate: () => void
     subject: string
     changeSubject: (subject: string) => void
-    rate: string
-    changeRate: (rate: string) => void
+    rate: number | string
+    changeRate: (rate: number | string) => void
 }> = ({ rateInputRef, createRate, subject, changeSubject, rate, changeRate }) => {
     const { data: session } = useSession();
 
@@ -26,13 +26,17 @@ const RateForm: React.FC<{
         />
         <Input placeholder="Input your rate"
                className="form__input form__input--number"
-               inputMode="numeric"
+               inputMode="decimal"
                selectOnFocus
                value={rate}
                onChange={event => {
-                   const { value } = event.target;
-                   if ((!value || value === '-') || (/^([-]?[1-9]\d*|0)$/.test(value) && +value >= -10 && +value <= 10)) {
-                       changeRate(value);
+                   if (event.target.value === '' || event.target.value === '-') {
+                       changeRate(event.target.value);
+                   } else if (/^([-]?[1-9]\d*|0)$/.test(event.target.value)) {
+                       const numberValue = +event.target.value;
+                       if (numberValue >= -10 && numberValue <= 10) { // todo: use validation here maybe
+                           changeRate(numberValue);
+                       }
                    }
                }}
                refValue={rateInputRef}

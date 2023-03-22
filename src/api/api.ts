@@ -4,6 +4,7 @@ import { type CreateNextContextOptions } from '@trpc/server/adapters/next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../pages/api/auth/[...nextauth]';
 import superjson from 'superjson';
+import { ZodError } from 'zod';
 
 const dbConnection = new Client({
     host: process.env.DATABASE_HOST,
@@ -19,7 +20,21 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
 
 export const trpc = initTRPC
     .context<Awaited<ReturnType<typeof createTRPCContext>>>()
-    .create({ transformer: superjson });
+    .create({
+        transformer: superjson,
+        errorFormatter({ shape, error }) {
+            return {
+                ...shape,
+                data: {
+                    ...shape.data,
+                    zodError:
+                        error.code === 'BAD_REQUEST' && error.cause instanceof ZodError
+                            ? error.cause.flatten()
+                            : null
+                }
+            };
+        }
+    });
 
 const requireAuth = trpc.middleware(({ ctx, next }) => {
     if (!ctx.session || !ctx.session.user) {

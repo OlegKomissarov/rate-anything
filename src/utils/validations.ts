@@ -20,12 +20,8 @@ export const validateRateSubject = (subject: unknown): subject is string =>
     validate<string>(subject, rateSubjectSchema);
 
 export const rateValueSchema = z.number().min(-10).max(10);
-export const validateRateValue = (rate: unknown): rate is string => {
-    if (rate) {
-        return validate<string>(+rate, rateValueSchema);
-    }
-    return validate<string>(null, rateValueSchema);
-};
+export const validateRateValue = (rate: unknown): rate is number =>
+    validate<number>(rate, rateValueSchema);
 
 export const rateListSchema = z.array(z.object({
     subject: rateSubjectSchema,
