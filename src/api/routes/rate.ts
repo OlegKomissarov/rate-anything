@@ -10,11 +10,13 @@ export const rateRouter = createTRPCRouter({
         .query(async ({ ctx: { dbConnection } }) => {
             const rateListResult = await dbConnection.execute('SELECT * from rates');
 
-            // todo: make this code as common function maybe, check examples
             if (validateRateList(rateListResult.rows)) {
                 return rateListResult.rows;
             }
-            throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Rate list is invalid' });
+            throw new TRPCError({
+                code: 'INTERNAL_SERVER_ERROR',
+                message: 'Received invalid rate list from the database'
+            });
         }),
     getAverageRateList: publicProcedure
         .input(z.object({ maxRateSubjectLength: z.number().int().min(1).optional() }).optional())
@@ -28,7 +30,10 @@ export const rateRouter = createTRPCRouter({
             if (validateAverageRateList(averageRateListResult.rows)) {
                 return averageRateListResult.rows;
             }
-            throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Average rate list is invalid' });
+            throw new TRPCError({
+                code: 'INTERNAL_SERVER_ERROR',
+                message: 'Received invalid average rate list from the database'
+            });
         }),
     createRate: protectedProcedure
         .input(z.object({ subject: rateSubjectSchema, rate: rateValueSchema }))
