@@ -1,6 +1,5 @@
 import { httpBatchLink, TRPCClientError } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
-import { type inferRouterInputs, type inferRouterOutputs } from '@trpc/server';
 import { type AppRouter } from '../api/routes/_app';
 import superjson from 'superjson';
 import { isClient, showError } from './utils';
@@ -38,15 +37,3 @@ export const trpc = createTRPCNext<AppRouter>({
         }
     })
 });
-
-// todo: remove comments after implementing create rate endpoint
-/**
- * Inference helper for inputs
- * @example type HelloInput = RouterInputs['example']['hello']
- **/
-export type RouterInputs = inferRouterInputs<AppRouter>;
-/**
- * Inference helper for outputs
- * @example type HelloOutput = RouterOutputs['example']['hello']
- **/
-export type RouterOutputs = inferRouterOutputs<AppRouter>;

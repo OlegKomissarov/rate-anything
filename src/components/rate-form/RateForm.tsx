@@ -34,7 +34,7 @@ const RateForm: React.FC<{
                        changeRate(event.target.value);
                    } else if (/^([-]?[1-9]\d*|0)$/.test(event.target.value)) {
                        const numberValue = +event.target.value;
-                       if (numberValue >= -10 && numberValue <= 10) { // todo: use validation here maybe
+                       if (numberValue >= -10 && numberValue <= 10) {
                            changeRate(numberValue);
                        }
                    }
