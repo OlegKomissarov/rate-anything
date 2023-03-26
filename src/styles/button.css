@@ -10,28 +10,20 @@
 }
 
 .button {
-  font-size: 24px;
-  line-height: 24px;
-  cursor: pointer;
-  padding: 16px 24px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
+  padding: 9px 16px;
   background-color: var(--light-theme-button);
+  border: 1px solid var(--border);
+  border-radius: 5px;
   color: var(--light-theme-button-text);
+  font-size: 24px;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 
 .button--theme--dark {
   background-color: var(--dark-theme-button);
-  color: var(--dark-theme-button-text);
-  padding: 10px 20px;
   border: none;
-  border-radius: 5px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  overflow: hidden;
+  color: var(--dark-theme-button-text);
 }
 
 @media (hover: hover) {
@@ -41,11 +33,9 @@
 }
 
 .button--secondary {
-  padding: 8px 12px;
-  font-size: 16px;
-  line-height: 16px;
-  border: 1px solid var(--secondary-button-background);
-  border-radius: 5px;
+  padding: 7px 12px;
   background-color: var(--secondary-button);
+  border: 1px solid var(--secondary-button-background);
   color: var(--secondary-button-text);
+  font-size: 16px;
 }

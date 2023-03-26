@@ -16,13 +16,13 @@ input[type=number]::-webkit-inner-spin-button {
 
 .input {
   padding: 14px 16px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 24px;
-  line-height: 24px;
   box-sizing: border-box;
   background-color: var(--input-background);
+  border: 1px solid var(--border);
+  border-radius: 8px;
   color: var(--input-text);
+  font-size: 24px;
+  line-height: 24px;
 }
 
 .input::placeholder {

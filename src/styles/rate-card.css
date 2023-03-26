@@ -5,15 +5,15 @@
 }
 
 .rate-card {
+  visibility: hidden;
   position: absolute;
   top: 21px;
   left: -8px;
+  z-index: 1;
+  padding: 4px 12px;
+  background-color: var(--light-theme-rate-card);
   border: 1px solid var(--border);
   border-radius: 4px;
-  background-color: var(--light-theme-rate-card);
-  padding: 4px 12px;
-  visibility: hidden;
-  z-index: 1;
 }
 
 .rate-card--dark-theme {
@@ -27,8 +27,8 @@
   left: 8px;
   transform: rotate(90deg);
   border-width: 10px 10px 10px 0;
-  border-color: transparent;
   border-style: solid;
+  border-color: transparent;
   border-right-color: var(--border);
 }
 
@@ -39,24 +39,24 @@
   left: 8px;
   transform: rotate(90deg);
   border-width: 10px 10px 10px 0;
-  border-color: transparent;
   border-style: solid;
+  border-color: transparent;
   border-right-color: var(--rate-card-triangle);
 }
 
 .rate-card--drop-left {
-  right: -8px;
   left: initial;
+  right: -8px;
 }
 
 .rate-card--drop-left::before {
-  right: 8px;
   left: initial;
+  right: 8px;
 }
 
 .rate-card--drop-left::after {
-  right: 8px;
   left: initial;
+  right: 8px;
 }
 
 .rate-card__unbreakable-string {

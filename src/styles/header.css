@@ -4,11 +4,11 @@
 }
 
 .header {
+  z-index: 1;
   margin-bottom: 20px;
   text-align: center;
   font-family: Gilroy-Medium, sans-serif;
   font-size: 60px;
-  z-index: 1;
   user-select: none;
 }
 

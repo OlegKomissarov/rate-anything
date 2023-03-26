@@ -6,9 +6,9 @@
 
 .line-chart {
   position: relative;
-  width: 100%;
   margin-top: 40px;
   margin-bottom: 40px;
+  width: 100%;
 }
 
 .line-chart__main-line {
@@ -18,9 +18,9 @@
 
 .line-chart__dash-dote {
   position: absolute;
-  transform: translateY(calc(-50% - 2px));
-  height: 10px;
   width: 4px;
+  height: 10px;
+  transform: translateY(calc(-50% - 2px));
   background-color: var(--line-chart-dash);
   border-radius: 8px;
 }
@@ -39,12 +39,12 @@
 
 .line-chart__rate-dote {
   position: absolute;
-  height: 8px;
   width: 8px;
+  height: 8px;
+  transform: translateX(calc(-50% + 2px)) translateY(calc(-50% - 2px));
   background-color: var(--line-chart-rate-dote);
   border-radius: 50%;
   cursor: pointer;
-  transform: translateX(calc(-50% + 2px)) translateY(calc(-50% - 2px));
 }
 
 @media (hover: hover) {

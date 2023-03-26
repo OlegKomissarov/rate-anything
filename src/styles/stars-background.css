@@ -4,8 +4,8 @@
 
 .stars-background {
   position: absolute;
-  left: 0;
   top: 0;
+  left: 0;
   min-width: 100vw;
   min-height: 100vh;
   user-select: none;
@@ -15,10 +15,10 @@
   position: absolute;
   top: 0;
   left: 0;
+  padding: 20px;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding: 20px;
 }
 
 .rate-star {
@@ -31,9 +31,9 @@
   position: absolute;
   top: 0;
   left: 0;
-  display: block;
   width: 100%;
   height: 100%;
+  display: block;
 }
 
 .stars-background__decor-stars {
@@ -43,8 +43,8 @@
 }
 
 .stars-background__twinkling {
-  background: transparent url(/twinkling.webp) repeat top left;
   animation: move-twink-back 500s linear infinite;
+  background: transparent url(/twinkling.webp) repeat top left;
 }
 
 @keyframes move-twink-back {
