@@ -6,7 +6,7 @@ const RateTable = () => {
     const { data: rateList } = trpc.rate.getRateList.useQuery();
     const { data: averageRateList } = trpc.rate.getAverageRateList.useQuery();
 
-    return <div className="rate-table">
+    return <div className="rate-table custom-scrollbar">
         {
             !!(averageRateList && rateList)
             && averageRateList.map(averageRate =>

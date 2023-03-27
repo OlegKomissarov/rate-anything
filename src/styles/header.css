@@ -1,24 +1,14 @@
 :root {
-  --dark-theme-header: #D8CD2B;
-  --light-theme-header: #335C67;
+  --header-text-color: #D8CD2B;
 }
 
 .header {
   z-index: 1;
-  margin-bottom: 20px;
   text-align: center;
   font-family: Gilroy-Medium, sans-serif;
+  color: var(--header-text-color);
   font-size: 60px;
   user-select: none;
-}
-
-.header--theme--dark {
-  color: var(--dark-theme-header);
-  /*transform: perspective(300px) rotateX(20deg);*/
-}
-
-.header--theme--light {
-  color: var(--light-theme-header);
 }
 
 @media (max-width: 640px) {

@@ -1,7 +1,6 @@
 :root {
-  --dark-theme-rate-card: #121111;
-  --light-theme-rate-card: #FFFFFF;
-  --rate-card-triangle: #FFFFFF;
+  --rate-card-background-color: #121111;
+  --rate-card-triangle-color: #FFFFFF;
 }
 
 .rate-card {
@@ -11,13 +10,9 @@
   left: -8px;
   z-index: 1;
   padding: 4px 12px;
-  background-color: var(--light-theme-rate-card);
-  border: 1px solid var(--border);
+  background-color: var(--rate-card-background-color);
+  border: 1px solid var(--border-color);
   border-radius: 4px;
-}
-
-.rate-card--dark-theme {
-  background-color: var(--dark-theme-rate-card);
 }
 
 .rate-card--with-triangle::before {
@@ -29,7 +24,7 @@
   border-width: 10px 10px 10px 0;
   border-style: solid;
   border-color: transparent;
-  border-right-color: var(--border);
+  border-right-color: var(--border-color);
 }
 
 .rate-card--with-triangle::after {
@@ -41,7 +36,7 @@
   border-width: 10px 10px 10px 0;
   border-style: solid;
   border-color: transparent;
-  border-right-color: var(--rate-card-triangle);
+  border-right-color: var(--rate-card-triangle-color);
 }
 
 .rate-card--drop-left {

@@ -1,7 +1,8 @@
 :root {
-  --input-background: #FFFFFF;
-  --input-text: #335C67;
-  --input-placeholder: #E09F3E;
+  --input-background-color: #FFFFFF;
+  --input-text-color: #335C67;
+  --input-placeholder-color: #E09F3E;
+  --user-name-text-color: #335C67;
 }
 
 input, button {
@@ -17,24 +18,27 @@ input[type=number]::-webkit-inner-spin-button {
 .input {
   padding: 14px 16px;
   box-sizing: border-box;
-  background-color: var(--input-background);
-  border: 1px solid var(--border);
+  background-color: var(--input-background-color);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  color: var(--input-text);
+  color: var(--input-text-color);
   font-size: 24px;
   line-height: 24px;
 }
 
 .input::placeholder {
-  color: var(--input-placeholder);
+  color: var(--input-placeholder-color);
 }
 
 .form {
-  margin-bottom: 20px;
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.form__user-name-label {
+  margin-bottom: 20px;
+  color: var(--user-name-text-color);
 }
 
 .form__input {
@@ -55,10 +59,11 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .form__input:not(:last-child) {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .form__button {
+  margin-bottom: 20px;
   width: calc(500px * 1 / 3);
 }
 

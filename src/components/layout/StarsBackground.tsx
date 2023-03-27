@@ -7,7 +7,7 @@ import { trpc } from '../../utils/trpcClient';
 
 const maxRateSubjectLength = 12;
 
-const StarsBackground: React.FC<{ otherElements: (HTMLElement | null)[] }> = ({ otherElements }) => {
+const StarsBackground = () => {
     const { backgroundData, generateBackgroundData } = useBackgroundData();
     const { backgroundSize, itemPositions } = backgroundData;
 
@@ -24,7 +24,7 @@ const StarsBackground: React.FC<{ otherElements: (HTMLElement | null)[] }> = ({ 
         });
     }, [backgroundSize.x, backgroundSize.y]);
 
-    usePanScreen(backgroundSize, otherElements);
+    usePanScreen(backgroundSize);
 
     useBodyNoScrollBar();
 

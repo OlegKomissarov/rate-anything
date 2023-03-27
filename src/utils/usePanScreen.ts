@@ -1,35 +1,57 @@
 import { useEffect, useRef } from 'react';
-import { Position } from './utils';
+import { isClient, Position } from './utils';
 
-const setBodyCursor = (cursor: 'grab' | 'grabbing' | '') => {
+const getOtherElements = () => isClient
+    ? [
+        document.querySelector('.login__button'),
+        document.querySelector('.login__astronaut'),
+        document.querySelector('.header'),
+        // @ts-ignore
+        ...document.querySelectorAll('.main-page-block')
+    ] as (HTMLElement | null)[]
+    : [];
+
+const setBodyStyle = (cursor: 'grab' | 'grabbing' | '', userSelect: 'none' | '') => {
     const body = document.getElementsByTagName('body')[0];
     body.style.cursor = cursor;
+    body.style.userSelect = userSelect;
 };
 
-const setOtherElementsPointerEvents = (otherElements: (HTMLElement | null)[], pointerEvents: 'none' | 'auto') => {
-    otherElements.forEach((element: HTMLElement | null) => {
-        if (element) {
+const setOtherElementStyles = (pointerEvents: 'none' | 'auto') => {
+    const otherElements = getOtherElements();
+    otherElements.forEach(element => {
+        if (element && element.style) {
             element.style.pointerEvents = pointerEvents;
         }
     });
 };
 
-const usePanScreen = (backgroundSize: Position, otherElements: (HTMLElement | null)[]) => {
+const disableOtherElementsOnMouseDownEventPropagation = () => {
+    const otherElements = getOtherElements();
+    otherElements.forEach(element => {
+        if (element && !element.onmousedown) {
+            element.onmousedown = event => event.stopPropagation();
+        }
+    });
+};
+
+const usePanScreen = (backgroundSize: Position) => {
     const isPanning = useRef(false);
+    disableOtherElementsOnMouseDownEventPropagation();
 
     useEffect(() => {
         const handleMouseDown = () => {
             isPanning.current = true;
-            setBodyCursor('grabbing');
-            setOtherElementsPointerEvents(otherElements, 'none');
+            setBodyStyle('grabbing', 'none');
+            setOtherElementStyles('none');
         };
         const handleMouseMove = (event: MouseEvent) => {
             panScreen(event);
         };
         const handleMouseUp = () => {
             isPanning.current = false;
-            setBodyCursor('grab');
-            setOtherElementsPointerEvents(otherElements, 'auto');
+            setBodyStyle('grab', '');
+            setOtherElementStyles('auto');
         };
         const panScreen = (event: MouseEvent) => {
             if (!isPanning.current) {
@@ -59,9 +81,9 @@ const usePanScreen = (backgroundSize: Position, otherElements: (HTMLElement | nu
     });
 
     useEffect(() => {
-        setBodyCursor('grab');
+        setBodyStyle('grab', '');
         return () => {
-            setBodyCursor('');
+            setBodyStyle('', '');
         }
     }, []);
 };

@@ -1,12 +1,11 @@
 import React, { useRef, useState } from 'react';
-import Button from '../components/elements/Button';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Header from '../components/layout/Header';
 import { validateRateSubject, validateRateValue } from '../utils/validations';
 import RateForm from '../components/rate-form/RateForm';
 import RateTable from '../components/rate-table/RateTable';
-import RateLineChart from '../components/rate-form/RateLineChart';
+import RateLineChart from '../components/rate-chart/RateLineChart';
 import { trpc } from '../utils/trpcClient';
 import { getQueryKey } from '@trpc/react-query';
 import { useQueryClient } from '@tanstack/react-query';
@@ -71,44 +70,45 @@ const RatePage = () => {
         return null;
     }
 
-    return <>
-        <Header theme="light" />
-        <RateForm rateInputRef={rateInputRef}
-                  createRate={createRate}
-                  subject={subject}
-                  changeSubject={
-                      (subject: string) => {
-                          if (!session) {
-                              return;
+    return <div className="main-page-grid">
+        <Header className="main-page-grid__header" />
+        <div className="main-page-block main-page-block--form">
+            <RateForm rateInputRef={rateInputRef}
+                      createRate={createRate}
+                      subject={subject}
+                      changeSubject={
+                          (subject: string) => {
+                              if (!session) {
+                                  return;
+                              }
+                              setSubject(subject);
+                              setRate('');
                           }
-                          setSubject(subject);
-                          setRate('');
                       }
-                  }
-                  rate={rate}
-                  changeRate={setRate}
-        />
-        <RateLineChart changeSubject={
-            (subject: string) => {
-                if (!session) {
-                    return;
-                }
-                setSubject(subject);
-                setRate('');
-                if (rateInputRef.current) {
-                    rateInputRef.current.focus();
+                      rate={rate}
+                      changeRate={setRate}
+                      removeRate={removeRate}
+            />
+        </div>
+        <div className="main-page-block main-page-block--chart">
+            <RateLineChart changeSubject={
+                (subject: string) => {
+                    if (!session) {
+                        return;
+                    }
+                    setSubject(subject);
+                    setRate('');
+                    if (rateInputRef.current) {
+                        rateInputRef.current.focus();
+                    }
                 }
             }
-        }
-        />
-        {
-            session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL &&
-            <Button onClick={removeRate} className="button--secondary">
-                REMOVE RATE
-            </Button>
-        }
-        <RateTable />
-    </>;
+            />
+        </div>
+        <div className="main-page-block main-page-block--table">
+            <RateTable />
+        </div>
+    </div>;
 };
 
 export default RatePage;

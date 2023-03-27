@@ -6,12 +6,10 @@ const RateCard: React.FC<{
     ratesOfSubject: Rate[]
     parentRef: React.RefObject<HTMLDivElement>
     withTriangle?: boolean
-    darkStyle?: boolean
     showDetails?: boolean,
     color?: string
 }> = ({
-    averageRate, ratesOfSubject, parentRef, withTriangle, darkStyle,
-    showDetails, color
+    averageRate, ratesOfSubject, parentRef, withTriangle, showDetails, color
 }) => {
     const rateCardRef = useRef<HTMLDivElement>(null);
     const [shouldDropLeft, setShouldDropLeft] = useState(false);
@@ -41,8 +39,7 @@ const RateCard: React.FC<{
                 className={getClassName(
                     'rate-card',
                     shouldDropLeft && 'rate-card--drop-left',
-                    withTriangle && 'rate-card--with-triangle',
-                    darkStyle && 'rate-card--dark-theme'
+                    withTriangle && 'rate-card--with-triangle'
                 )}
                 style={{ color, borderColor: color }}
     >

@@ -1,19 +1,20 @@
 :root {
-  --line-chart-main-line: #335C67;
-  --line-chart-dash: #335C67;
-  --line-chart-rate-dote: #9E2A2B;
+  --line-chart-main-line-color: #335C67;
+  --line-chart-dash-color: #335C67;
+  --line-chart-rate-dote-color: #9E2A2B;
 }
 
 .line-chart {
   position: relative;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  width: 100%;
+  margin-left: 10%;
+  padding-top: 40px;
+  padding-bottom: 30px;
+  width: 80%;
 }
 
 .line-chart__main-line {
   height: 4px;
-  background-color: var(--line-chart-main-line);
+  background-color: var(--line-chart-main-line-color);
 }
 
 .line-chart__dash-dote {
@@ -21,7 +22,7 @@
   width: 4px;
   height: 10px;
   transform: translateY(calc(-50% - 2px));
-  background-color: var(--line-chart-dash);
+  background-color: var(--line-chart-dash-color);
   border-radius: 8px;
 }
 
@@ -42,7 +43,7 @@
   width: 8px;
   height: 8px;
   transform: translateX(calc(-50% + 2px)) translateY(calc(-50% - 2px));
-  background-color: var(--line-chart-rate-dote);
+  background-color: var(--line-chart-rate-dote-color);
   border-radius: 50%;
   cursor: pointer;
 }

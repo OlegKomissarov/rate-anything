@@ -1,41 +1,32 @@
 :root {
-  --secondary-button-background: #868585;
-  --secondary-button: #335C67;
-  --secondary-button-text: #FFFFFF;
-  --dark-theme-button: #1D3557;
-  --dark-theme-button-hover: #243B5B;
-  --dark-theme-button-text: #FFFFFF;
-  --light-theme-button: #9E2A2B;
-  --light-theme-button-text: #FFFFFF;
+  --button-background-color: #1D3557;
+  --button-text-color: #FFFFFF;
+  --secondary-button-background-color: #335C67;
+  --secondary-button-border-color: #868585;
+  --secondary-button-text-color: #FFFFFF;
 }
 
 .button {
   padding: 9px 16px;
-  background-color: var(--light-theme-button);
-  border: 1px solid var(--border);
+  background-color: var(--button-background-color);
+  border: none;
   border-radius: 5px;
-  color: var(--light-theme-button-text);
+  color: var(--button-text-color);
   font-size: 24px;
   text-transform: uppercase;
   cursor: pointer;
 }
 
-.button--theme--dark {
-  background-color: var(--dark-theme-button);
-  border: none;
-  color: var(--dark-theme-button-text);
-}
-
 @media (hover: hover) {
-  .button--theme--dark:hover {
-    background-color: var(--dark-theme-button-hover);
+  .button:hover {
+    filter: brightness(1.25);
   }
 }
 
 .button--secondary {
   padding: 7px 12px;
-  background-color: var(--secondary-button);
-  border: 1px solid var(--secondary-button-background);
-  color: var(--secondary-button-text);
+  background-color: var(--secondary-button-background-color);
+  border: 1px solid var(--secondary-button-border-color);
+  color: var(--secondary-button-text-color);
   font-size: 16px;
 }

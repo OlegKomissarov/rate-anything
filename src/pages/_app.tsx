@@ -3,6 +3,7 @@ import '../styles/main.css';
 import Head from 'next/head';
 import { SessionProvider } from 'next-auth/react';
 import { trpc } from '../utils/trpcClient';
+import StarsBackground from '../components/layout/StarsBackground';
 
 const App = (props: any) => {
     const { Component, pageProps: { session, ...pageProps } } = props;
@@ -14,6 +15,7 @@ const App = (props: any) => {
         </Head>
         <div className="app">
             <Component {...pageProps} />
+            <StarsBackground />
         </div>
     </SessionProvider>;
 };

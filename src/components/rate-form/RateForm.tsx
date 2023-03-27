@@ -10,13 +10,14 @@ const RateForm: React.FC<{
     changeSubject: (subject: string) => void
     rate: number | string
     changeRate: (rate: number | string) => void
-}> = ({ rateInputRef, createRate, subject, changeSubject, rate, changeRate }) => {
+    removeRate: () => void
+}> = ({ rateInputRef, createRate, subject, changeSubject, rate, changeRate, removeRate }) => {
     const { data: session } = useSession();
 
     return <div className="form">
         {
             !!session?.user &&
-            <div className="user-name-label">{session.user.name}</div>
+            <div className="form__user-name-label">{session.user.name}</div>
         }
         <Input placeholder="Input what you wanna rate"
                className="form__input"
@@ -43,6 +44,12 @@ const RateForm: React.FC<{
         <Button onClick={createRate} className="form__button">
             RATE
         </Button>
+        {
+            session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL &&
+            <Button onClick={() => removeRate()} className="button--secondary">
+                REMOVE RATE
+            </Button>
+        }
     </div>;
 };
 
