@@ -32,8 +32,7 @@
   .login__button {
     top: auto;
     bottom: 8vw;
-    left: auto;
-    right: auto;
+    left: 5%;
     padding-top: 3vw;
     padding-bottom: 3vw;
     width: 90%;
