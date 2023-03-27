@@ -3,16 +3,13 @@
 }
 
 .rate-table {
+  margin-top: 40px;
   width: 50%;
-  flex: 1;
-}
-
-.rate-table__row {
-  padding-top: 5px;
-  padding-bottom: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  gap: 25px;
+  grid-template-columns: repeat(3, 1fr);
+  place-items: center;
+  text-align: center;
 }
 
 .rate-table__item {
@@ -23,16 +20,18 @@
   flex: 1;
   font-family: Gilroy-Medium;
   font-size: 24px;
+  justify-self: left;
+  text-align: left;
 }
 
 .rate-table__item--rate {
   flex: 1;
-  text-align: end;
   font-family: Gilroy-Medium;
   font-size: 24px;
 }
 
 .rate-table__item--users {
   flex: 3;
-  text-align: end;
+  justify-self: right;
+  text-align: right;
 }

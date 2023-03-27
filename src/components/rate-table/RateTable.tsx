@@ -10,7 +10,7 @@ const RateTable = () => {
         {
             !!(averageRateList && rateList)
             && averageRateList.map(averageRate =>
-                <div className="rate-table__row" key={averageRate.subject}>
+                <React.Fragment key={averageRate.subject}>
                     <div className="rate-table__item rate-table__item--name">
                         {averageRate.subject}
                     </div>
@@ -22,7 +22,7 @@ const RateTable = () => {
                             <div key={rate.useremail}>{rate.username}</div>
                         )}
                     </div>
-                </div>
+                </React.Fragment>
             )
         }
     </div>;
