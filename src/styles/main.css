@@ -34,19 +34,6 @@ a {
   display: none;
 }
 
-.app {
-  padding: 50px;
-  min-height: 100vh;
-  box-sizing: border-box;
-  background-color: var(--light-background-color);
-}
-
-@media (max-width: 640px) {
-  .app {
-    padding: 50px 20px;
-  }
-}
-
 .custom-scrollbar::-webkit-scrollbar {
   width: 7px;
   height: 7px;

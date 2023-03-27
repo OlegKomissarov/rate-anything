@@ -19,6 +19,20 @@
   grid-auto-columns: 1fr;
 }
 
+@media (max-width: 1000px) {
+  .main-page-grid {
+    grid-template-areas:
+    'header'
+    'form'
+    'table'
+    'chart';
+    grid-template-rows: initial;
+  }
+  .main-page-block--chart {
+    display: none;
+  }
+}
+
 .main-page-block {
   padding: 20px;
   /*box-shadow: rgba(25, 118, 210, 0.4) -5px 5px,*/
