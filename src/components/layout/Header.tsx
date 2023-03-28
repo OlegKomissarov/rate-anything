@@ -6,6 +6,7 @@ const Header: React.FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({ className, 
               href="/"
               rel="noopener noreferrer"
               className={getClassName('header', className)}
+              title="The project is in development. Even more cool features are coming."
     >
         Rate Anything
     </a>;
