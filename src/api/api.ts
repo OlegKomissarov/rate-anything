@@ -7,16 +7,19 @@ import superjson from 'superjson';
 import { ZodError } from 'zod';
 import { PrismaClient } from '@prisma/client';
 
+// todo: remove this, use prisma. remove @planetscale/database package
 const dbConnection = new Client({
     host: process.env.DATABASE_HOST,
     username: process.env.DATABASE_USERNAME,
     password: process.env.DATABASE_PASSWORD
 }).connection();
 
+export const prisma = new PrismaClient();
+
 export const createTRPCContext = async (opts: CreateNextContextOptions) => {
     const { req, res } = opts;
     const session = await getServerSession(req, res, authOptions);
-    return { session, dbConnection };
+    return { session, dbConnection, prisma };
 };
 
 export const trpc = initTRPC
@@ -55,8 +58,6 @@ const requireAdmin = trpc.middleware(({ ctx, next }) => {
 });
 
 export const publicProcedure = trpc.procedure;
-export const protectedProcedure = trpc.procedure.use(requireAuth);
-export const adminProcedure = trpc.procedure.use(requireAdmin);
+export const protectedProcedure = publicProcedure.use(requireAuth);
+export const adminProcedure = protectedProcedure.use(requireAdmin);
 export const createTRPCRouter = trpc.router;
-
-export const prisma = new PrismaClient();

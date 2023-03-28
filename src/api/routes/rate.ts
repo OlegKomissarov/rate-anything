@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { adminProcedure, createTRPCRouter, prisma, protectedProcedure, publicProcedure } from '../api';
+import { adminProcedure, createTRPCRouter, protectedProcedure, publicProcedure } from '../api';
 import {
     rateSubjectSchema, rateValueSchema, validateAverageRateList, validateRateList
 } from '../../utils/validations';
@@ -7,7 +7,7 @@ import { TRPCError } from '@trpc/server';
 
 export const rateRouter = createTRPCRouter({
     getRateList: publicProcedure
-        .query(async () => {
+        .query(async ({ ctx: { prisma } }) => {
             const rateList = await prisma.rates.findMany();
 
             if (validateRateList(rateList)) {

@@ -15,4 +15,3 @@ model rates {
   username  String @db.VarChar(255)
   useremail String @db.VarChar(255)
 }
-
