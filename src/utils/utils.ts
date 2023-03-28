@@ -1,5 +1,6 @@
 import { ZodError } from 'zod';
 import { TRPCClientError } from '@trpc/client';
+import { rate } from '@prisma/client';
 
 export const isClient = typeof window !== 'undefined';
 
@@ -64,18 +65,10 @@ const maxFontSize = 20;
 export const getFontSizeByNumber = (number: number) =>
     minFontSize + (number - minNumber) / (maxNumber - minNumber) * (maxFontSize - minFontSize);
 
-export interface Rate {
-    subject: string;
-    rate: number;
-    useremail: string;
-    username: string;
-    id: number;
-}
-
 export interface AverageRate {
     subject: string;
     rate: number;
 }
 
-export const getRatesOfSubject = (rateList: Rate[], subject: string) =>
+export const getRatesOfSubject = (rateList: rate[], subject: string) =>
     rateList.filter(rate => rate.subject === subject);

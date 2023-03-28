@@ -1,30 +1,20 @@
 import { z } from 'zod';
 import { adminProcedure, createTRPCRouter, protectedProcedure, publicProcedure } from '../api';
-import {
-    rateSubjectSchema, rateValueSchema, validateAverageRateList, validateRateList
-} from '../../utils/validations';
+import { rateSubjectSchema, rateValueSchema, validateAverageRateList } from '../../utils/validations';
 import { TRPCError } from '@trpc/server';
 
 export const rateRouter = createTRPCRouter({
     getRateList: publicProcedure
         .query(async ({ ctx: { prisma } }) => {
-            const rateList = await prisma.rates.findMany();
-
-            if (validateRateList(rateList)) {
-                return rateList;
-            }
-            throw new TRPCError({
-                code: 'INTERNAL_SERVER_ERROR',
-                message: 'Received invalid rate list from the database'
-            });
+            return await prisma.rate.findMany();
         }),
     getAverageRateList: publicProcedure
         .input(z.object({ maxRateSubjectLength: z.number().int().min(1).optional() }).optional())
         .query(async ({ ctx: { dbConnection }, input }) => {
             const query = input?.maxRateSubjectLength
                 ? `SELECT subject, CAST(ROUND(AVG(rate), 2) as FLOAT)
-                   as rate FROM rates WHERE CHAR_LENGTH(subject) <= ? GROUP BY subject`
-                : 'SELECT subject, CAST(ROUND(AVG(rate), 2) as FLOAT) as rate FROM rates GROUP BY subject';
+                   as rate FROM rate WHERE CHAR_LENGTH(subject) <= ? GROUP BY subject`
+                : 'SELECT subject, CAST(ROUND(AVG(rate), 2) as FLOAT) as rate FROM rate GROUP BY subject';
             const averageRateListResult = await dbConnection.execute(query, [input?.maxRateSubjectLength]);
 
             if (validateAverageRateList(averageRateListResult.rows)) {
@@ -39,7 +29,7 @@ export const rateRouter = createTRPCRouter({
         .input(z.object({ subject: rateSubjectSchema, rate: rateValueSchema }))
         .mutation(async ({ input: { subject, rate: rateValue }, ctx: { session, dbConnection } }) => {
             const existingRateData = await dbConnection.execute(
-                'SELECT 1 FROM rates WHERE useremail = ? AND subject = ?;',
+                'SELECT 1 FROM rate WHERE useremail = ? AND subject = ?;',
                 [session.user.email, subject]
             );
             if (existingRateData.rows.length) {
@@ -47,7 +37,7 @@ export const rateRouter = createTRPCRouter({
             } else {
                 const modifiedSubject = subject.charAt(0).toUpperCase() + subject.slice(1).toLowerCase();
                 return await dbConnection.execute(
-                    'INSERT INTO rates (`subject`, `rate`, `useremail`, `username`) VALUES (?, ?, ?, ?);',
+                    'INSERT INTO rate (`subject`, `rate`, `useremail`, `username`) VALUES (?, ?, ?, ?);',
                     [modifiedSubject, rateValue, session.user.email, session.user.name]
                 );
             }
@@ -55,5 +45,5 @@ export const rateRouter = createTRPCRouter({
     removeRate: adminProcedure
         .input(z.object({ subject: rateSubjectSchema }))
         .mutation(async ({ input: { subject }, ctx: { dbConnection } }) =>
-            await dbConnection.execute('DELETE FROM rates WHERE subject = ?;', [subject]))
+            await dbConnection.execute('DELETE FROM rate WHERE subject = ?;', [subject]))
 });

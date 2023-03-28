@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AverageRate, getClassName, Rate } from '../../utils/utils';
+import { AverageRate, getClassName } from '../../utils/utils';
+import { rate } from '@prisma/client';
 
 const RateCard: React.FC<{
     averageRate: AverageRate
-    ratesOfSubject: Rate[]
+    ratesOfSubject: rate[]
     parentRef: React.RefObject<HTMLDivElement>
     withTriangle?: boolean
     showDetails?: boolean,

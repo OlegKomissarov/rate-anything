@@ -1,6 +1,5 @@
 :root {
-  --rate-card-background-color: #121111;
-  --rate-card-triangle-color: #FFFFFF;
+  --rate-card-background-color: #FFFFFF;
 }
 
 .rate-card {
@@ -36,7 +35,7 @@
   border-width: 10px 10px 10px 0;
   border-style: solid;
   border-color: transparent;
-  border-right-color: var(--rate-card-triangle-color);
+  border-right-color: var(--rate-card-background-color);
 }
 
 .rate-card--drop-left {

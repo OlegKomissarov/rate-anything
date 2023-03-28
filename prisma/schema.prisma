@@ -8,7 +8,7 @@ datasource db {
   relationMode = "prisma"
 }
 
-model rates {
+model rate {
   id        Int    @id @default(autoincrement())
   subject   String @db.VarChar(255)
   rate      Int
