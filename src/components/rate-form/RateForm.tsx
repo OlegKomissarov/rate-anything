@@ -10,8 +10,8 @@ const RateForm: React.FC<{
     changeSubject: (subject: string) => void
     rate: number | string
     changeRate: (rate: number | string) => void
-    removeRate: () => void
-}> = ({ rateInputRef, createRate, subject, changeSubject, rate, changeRate, removeRate }) => {
+    removeRatesBySubject: () => void
+}> = ({ rateInputRef, createRate, subject, changeSubject, rate, changeRate, removeRatesBySubject }) => {
     const { data: session } = useSession();
 
     return <div className="form">
@@ -46,7 +46,7 @@ const RateForm: React.FC<{
         </Button>
         {
             session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL &&
-            <Button onClick={() => removeRate()} className="button--secondary">
+            <Button onClick={removeRatesBySubject} className="button--secondary">
                 REMOVE RATE
             </Button>
         }

@@ -32,23 +32,30 @@ export const rateRouter = createTRPCRouter({
         }),
     createRate: protectedProcedure
         .input(z.object({ subject: rateSubjectSchema, rate: rateValueSchema }))
-        .mutation(async ({ input: { subject, rate: rateValue }, ctx: { session, dbConnection } }) => {
-            const existingRateData = await dbConnection.execute(
-                'SELECT 1 FROM rate WHERE useremail = ? AND subject = ?;',
-                [session.user.email, subject]
-            );
-            if (existingRateData.rows.length) {
+        .mutation(async ({ input: { subject, rate: rateValue }, ctx: { session, prisma } }) => {
+            const existingRateData = await prisma.rate.findFirst({
+                where: {
+                    useremail: session.useremail,
+                    subject: subject
+                }
+            });
+            if (existingRateData) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: `You have already rated ${subject}.` });
             } else {
                 const modifiedSubject = subject.charAt(0).toUpperCase() + subject.slice(1).toLowerCase();
-                return await dbConnection.execute(
-                    'INSERT INTO rate (`subject`, `rate`, `useremail`, `username`) VALUES (?, ?, ?, ?);',
-                    [modifiedSubject, rateValue, session.user.email, session.user.name]
-                );
+                return await prisma.rate.create({
+                    data: {
+                        subject: modifiedSubject,
+                        rate: rateValue,
+                        useremail: session.useremail,
+                        username: session.username
+                    }
+                });
             }
         }),
-    removeRate: adminProcedure
+    removeRatesBySubject: adminProcedure
         .input(z.object({ subject: rateSubjectSchema }))
-        .mutation(async ({ input: { subject }, ctx: { dbConnection } }) =>
-            await dbConnection.execute('DELETE FROM rate WHERE subject = ?;', [subject]))
+        .mutation(async ({ input: { subject }, ctx: { prisma } }) => {
+            return await prisma.rate.deleteMany({ where: { subject } });
+        })
 });

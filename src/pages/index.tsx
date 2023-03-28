@@ -50,7 +50,7 @@ const RatePage = () => {
         }
     };
 
-    const removeRateMutation = trpc.rate.removeRate.useMutation();
+    const removeRatesBySubjectMutation = trpc.rate.removeRatesBySubject.useMutation();
 
     const checkIfSubjectExists = (averageRateList: AverageRate[] | undefined, subject: string) => {
         if (averageRateList?.find(averageRate => averageRate.subject === subject)) {
@@ -60,9 +60,9 @@ const RatePage = () => {
         return false;
     };
 
-    const removeRate = () => {
+    const removeRatesBySubject = () => {
         if (validateRateSubject(subject) && checkIfSubjectExists(averageRateList, subject)) {
-            removeRateMutation.mutate({ subject }, { onSuccess: onMutationSuccess });
+            removeRatesBySubjectMutation.mutate({ subject }, { onSuccess: onMutationSuccess });
         }
     };
 
@@ -87,7 +87,7 @@ const RatePage = () => {
                       }
                       rate={rate}
                       changeRate={setRate}
-                      removeRate={removeRate}
+                      removeRatesBySubject={removeRatesBySubject}
             />
         </div>
         <div className="main-page-block main-page-block--chart">
