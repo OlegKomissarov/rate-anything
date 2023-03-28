@@ -9,16 +9,21 @@ export const rateRouter = createTRPCRouter({
             return await prisma.rate.findMany();
         }),
     getAverageRateList: publicProcedure
-        .input(z.object({ maxRateSubjectLength: z.number().int().min(1).optional() }).optional())
-        .query(async ({ ctx: { dbConnection }, input }) => {
-            const query = input?.maxRateSubjectLength
-                ? `SELECT subject, CAST(ROUND(AVG(rate), 2) as FLOAT)
-                   as rate FROM rate WHERE CHAR_LENGTH(subject) <= ? GROUP BY subject`
-                : 'SELECT subject, CAST(ROUND(AVG(rate), 2) as FLOAT) as rate FROM rate GROUP BY subject';
-            const averageRateListResult = await dbConnection.execute(query, [input?.maxRateSubjectLength]);
-
-            if (validateAverageRateList(averageRateListResult.rows)) {
-                return averageRateListResult.rows;
+        .query(async ({ ctx: { prisma } }) => {
+            const averageRateListResult = await prisma.rate.groupBy({
+                by: ['subject'],
+                _avg: {
+                    rate: true
+                }
+            });
+            const averageRateList = averageRateListResult.map(averageRateResult => ({
+                subject: averageRateResult.subject,
+                rate: averageRateResult._avg.rate
+                    ? Math.round(averageRateResult._avg.rate * 100) / 100
+                    : averageRateResult._avg.rate
+            }));
+            if (validateAverageRateList(averageRateList)) {
+                return averageRateList;
             }
             throw new TRPCError({
                 code: 'INTERNAL_SERVER_ERROR',

@@ -5,13 +5,12 @@ import useBackgroundData from '../../utils/useBackgroundData';
 import useBodyNoScrollBar from '../../utils/useBodyNoScrollBar';
 import { trpc } from '../../utils/trpcClient';
 
-const maxRateSubjectLength = 12;
-
 const StarsBackground = () => {
     const { backgroundData, generateBackgroundData } = useBackgroundData();
     const { backgroundSize, itemPositions } = backgroundData;
 
-    const { data: averageRateList } = trpc.rate.getAverageRateList.useQuery({ maxRateSubjectLength },
+    const { data: averageRateList } = trpc.rate.getAverageRateList.useQuery(
+        undefined,
         { onSuccess: averageRateList => { generateBackgroundData(averageRateList.length); } }
     );
 
