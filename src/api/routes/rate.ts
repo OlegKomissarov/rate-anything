@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { adminProcedure, createTRPCRouter, protectedProcedure, publicProcedure } from '../api';
+import { adminProcedure, createTRPCRouter, prisma, protectedProcedure, publicProcedure } from '../api';
 import {
     rateSubjectSchema, rateValueSchema, validateAverageRateList, validateRateList
 } from '../../utils/validations';
@@ -7,11 +7,11 @@ import { TRPCError } from '@trpc/server';
 
 export const rateRouter = createTRPCRouter({
     getRateList: publicProcedure
-        .query(async ({ ctx: { dbConnection } }) => {
-            const rateListResult = await dbConnection.execute('SELECT * from rates');
+        .query(async () => {
+            const rateList = await prisma.rates.findMany();
 
-            if (validateRateList(rateListResult.rows)) {
-                return rateListResult.rows;
+            if (validateRateList(rateList)) {
+                return rateList;
             }
             throw new TRPCError({
                 code: 'INTERNAL_SERVER_ERROR',

@@ -5,6 +5,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '../pages/api/auth/[...nextauth]';
 import superjson from 'superjson';
 import { ZodError } from 'zod';
+import { PrismaClient } from '@prisma/client';
 
 const dbConnection = new Client({
     host: process.env.DATABASE_HOST,
@@ -57,3 +58,5 @@ export const publicProcedure = trpc.procedure;
 export const protectedProcedure = trpc.procedure.use(requireAuth);
 export const adminProcedure = trpc.procedure.use(requireAdmin);
 export const createTRPCRouter = trpc.router;
+
+export const prisma = new PrismaClient();
