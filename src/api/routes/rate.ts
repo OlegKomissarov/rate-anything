@@ -10,7 +10,7 @@ export const rateRouter = createTRPCRouter({
         }),
     getAverageRateList: publicProcedure
         .query(async ({ ctx: { prisma } }) => {
-            return await prisma.averageRate.findMany();
+            return await prisma.averageRate.findMany({ include: { rates: true } });
         }),
     createRate: protectedProcedure
         .input(z.object({ subject: rateSubjectSchema, rate: rateValueSchema }))
