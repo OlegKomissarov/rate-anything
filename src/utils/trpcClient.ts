@@ -11,8 +11,8 @@ const getBaseUrl = () => {
     return process.env.URL;
 };
 
-const shouldRetry = (error: unknown) =>
-    !(error instanceof TRPCClientError) || error.data.code === 'INTERNAL_SERVER_ERROR';
+const shouldRetry = (failureCount: number, error: unknown) =>
+    failureCount < 2 && (!(error instanceof TRPCClientError) || error.data.code === 'INTERNAL_SERVER_ERROR');
 
 export const trpc = createTRPCNext<AppRouter>({
     config: () => ({
@@ -27,11 +27,11 @@ export const trpc = createTRPCNext<AppRouter>({
                 queries: {
                     refetchOnWindowFocus: false,
                     onError: error => showError(error),
-                    retry: (failureCount, error) => shouldRetry(error)
+                    retry: shouldRetry
                 },
                 mutations: {
                     onError: error => showError(error),
-                    retry: (failureCount, error) => shouldRetry(error)
+                    retry: shouldRetry
                 }
             }
         }

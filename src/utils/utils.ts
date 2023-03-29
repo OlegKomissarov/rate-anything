@@ -1,6 +1,7 @@
 import { ZodError } from 'zod';
 import { TRPCClientError } from '@trpc/client';
 import { rate } from '@prisma/client';
+import { toast } from 'react-toastify';
 
 export const isClient = typeof window !== 'undefined';
 
@@ -19,7 +20,7 @@ export const getClassName = (...classNames: Array<string | boolean | undefined>)
 };
 
 export const showError = (error: unknown, validationFieldName?: string, validationValue?: unknown) => {
-    let errorOutput = error;
+    let errorOutput = error + '';
     if (error instanceof TRPCClientError && error.data.code === 'BAD_REQUEST' && error.data.zodError) { // backend validation error
         errorOutput = 'Validation error occurred. ';
         errorOutput += Object.keys(error.data.zodError.fieldErrors)
@@ -36,11 +37,12 @@ export const showError = (error: unknown, validationFieldName?: string, validati
         errorOutput += `. `;
         errorOutput += error.issues.map(issue => issue.message).join('; ');
         errorOutput += `.`;
+    } else if (error instanceof TRPCClientError && error.data.code === 'INTERNAL_SERVER_ERROR') {
+        errorOutput = `Internal Server Error occurred for the request ${error.data.path}`;
     }
     if (isClient) {
-        alert(errorOutput);
+        toast(errorOutput, { toastId: errorOutput });
     }
-    console.log(errorOutput);
 };
 
 export interface Position {

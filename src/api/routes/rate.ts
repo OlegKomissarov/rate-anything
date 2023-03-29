@@ -10,13 +10,13 @@ export const rateRouter = createTRPCRouter({
         }),
     getAverageRateList: publicProcedure
         .query(async ({ ctx: { prisma } }) => {
-            const averageRateListResult = await prisma.rate.groupBy({
+            const averageRateListData = await prisma.rate.groupBy({
                 by: ['subject'],
                 _avg: {
                     rate: true
                 }
             });
-            const averageRateList = averageRateListResult.map(averageRateResult => ({
+            const averageRateList = averageRateListData.map(averageRateResult => ({
                 subject: averageRateResult.subject,
                 rate: averageRateResult._avg.rate
                     ? Math.round(averageRateResult._avg.rate * 100) / 100
