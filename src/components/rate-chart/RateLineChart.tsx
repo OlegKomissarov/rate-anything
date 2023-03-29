@@ -5,7 +5,6 @@ import { trpc } from '../../utils/trpcClient';
 const RateLineChart: React.FC<{
     changeSubject: (subject: string) => void
 }> = ({ changeSubject }) => {
-    const { data: rateList } = trpc.rate.getRateList.useQuery();
     const { data: averageRateList } = trpc.rate.getAverageRateList.useQuery();
 
     return <div className="line-chart">
@@ -21,7 +20,7 @@ const RateLineChart: React.FC<{
             )
         }
         {
-            !!(averageRateList && rateList)
+            !!averageRateList
             && averageRateList.map(averageRate =>
                 <RateLineChartItem key={averageRate.subject}
                                    averageRate={averageRate}

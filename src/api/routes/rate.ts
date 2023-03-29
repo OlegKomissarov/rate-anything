@@ -4,10 +4,6 @@ import { rateSubjectSchema, rateValueSchema } from '../../utils/validations';
 import { TRPCError } from '@trpc/server';
 
 export const rateRouter = createTRPCRouter({
-    getRateList: publicProcedure
-        .query(async ({ ctx: { prisma } }) => {
-            return await prisma.rate.findMany();
-        }),
     getAverageRateList: publicProcedure
         .query(async ({ ctx: { prisma } }) => {
             return await prisma.averageRate.findMany({ include: { rates: true } });

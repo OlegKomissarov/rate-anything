@@ -35,7 +35,6 @@ const RatePage = () => {
         setRate('');
     };
     const invalidateRateLists = () => {
-        queryClient.invalidateQueries({ queryKey: getQueryKey(trpc.rate.getRateList) });
         queryClient.invalidateQueries({ queryKey: getQueryKey(trpc.rate.getAverageRateList) });
     };
     const onMutationSuccess = () => {

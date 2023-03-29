@@ -2,12 +2,11 @@ import React from 'react';
 import { trpc } from '../../utils/trpcClient';
 
 const RateTable = () => {
-    const { data: rateList } = trpc.rate.getRateList.useQuery();
     const { data: averageRateList } = trpc.rate.getAverageRateList.useQuery();
 
     return <div className="rate-table custom-scrollbar">
         {
-            !!(averageRateList && rateList)
+            !!averageRateList
             && averageRateList.map(averageRate =>
                 <React.Fragment key={averageRate.subject}>
                     <div className="rate-table__item rate-table__item--name">
