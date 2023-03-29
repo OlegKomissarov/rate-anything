@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { getClassName } from '../../utils/utils';
-import { average_rate, rate } from '@prisma/client';
+import { AverageRate, Rate } from '@prisma/client';
 
 const RateCard: React.FC<{
-    averageRate: average_rate
-    ratesOfSubject: rate[]
+    averageRate: AverageRate
+    ratesOfSubject: Rate[]
     parentRef: React.RefObject<HTMLDivElement>
     withTriangle?: boolean
     showDetails?: boolean,
@@ -48,8 +48,8 @@ const RateCard: React.FC<{
             <b>
                 {
                     showDetails
-                        ? `${averageRate.subject}: ${averageRate.average_rate}`
-                        : averageRate.average_rate
+                        ? `${averageRate.subject}: ${averageRate.averageRate}`
+                        : averageRate.averageRate
                 }
             </b>
         </div>
@@ -58,10 +58,10 @@ const RateCard: React.FC<{
             <div>
                 {
                     ratesOfSubject.map(rate =>
-                        <div key={rate.useremail}
+                        <div key={rate.userEmail}
                              className="rate-card__unbreakable-string"
                         >
-                            {rate.username}
+                            {rate.userName}
                         </div>
                     )
                 }

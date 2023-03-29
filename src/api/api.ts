@@ -40,8 +40,8 @@ const requireAuth = trpc.middleware(({ ctx, next }) => {
             session: {
                 ...ctx.session,
                 user: ctx.session.user,
-                useremail: ctx.session.user.email,
-                username: ctx.session.user.name
+                userEmail: ctx.session.user.email,
+                userName: ctx.session.user.name
             }
         }
     });
@@ -59,8 +59,8 @@ const requireAdmin = trpc.middleware(({ ctx, next }) => {
             session: {
                 ...ctx.session,
                 user: ctx.session.user,
-                useremail: ctx.session.user.email,
-                username: ctx.session.user.name
+                userEmail: ctx.session.user.email,
+                userName: ctx.session.user.name
             }
         }
     });

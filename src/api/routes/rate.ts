@@ -10,38 +10,38 @@ export const rateRouter = createTRPCRouter({
         }),
     getAverageRateList: publicProcedure
         .query(async ({ ctx: { prisma } }) => {
-            return await prisma.average_rate.findMany();
+            return await prisma.averageRate.findMany();
         }),
     createRate: protectedProcedure
         .input(z.object({ subject: rateSubjectSchema, rate: rateValueSchema }))
         .mutation(async ({ input: { subject, rate: rateValue }, ctx: { session, prisma } }) => {
-            const existingRateData = await prisma.rate.findFirst({ where: { useremail: session.useremail, subject } });
+            const existingRateData = await prisma.rate.findFirst({ where: { userEmail: session.userEmail, subject } });
             if (existingRateData) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: `You have already rated ${subject}.` });
             } else {
                 const modifiedSubject = subject.charAt(0).toUpperCase() + subject.slice(1).toLowerCase();
-                const existingAverageRate = await prisma.average_rate.findFirst({ where: { subject } });
+                const existingAverageRate = await prisma.averageRate.findFirst({ where: { subject } });
                 let updateOrCreateAverageRate;
                 if (existingAverageRate) {
                     const newAverageRate = Math.round(
-                        (existingAverageRate.average_rate * existingAverageRate.rates_amount + rateValue)
-                        / (existingAverageRate.rates_amount + 1)
+                        (existingAverageRate.averageRate * existingAverageRate.ratesAmount + rateValue)
+                        / (existingAverageRate.ratesAmount + 1)
                     * 100) / 100;
-                    updateOrCreateAverageRate = prisma.average_rate.update({
+                    updateOrCreateAverageRate = prisma.averageRate.update({
                         where: { subject: modifiedSubject },
                         data: {
-                            average_rate: newAverageRate,
-                            rates_amount: {
+                            averageRate: newAverageRate,
+                            ratesAmount: {
                                 increment: 1
                             }
                         }
                     });
                 } else {
-                    updateOrCreateAverageRate = prisma.average_rate.create({
+                    updateOrCreateAverageRate = prisma.averageRate.create({
                         data: {
                             subject: modifiedSubject,
-                            average_rate: rateValue,
-                            rates_amount: 1
+                            averageRate: rateValue,
+                            ratesAmount: 1
                         }
                     });
                 }
@@ -49,8 +49,8 @@ export const rateRouter = createTRPCRouter({
                     data: {
                         subject: modifiedSubject,
                         rate: rateValue,
-                        useremail: session.useremail,
-                        username: session.username
+                        userEmail: session.userEmail,
+                        userName: session.userName
                     }
                 });
                 return await Promise.all([createRate, updateOrCreateAverageRate]);
@@ -61,7 +61,7 @@ export const rateRouter = createTRPCRouter({
         .mutation(async ({ input: { subject }, ctx: { prisma } }) => {
             return await Promise.all([
                 prisma.rate.deleteMany({ where: { subject } }),
-                prisma.average_rate.deleteMany({ where: { subject } })
+                prisma.averageRate.deleteMany({ where: { subject } })
             ]);
         })
 });

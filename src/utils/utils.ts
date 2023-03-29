@@ -1,6 +1,5 @@
 import { ZodError } from 'zod';
 import { TRPCClientError } from '@trpc/client';
-import { rate } from '@prisma/client';
 import { toast } from 'react-toastify';
 
 export const isClient = typeof window !== 'undefined';

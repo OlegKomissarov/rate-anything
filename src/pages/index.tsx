@@ -10,7 +10,7 @@ import { trpc } from '../utils/trpcClient';
 import { getQueryKey } from '@trpc/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 import { showError } from '../utils/utils';
-import { average_rate } from '@prisma/client';
+import { AverageRate } from '@prisma/client';
 
 const RatePage = () => {
     const queryClient = useQueryClient();
@@ -53,7 +53,7 @@ const RatePage = () => {
 
     const removeRatesBySubjectMutation = trpc.rate.removeRatesBySubject.useMutation();
 
-    const checkIfSubjectExists = (averageRateList: average_rate[] | undefined, subject: string) => {
+    const checkIfSubjectExists = (averageRateList: AverageRate[] | undefined, subject: string) => {
         if (averageRateList?.find(averageRate => averageRate.subject === subject)) {
             return true;
         }

@@ -8,18 +8,18 @@ datasource db {
   relationMode = "prisma"
 }
 
-model rate {
+model Rate {
   id        Int    @id @default(autoincrement())
   subject   String @db.VarChar(255)
   rate      Int
-  username  String @db.VarChar(255)
-  useremail String @db.VarChar(255)
+  userName  String @db.VarChar(255)
+  userEmail String @db.VarChar(255)
 
   @@index([subject], map: "idx_rate_subject")
 }
 
-model average_rate {
-  subject      String @id @db.VarChar(255)
-  average_rate Float  @db.Float
-  rates_amount Int
+model AverageRate {
+  subject     String @id @db.VarChar(255)
+  averageRate Float  @db.Float
+  ratesAmount Int
 }
