@@ -3,14 +3,13 @@ import { getClassName } from '../../utils/utils';
 import { AverageRate, Rate } from '@prisma/client';
 
 const RateCard: React.FC<{
-    averageRate: AverageRate
-    ratesOfSubject: Rate[]
+    averageRate: AverageRate & { rates: Rate[] }
     parentRef: React.RefObject<HTMLDivElement>
     withTriangle?: boolean
     showDetails?: boolean,
     color?: string
 }> = ({
-    averageRate, ratesOfSubject, parentRef, withTriangle, showDetails, color
+    averageRate, parentRef, withTriangle, showDetails, color
 }) => {
     const rateCardRef = useRef<HTMLDivElement>(null);
     const [shouldDropLeft, setShouldDropLeft] = useState(false);
@@ -57,7 +56,7 @@ const RateCard: React.FC<{
             showDetails &&
             <div>
                 {
-                    ratesOfSubject.map(rate =>
+                    averageRate.rates.map(rate =>
                         <div key={rate.userEmail}
                              className="rate-card__unbreakable-string"
                         >

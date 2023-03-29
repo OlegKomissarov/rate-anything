@@ -26,7 +26,6 @@ const RateLineChart: React.FC<{
                 <RateLineChartItem key={averageRate.subject}
                                    averageRate={averageRate}
                                    onClickRateItem={() => changeSubject(averageRate.subject)}
-                                   ratesOfSubject={[]}
                 />
             )
         }
