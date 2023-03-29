@@ -14,4 +14,12 @@ model rate {
   rate      Int
   username  String @db.VarChar(255)
   useremail String @db.VarChar(255)
+
+  @@index([subject], map: "idx_rate_subject")
+}
+
+model average_rate {
+  subject      String @id @db.VarChar(255)
+  average_rate Float  @db.Float
+  rates_amount Int
 }

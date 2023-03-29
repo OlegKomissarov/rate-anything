@@ -66,11 +66,3 @@ const minFontSize = 7;
 const maxFontSize = 20;
 export const getFontSizeByNumber = (number: number) =>
     minFontSize + (number - minNumber) / (maxNumber - minNumber) * (maxFontSize - minFontSize);
-
-export interface AverageRate {
-    subject: string;
-    rate: number;
-}
-
-export const getRatesOfSubject = (rateList: rate[], subject: string) =>
-    rateList.filter(rate => rate.subject === subject);

@@ -1,6 +1,5 @@
 import React from 'react';
 import RateLineChartItem from './RateLineChartItem';
-import { getRatesOfSubject } from '../../utils/utils';
 import { trpc } from '../../utils/trpcClient';
 
 const RateLineChart: React.FC<{
@@ -27,7 +26,7 @@ const RateLineChart: React.FC<{
                 <RateLineChartItem key={averageRate.subject}
                                    averageRate={averageRate}
                                    onClickRateItem={() => changeSubject(averageRate.subject)}
-                                   ratesOfSubject={getRatesOfSubject(rateList, averageRate.subject)}
+                                   ratesOfSubject={[]}
                 />
             )
         }

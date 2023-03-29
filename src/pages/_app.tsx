@@ -22,7 +22,7 @@ const App = (props: any) => {
         <ToastContainer autoClose={false}
                         transition={Slide}
                         hideProgressBar
-                        position="top-center"
+                        position="top-left"
                         limit={3}
         />
     </SessionProvider>;

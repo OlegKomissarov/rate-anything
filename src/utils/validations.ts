@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { AverageRate, showError } from './utils';
+import { showError } from './utils';
 
 export const validate = <T>(schema: z.Schema, fieldName: string, value: unknown): value is T => {
     try {
@@ -19,9 +19,3 @@ export const rateValueSchema = z.number().min(-10).max(10);
 export const validateRateValue = (rate: unknown): rate is number =>
     validate<number>(rateValueSchema, 'rate value', rate);
 
-export const averageRateListSchema = z.array(z.object({
-    subject: rateSubjectSchema,
-    rate: rateValueSchema
-}));
-export const validateAverageRateList = (averageRateList: unknown): averageRateList is AverageRate[] =>
-    validate<AverageRate[]>(averageRateListSchema, 'average rate list', averageRateList);
