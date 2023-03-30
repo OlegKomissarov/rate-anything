@@ -9,8 +9,6 @@ import RateLineChart from '../components/rate-chart/RateLineChart';
 import { trpc } from '../utils/trpcClient';
 import { getQueryKey } from '@trpc/react-query';
 import { useQueryClient } from '@tanstack/react-query';
-import { showError } from '../utils/utils';
-import { AverageRate } from '@prisma/client';
 
 const RatePage = () => {
     const queryClient = useQueryClient();
@@ -24,8 +22,6 @@ const RatePage = () => {
             router.push('login');
         }
     });
-
-    const { data: averageRateList } = trpc.rate.getAverageRateList.useQuery();
 
     const [subject, setSubject] = useState('');
     const [rate, setRate] = useState<number | string>('');
@@ -52,16 +48,8 @@ const RatePage = () => {
 
     const removeRatesBySubjectMutation = trpc.rate.removeRatesBySubject.useMutation();
 
-    const checkIfSubjectExists = (averageRateList: AverageRate[] | undefined, subject: string) => {
-        if (averageRateList?.find(averageRate => averageRate.subject === subject)) {
-            return true;
-        }
-        showError('There is no such subject. Please provide an existing subject in the input above.');
-        return false;
-    };
-
     const removeRatesBySubject = () => {
-        if (validateRateSubject(subject) && checkIfSubjectExists(averageRateList, subject)) {
+        if (validateRateSubject(subject)) {
             removeRatesBySubjectMutation.mutate({ subject }, { onSuccess: onMutationSuccess });
         }
     };

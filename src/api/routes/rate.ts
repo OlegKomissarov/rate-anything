@@ -5,8 +5,27 @@ import { TRPCError } from '@trpc/server';
 
 export const rateRouter = createTRPCRouter({
     getAverageRateList: publicProcedure
-        .query(async ({ ctx: { prisma } }) => {
-            return await prisma.averageRate.findMany({ include: { rates: true } });
+        .input(z.object({
+            limit: z.number().min(1).max(1000).nullish(),
+            cursor: z.string().nullish()
+        }))
+        .query(async ({ input: { cursor, limit: inputLimit }, ctx: { prisma } }) => {
+            const limit = inputLimit ?? 100;
+            let nextCursor: typeof cursor | undefined = undefined;
+            const averageRateList = await prisma.averageRate.findMany({
+                cursor: cursor ? { subject: cursor } : undefined,
+                take: limit + 1,
+                orderBy: { subject: 'asc' },
+                include: { rates: true }
+            });
+            if (averageRateList.length > limit) {
+                const nextItem = averageRateList.pop();
+                nextCursor = nextItem!.subject;
+            }
+            return {
+                nextCursor,
+                data: averageRateList
+            };
         }),
     createRate: protectedProcedure
         .input(z.object({ subject: rateSubjectSchema, rate: rateValueSchema }))

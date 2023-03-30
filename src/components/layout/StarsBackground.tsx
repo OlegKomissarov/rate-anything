@@ -9,9 +9,13 @@ const StarsBackground = () => {
     const { backgroundData, generateBackgroundData } = useBackgroundData();
     const { backgroundSize, itemPositions } = backgroundData;
 
-    const { data: averageRateList } = trpc.rate.getAverageRateList.useQuery(
-        undefined,
-        { onSuccess: averageRateList => { generateBackgroundData(averageRateList.length); } }
+    const { data: averageRateListResponse } = trpc.rate.getAverageRateList.useQuery(
+        { limit: 500 },
+        {
+            onSuccess: averageRateListResponse => {
+                generateBackgroundData(averageRateListResponse.data.length);
+            }
+        }
     );
 
     useEffect(() => {
@@ -32,8 +36,8 @@ const StarsBackground = () => {
     >
         <div className="rate-stars-container">
             {
-                itemPositions?.length === averageRateList?.length
-                && averageRateList.map((averageRate, index) =>
+                averageRateListResponse?.data.length === itemPositions?.length
+                && averageRateListResponse.data.map((averageRate, index) =>
                     <RateStar key={averageRate.subject}
                               averageRate={averageRate}
                               leftPosition={itemPositions[index].x}

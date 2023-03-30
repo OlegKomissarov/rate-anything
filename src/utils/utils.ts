@@ -21,10 +21,12 @@ export const getClassName = (...classNames: Array<string | boolean | undefined>)
 export const showError = (error: unknown, validationFieldName?: string, validationValue?: unknown) => {
     let errorOutput = error + '';
     if (error instanceof TRPCClientError && error.data.code === 'BAD_REQUEST' && error.data.zodError) { // backend validation error
-        errorOutput = 'Validation error occurred. ';
-        errorOutput += Object.keys(error.data.zodError.fieldErrors)
-            .map(errorSubject => `${errorSubject}: ${error.data.zodError.fieldErrors[errorSubject]}`).join('; ');
-        errorOutput += `.`;
+        errorOutput = `Validation error occurred for request ${error.data.path}. `;
+        if (error.data.zodError.fieldErrors.length) {
+            errorOutput += Object.keys(error.data.zodError.fieldErrors)
+                .map(errorSubject => `${errorSubject}: ${error.data.zodError.fieldErrors[errorSubject]}`).join('; ');
+            errorOutput += `.`;
+        }
     } else if (error instanceof ZodError) { // frontend validation error
         errorOutput = `Validation error occurred`;
         if (validationFieldName !== undefined) {
