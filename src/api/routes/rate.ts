@@ -8,17 +8,17 @@ export const rateRouter = createTRPCRouter({
         .input(z.object({
             limit: z.number().min(1).max(1000).nullish(),
             cursor: z.string().nullish(),
-            includeRates: z.boolean()
+            includePlainRates: z.boolean()
         }))
         .query(async ({ input, ctx: { prisma } }) => {
-            const { cursor, limit: inputLimit, includeRates } = input;
+            const { cursor, limit: inputLimit, includePlainRates } = input;
             const limit = inputLimit ?? 100;
             let nextCursor: typeof cursor | undefined = undefined;
             const averageRateList = await prisma.averageRate.findMany({
                 cursor: cursor ? { subject: cursor } : undefined,
                 take: limit + 1,
                 orderBy: { subject: 'asc' },
-                include: { rates: includeRates }
+                include: { rates: includePlainRates }
             });
             if (averageRateList.length > limit) {
                 const nextItem = averageRateList.pop();

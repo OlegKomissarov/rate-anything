@@ -6,7 +6,7 @@ const RateTable = () => {
     const { ref: inViewRef, inView } = useInView();
 
     const { data: averageRateList, fetchNextPage } = trpc.rate.getAverageRateList.useInfiniteQuery(
-        { limit: 10, includeRates: true },
+        { limit: 10, includePlainRates: true },
         { getNextPageParam: lastPage => lastPage.nextCursor }
     );
 

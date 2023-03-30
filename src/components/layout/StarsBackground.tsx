@@ -10,7 +10,10 @@ const StarsBackground = () => {
     const { backgroundSize, itemPositions } = backgroundData;
 
     const { data: averageRateListResponse } = trpc.rate.getAverageRateList.useQuery(
-        { limit: 500, includeRates: false },
+        {
+            limit: 500,
+            includePlainRates: false
+        },
         {
             onSuccess: averageRateListResponse => {
                 generateBackgroundData(averageRateListResponse.data.length);

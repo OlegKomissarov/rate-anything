@@ -5,7 +5,10 @@ import { trpc } from '../../utils/trpcClient';
 const RateLineChart: React.FC<{
     changeSubject: (subject: string) => void
 }> = ({ changeSubject }) => {
-    const { data: averageRateListResponse } = trpc.rate.getAverageRateList.useQuery({ limit: 500, includeRates: true });
+    const { data: averageRateListResponse } = trpc.rate.getAverageRateList.useQuery({
+        limit: 500,
+        includePlainRates: true
+    });
 
     return <div className="line-chart">
         <div className="line-chart__main-line" />
