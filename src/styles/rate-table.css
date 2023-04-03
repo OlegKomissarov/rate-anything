@@ -1,5 +1,6 @@
 :root {
   --table-text-color: #335C67;
+  --show-more-users-button-text-color: #E09F3E;
 }
 
 .rate-table {
@@ -10,30 +11,32 @@
   overflow: auto;
   text-align: center;
   gap: 25px;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 4fr 1fr 5fr;
   place-items: center;
 }
 
 .rate-table__item {
   color: var(--table-text-color);
+  word-break: break-word;
 }
 
 .rate-table__item--name {
-  flex: 1;
+  text-align: left;
   font-family: Gilroy-Medium;
   font-size: 24px;
   justify-self: left;
-  text-align: left;
 }
 
 .rate-table__item--rate {
-  flex: 1;
   font-family: Gilroy-Medium;
   font-size: 24px;
 }
 
 .rate-table__item--users {
-  flex: 3;
   justify-self: right;
-  text-align: right;
+}
+
+.rate-table__show-more-users-button {
+  color: var(--show-more-users-button-text-color);
+  cursor: pointer;
 }

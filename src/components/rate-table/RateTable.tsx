@@ -31,10 +31,19 @@ const RateTable = () => {
                                     {averageRate.averageRate}
                                 </div>
                                 <div className="rate-table__item rate-table__item--users">
+                                    <span>
+                                        {averageRate.rates.at(-1)?.userName}
+                                    </span>
                                     {
-                                        averageRate.rates.map(rate =>
-                                            <div key={rate.userEmail}>{rate.userName}</div>
-                                        )
+                                        averageRate.rates.length > 1 &&
+                                        <>
+                                            <span>, </span>
+                                            <span onClick={() => console.log('open modal')}
+                                                  className="rate-table__show-more-users-button"
+                                            >
+                                                more...
+                                            </span>
+                                        </>
                                     }
                                 </div>
                             </React.Fragment>
