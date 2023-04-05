@@ -52,7 +52,7 @@ const RateTable = () => {
                             </React.Fragment>
                         )
                     }
-                    <ModalContainer>
+                    <ModalContainer headerText="User List">
                         <UserListModal />
                     </ModalContainer>
                 </React.Fragment>

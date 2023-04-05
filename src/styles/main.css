@@ -17,6 +17,9 @@
   --scrollbar-track-color: #E8E9EB;
   --scrollbar-thumb-color: #999999;
   --scrollbar-thumb-hover-color: #C4C4C4;
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+  --scrollbar-width: 7px;
 }
 
 body {
@@ -36,8 +39,8 @@ a {
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-width);
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {

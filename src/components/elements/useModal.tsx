@@ -19,7 +19,10 @@ const useModal = () => {
         }
     });
 
-    const ModalContainer: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const ModalContainer: React.FC<{
+        children: ReactNode,
+        headerText: string
+    }> = ({ children, headerText }) => {
         if (!showModal) {
             return null;
         }
@@ -29,11 +32,18 @@ const useModal = () => {
                  onMouseDown={event => event.stopPropagation()}
             >
                 <div ref={modalRef}
-                     className="modal custom-scrollbar"
+                     className="modal"
                      onClick={event => event.stopPropagation()}
                 >
-                    <div className="modal__close-button" onClick={toggleModal} />
-                    {children}
+                    <div className="modal__header">
+                        <div className="modal__header-text">
+                            {headerText}
+                        </div>
+                        <div className="modal__close-button" onClick={toggleModal} />
+                    </div>
+                    <div className="modal-content custom-scrollbar">
+                        {children}
+                    </div>
                 </div>
             </div>,
             document.body
