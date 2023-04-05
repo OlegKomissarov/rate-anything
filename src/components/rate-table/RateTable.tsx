@@ -14,14 +14,17 @@ const RateTable = () => {
     const fieldList = [
         {
             name: 'subject',
+            previewName: 'Subject',
             bold: true
         },
         {
             name: 'averageRate',
+            previewName: 'Rate',
             bold: true
         },
         {
             name: 'rates',
+            previewName: 'Details',
             render: (averageRate: AverageRate & { rates: Rate[] }) => <UserListModal averageRate={averageRate} />
         }
     ];

@@ -4,6 +4,7 @@ import { useInView } from 'react-intersection-observer';
 
 export type TableFieldList = {
     name: string
+    previewName?: string
     render?: (item: any) => ReactNode
     bold?: boolean
 }[];
@@ -28,6 +29,21 @@ const Table: React.FC<{
     }
 
     return <div className={getClassName('table custom-scrollbar', className)}>
+        {
+            fieldList.map((field, index) =>
+                <div key={field.name}
+                     className={
+                         getClassName(
+                             'table__item table__item--bold',
+                             index === 0 && 'table__item--first-column',
+                             index === fieldList.length - 1 && 'table__item--last-column'
+                         )
+                     }
+                >
+                    {field.previewName}
+                </div>
+            )
+        }
         {
             data.map(item =>
                 fieldList.map((field, index) =>
