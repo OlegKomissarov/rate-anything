@@ -19,7 +19,7 @@ const useModal = () => {
         }
     });
 
-    const ModalContainer: React.FC<{
+    const Modal: React.FC<{
         children: ReactNode,
         headerText: string
     }> = ({ children, headerText }) => {
@@ -50,7 +50,7 @@ const useModal = () => {
         );
     };
 
-    return { toggleModal, ModalContainer };
+    return { toggleModal, Modal };
 };
 
 export default useModal;

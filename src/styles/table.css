@@ -1,0 +1,32 @@
+:root {
+  --table-text-color: #335C67;
+}
+
+.table {
+  padding: 20px;
+  max-height: 100%;
+  display: grid;
+  box-sizing: border-box;
+  overflow: auto;
+  text-align: center;
+  gap: 25px;
+  place-items: center;
+}
+
+.table__item {
+  color: var(--table-text-color);
+  word-break: break-word;
+}
+
+.table__item--bold {
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.table__item--first-column {
+  justify-self: left;
+}
+
+.table__item--last-column {
+  justify-self: right;
+}

@@ -1,65 +1,39 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { trpc } from '../../utils/trpcClient';
-import { useInView } from 'react-intersection-observer';
-import useModal from '../elements/useModal';
+import Table from '../elements/Table';
+import { flattenInfiniteData } from '../../utils/utils';
+import { AverageRate, Rate } from '@prisma/client';
 import UserListModal from './UserListModal';
 
 const RateTable = () => {
-    const { ref: inViewRef, inView } = useInView();
-    const { toggleModal, ModalContainer } = useModal();
-
     const { data: averageRateList, fetchNextPage } = trpc.rate.getAverageRateList.useInfiniteQuery(
         { limit: 10, includePlainRates: true },
         { getNextPageParam: lastPage => lastPage.nextCursor }
     );
 
-    useEffect(() => {
-        if (inView) {
-            fetchNextPage();
-        }
-    }, [inView]);
-
-    return <div className="rate-table custom-scrollbar">
+    const fieldList = [
         {
-            !!averageRateList
-            && averageRateList.pages.map(page =>
-                <React.Fragment key={page.nextCursor || -1}>
-                    {
-                        page.data.map(averageRate =>
-                            <React.Fragment key={averageRate.subject}>
-                                <div className="rate-table__item rate-table__item--name">
-                                    {averageRate.subject}
-                                </div>
-                                <div className="rate-table__item rate-table__item--rate">
-                                    {averageRate.averageRate}
-                                </div>
-                                <div className="rate-table__item rate-table__item--users">
-                                    <span>
-                                        {averageRate.rates.at(-1)?.userName}
-                                    </span>
-                                    {
-                                        averageRate.rates.length > 1 &&
-                                        <>
-                                            <span>, </span>
-                                            <span onClick={toggleModal}
-                                                  className="rate-table__show-more-users-button"
-                                            >
-                                                more...
-                                            </span>
-                                        </>
-                                    }
-                                </div>
-                            </React.Fragment>
-                        )
-                    }
-                    <ModalContainer headerText="User List">
-                        <UserListModal />
-                    </ModalContainer>
-                </React.Fragment>
-            )
+            name: 'subject',
+            bold: true
+        },
+        {
+            name: 'averageRate',
+            bold: true
+        },
+        {
+            name: 'rates',
+            render: (averageRate: AverageRate & { rates: Rate[] }) => <UserListModal averageRate={averageRate} />
         }
-        <div ref={inViewRef} />
-    </div>;
+    ];
+
+    return <>
+        <Table keyFieldName="subject"
+               className="rate-table"
+               data={flattenInfiniteData(averageRateList)}
+               fieldList={fieldList}
+               fetchNextPage={fetchNextPage}
+        />
+    </>;
 };
 
 export default RateTable;

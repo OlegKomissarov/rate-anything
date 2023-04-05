@@ -1,6 +1,7 @@
 import { ZodError } from 'zod';
 import { TRPCClientError } from '@trpc/client';
 import { toast } from 'react-toastify';
+import { InfiniteData } from '@tanstack/react-query';
 
 export const isClient = typeof window !== 'undefined';
 
@@ -67,3 +68,6 @@ const minFontSize = 7;
 const maxFontSize = 20;
 export const getFontSizeByNumber = (number: number) =>
     minFontSize + (number - minNumber) / (maxNumber - minNumber) * (maxFontSize - minFontSize);
+
+export const flattenInfiniteData = (data: InfiniteData<any> | undefined) =>
+    data?.pages.reduce((data: any[], page) => data.concat(page.data), []);
