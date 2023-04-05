@@ -3,14 +3,14 @@ import { createPortal } from 'react-dom';
 import { enableBodyScroll, disableBodyScroll } from 'body-scroll-lock';
 
 const useModal = () => {
-    const modalRef = useRef(null);
+    const scrollableElementRef = useRef(null);
 
     const [showModal, setShowModal] = useState(false);
 
     const toggleModal = () => setShowModal(showModal => !showModal);
 
     useEffect(() => {
-        const element = modalRef.current;
+        const element = scrollableElementRef.current;
         if (element) {
             disableBodyScroll(element);
             return () => {
@@ -31,8 +31,7 @@ const useModal = () => {
                  onClick={toggleModal}
                  onMouseDown={event => event.stopPropagation()}
             >
-                <div ref={modalRef}
-                     className="modal"
+                <div className="modal"
                      onClick={event => event.stopPropagation()}
                 >
                     <div className="modal__header">
@@ -41,7 +40,7 @@ const useModal = () => {
                         </div>
                         <div className="modal__close-button" onClick={toggleModal} />
                     </div>
-                    <div className="modal-content custom-scrollbar">
+                    <div ref={scrollableElementRef} className="modal-content custom-scrollbar">
                         {children}
                     </div>
                 </div>
