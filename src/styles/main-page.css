@@ -6,7 +6,7 @@
   position: fixed;
   top: 5vh;
   left: 5vw;
-  z-index: 100;
+  z-index: 10;
   width: 90vw;
   height: 90vh;
   display: grid;

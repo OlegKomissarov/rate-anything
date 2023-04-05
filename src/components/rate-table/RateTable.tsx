@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import { trpc } from '../../utils/trpcClient';
 import { useInView } from 'react-intersection-observer';
+import useModal from '../elements/useModal';
+import UserListModal from './UserListModal';
 
 const RateTable = () => {
     const { ref: inViewRef, inView } = useInView();
+    const { toggleModal, ModalContainer } = useModal();
 
     const { data: averageRateList, fetchNextPage } = trpc.rate.getAverageRateList.useInfiniteQuery(
         { limit: 10, includePlainRates: true },
@@ -38,7 +41,7 @@ const RateTable = () => {
                                         averageRate.rates.length > 1 &&
                                         <>
                                             <span>, </span>
-                                            <span onClick={() => console.log('open modal')}
+                                            <span onClick={toggleModal}
                                                   className="rate-table__show-more-users-button"
                                             >
                                                 more...
@@ -49,6 +52,9 @@ const RateTable = () => {
                             </React.Fragment>
                         )
                     }
+                    <ModalContainer>
+                        <UserListModal toggleModal={toggleModal} />
+                    </ModalContainer>
                 </React.Fragment>
             )
         }

@@ -12,9 +12,8 @@ const getOtherElements = () => isClient
     : [];
 
 const setBodyStyle = (cursor: 'grab' | 'grabbing' | '', userSelect: 'none' | '') => {
-    const body = document.getElementsByTagName('body')[0];
-    body.style.cursor = cursor;
-    body.style.userSelect = userSelect;
+    document.body.style.cursor = cursor;
+    document.body.style.userSelect = userSelect;
 };
 
 const setOtherElementStyles = (pointerEvents: 'none' | 'auto') => {

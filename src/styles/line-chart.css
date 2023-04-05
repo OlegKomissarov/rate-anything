@@ -50,7 +50,7 @@
 
 @media (hover: hover) {
   .line-chart__rate-dote:hover {
-    z-index: 100;
+    z-index: 10;
   }
   .line-chart__rate-dote:hover .rate-card {
     visibility: visible;
