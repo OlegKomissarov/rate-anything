@@ -16,7 +16,7 @@ const setBodyStyle = (cursor: 'grab' | 'grabbing' | '', userSelect: 'none' | '')
     document.body.style.userSelect = userSelect;
 };
 
-const setOtherElementStyles = (pointerEvents: 'none' | 'auto') => {
+const setOtherElementStyles = (pointerEvents: 'none' | '') => {
     const otherElements = getOtherElements();
     otherElements.forEach(element => {
         if (element && element.style) {
@@ -50,7 +50,7 @@ const usePanScreen = (backgroundSize: Position) => {
         const handleMouseUp = () => {
             isPanning.current = false;
             setBodyStyle('grab', '');
-            setOtherElementStyles('auto');
+            setOtherElementStyles('');
         };
         const panScreen = (event: MouseEvent) => {
             if (!isPanning.current) {

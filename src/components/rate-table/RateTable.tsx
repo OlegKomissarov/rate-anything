@@ -53,7 +53,7 @@ const RateTable = () => {
                         )
                     }
                     <ModalContainer>
-                        <UserListModal toggleModal={toggleModal} />
+                        <UserListModal />
                     </ModalContainer>
                 </React.Fragment>
             )

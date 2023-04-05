@@ -1,9 +1,32 @@
+:root {
+  --modal-outer-background-color: rgba(0, 0, 0, 0.5);
+  --modal-background-color: #FFFFFF;
+}
+
 .modal-container {
   position: fixed;
-  top: 50%;
-  left: 50%;
+  top: 0;
+  left: 0;
   z-index: 20;
-  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  background-color: var(--modal-outer-background-color);
   color: red;
   font-size: 100px;
+  cursor: initial;
+  place-items: center;
+}
+
+.modal {
+  padding: 20px;
+  overflow: auto;
+  background-color: var(--modal-background-color);
+  border-radius: 10px;
+  max-height: 80vh;
+  max-width: 80vw;
+}
+
+.modal__close-button {
+
 }

@@ -1,10 +1,9 @@
 import React from 'react';
 
 const UserListModal: React.FC<{
-    toggleModal: () => void
-}> = ({ toggleModal }) => {
+}> = ({  }) => {
 
-    return <div onClick={toggleModal}>
+    return <div>
         user list
     </div>;
 };
