@@ -7,8 +7,10 @@ import UserListModal from './UserListModal';
 
 const RateTable = () => {
     const [sorting, setSorting] = useState({ field: 'subject', order: 'asc' });
+    const [searchingValue, setSearchingValue] = useState('');
+
     const { data: averageRateList, fetchNextPage } = trpc.rate.getAverageRateList.useInfiniteQuery(
-        { limit: 10, includePlainRates: true, sorting },
+        { limit: 10, includePlainRates: true, sorting, searching: { field: 'subject', value: searchingValue } },
         { getNextPageParam: lastPage => lastPage.nextCursor, keepPreviousData : true }
     );
 
@@ -42,6 +44,8 @@ const RateTable = () => {
                fetchNextPage={fetchNextPage}
                sorting={sorting}
                setSorting={setSorting}
+               searchingValue={searchingValue}
+               setSearchingValue={setSearchingValue}
         />
     </>;
 };

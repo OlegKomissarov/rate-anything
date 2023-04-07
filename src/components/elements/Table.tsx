@@ -1,6 +1,7 @@
 import React, { Dispatch, ReactNode, SetStateAction, useEffect } from 'react';
 import { getClassName } from '../../utils/utils';
 import { useInView } from 'react-intersection-observer';
+import Input from './Input';
 
 export type TableFieldList = {
     name: string
@@ -18,7 +19,12 @@ const Table: React.FC<{
     fetchNextPage?: () => void
     sorting?: { field: string, order: string }
     setSorting?: Dispatch<SetStateAction<{ field: string; order: string; }>>
-}> = ({ fieldList, data, keyFieldName, className, fetchNextPage, sorting, setSorting }) => {
+    searchingValue?: string
+    setSearchingValue?: Dispatch<SetStateAction<string>>
+}> = ({
+    fieldList, data, keyFieldName, className, fetchNextPage, sorting, setSorting, searchingValue,
+    setSearchingValue
+}) => {
     const { ref: inViewRef, inView } = useInView();
 
     useEffect(() => {
@@ -28,6 +34,11 @@ const Table: React.FC<{
     }, [inView]);
 
     return <div className={getClassName('table custom-scrollbar', className)}>
+        <Input value={searchingValue}
+               onChange={event => setSearchingValue && setSearchingValue(event.target.value)}
+        />
+        <div />
+        <div />
         {
             fieldList.map((field, index) =>
                 <div key={field.name}
