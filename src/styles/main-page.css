@@ -13,9 +13,10 @@
   gap: 25px;
   grid-template-areas:
     'header header'
-    'form table'
-    'chart chart';
-  grid-template-rows: auto 1fr auto;
+    'form table';
+    /*'chart chart';*/
+  /*grid-template-rows: auto 1fr auto;*/
+  grid-template-rows: auto 1fr;
   grid-auto-columns: 1fr;
 }
 
@@ -24,13 +25,13 @@
     grid-template-areas:
     'header'
     'form'
-    'table'
-    'chart';
+    'table';
+    /*'chart';*/
     grid-template-rows: initial;
   }
-  .main-page-block--chart {
-    display: none;
-  }
+  /*.main-page-block--chart {*/
+  /*  display: none;*/
+  /*}*/
 }
 
 .main-page-block {
@@ -55,9 +56,9 @@
   grid-area: form;
 }
 
-.main-page-block--chart {
-  grid-area: chart;
-}
+/*.main-page-block--chart {*/
+/*  grid-area: chart;*/
+/*}*/
 
 .main-page-block--table {
   padding: 0;

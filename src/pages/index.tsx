@@ -78,21 +78,21 @@ const RatePage = () => {
                       removeRatesBySubject={removeRatesBySubject}
             />
         </div>
-        <div className="main-page-block main-page-block--chart">
-            <RateLineChart changeSubject={
-                (subject: string) => {
-                    if (!session) {
-                        return;
-                    }
-                    setSubject(subject);
-                    setRate('');
-                    if (rateInputRef.current) {
-                        rateInputRef.current.focus();
-                    }
-                }
-            }
-            />
-        </div>
+        {/*<div className="main-page-block main-page-block--chart">*/}
+        {/*    <RateLineChart changeSubject={*/}
+        {/*        (subject: string) => {*/}
+        {/*            if (!session) {*/}
+        {/*                return;*/}
+        {/*            }*/}
+        {/*            setSubject(subject);*/}
+        {/*            setRate('');*/}
+        {/*            if (rateInputRef.current) {*/}
+        {/*                rateInputRef.current.focus();*/}
+        {/*            }*/}
+        {/*        }*/}
+        {/*    }*/}
+        {/*    />*/}
+        {/*</div>*/}
         <div className="main-page-block main-page-block--table">
             <RateTable />
         </div>
