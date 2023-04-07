@@ -11,8 +11,7 @@ const StarsBackground = () => {
 
     const { data: averageRateListResponse } = trpc.rate.getAverageRateList.useQuery(
         {
-            limit: 500,
-            includePlainRates: false
+            limit: 500
         },
         {
             onSuccess: averageRateListResponse => {

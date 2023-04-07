@@ -8,11 +8,11 @@ const UserListModal: React.FC<{
 }> = ({ averageRate }) => {
     const { toggleModal, Modal } = useModal();
 
-    return <div>
+    return <>
         <Button onClick={toggleModal}
                 className="button--secondary"
         >
-            Details
+            Details ({averageRate.ratesAmount})
         </Button>
         <Modal headerText="User List">
             {
@@ -23,7 +23,7 @@ const UserListModal: React.FC<{
                 )
             }
         </Modal>
-    </div>;
+    </>;
 };
 
 export default UserListModal;

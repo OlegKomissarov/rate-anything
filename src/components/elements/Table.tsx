@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from 'react';
+import React, { Dispatch, ReactNode, SetStateAction, useEffect } from 'react';
 import { getClassName } from '../../utils/utils';
 import { useInView } from 'react-intersection-observer';
 
@@ -7,15 +7,18 @@ export type TableFieldList = {
     previewName?: string
     render?: (item: any) => ReactNode
     bold?: boolean
+    sortable?: boolean
 }[];
 
 const Table: React.FC<{
     fieldList: TableFieldList
     data?: any[]
     keyFieldName: string
-    className: string
-    fetchNextPage: () => void
-}> = ({ fieldList, data, keyFieldName, className, fetchNextPage }) => {
+    className?: string
+    fetchNextPage?: () => void
+    sorting?: { field: string, order: string }
+    setSorting?: Dispatch<SetStateAction<{ field: string; order: string; }>>
+}> = ({ fieldList, data, keyFieldName, className, fetchNextPage, sorting, setSorting }) => {
     const { ref: inViewRef, inView } = useInView();
 
     useEffect(() => {
@@ -24,27 +27,49 @@ const Table: React.FC<{
         }
     }, [inView]);
 
-    if (!data) {
-        return null;
-    }
-
     return <div className={getClassName('table custom-scrollbar', className)}>
         {
             fieldList.map((field, index) =>
                 <div key={field.name}
                      className={
                          getClassName(
-                             'table__item table__item--bold',
+                             'table__item table__item--header table__item--bold',
                              index === 0 && 'table__item--first-column',
-                             index === fieldList.length - 1 && 'table__item--last-column'
+                             index === fieldList.length - 1 && 'table__item--last-column',
+                             field.sortable && 'table__item--clickable'
                          )
                      }
+                     onClick={
+                         () => setSorting && field.sortable &&
+                             setSorting({
+                                 field: field.name,
+                                 order: (sorting?.field === field.name && sorting.order === 'asc') ? 'desc' : 'asc'
+                             })
+                     }
                 >
-                    {field.previewName}
+                    <div className={
+                        getClassName(
+                            'table__item-text table__item-text--header',
+                            field.sortable && sorting?.field !== field.name
+                            && 'table__item-text--with-gap-for-caret'
+                        )
+                    }
+                    >
+                        {field.previewName}
+                    </div>
+                    {
+                        field.sortable && sorting?.field === field.name &&
+                        (
+                            sorting.order === 'asc'
+                                ? <div className="caret-icon caret-icon--up table__header-caret" />
+                                : <div className="caret-icon caret-icon--down table__header-caret" />
+                        )
+                    }
                 </div>
             )
         }
         {
+            !!data &&
             data.map(item =>
                 fieldList.map((field, index) =>
                     <div key={item[keyFieldName] + field.name}
@@ -53,7 +78,8 @@ const Table: React.FC<{
                                  'table__item',
                                  field.bold && 'table__item--bold',
                                  index === 0 && 'table__item--first-column',
-                                 index === fieldList.length - 1 && 'table__item--last-column'
+                                 index === fieldList.length - 1 && 'table__item--last-column',
+                                 field.sortable && 'table__item-text--with-gap-for-caret'
                              )
                          }
                     >

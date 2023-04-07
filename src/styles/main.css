@@ -1,8 +1,9 @@
-@import 'header.css';
+@import 'icon.css';
 @import 'button.css';
 @import 'modal.css';
 @import 'table.css';
 @import 'form.css';
+@import 'header.css';
 @import 'stars-background.css';
 @import 'rate-table.css';
 @import 'line-chart.css';

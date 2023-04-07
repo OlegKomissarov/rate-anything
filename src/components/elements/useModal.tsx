@@ -38,7 +38,7 @@ const useModal = () => {
                         <div className="modal__header-text">
                             {headerText}
                         </div>
-                        <div className="modal__close-button" onClick={toggleModal} />
+                        <div className="close-icon modal__close-button" onClick={toggleModal} />
                     </div>
                     <div ref={scrollableElementRef} className="modal-content custom-scrollbar">
                         {children}

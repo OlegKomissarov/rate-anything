@@ -1,0 +1,52 @@
+.close-icon {
+  position: relative;
+}
+
+.close-icon:before,
+.close-icon:after {
+  content: '';
+  position: absolute;
+  top: 40%;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: var(--color-black);
+  border-radius: 5px;
+}
+
+.close-icon:before {
+  transform: rotate(45deg);
+}
+
+.close-icon:after {
+  transform: rotate(-45deg);
+}
+
+
+.caret-icon {
+  position: relative;
+}
+
+.caret-icon:before,
+.caret-icon:after {
+  content: '';
+  position: absolute;
+  top: 40%;
+  width: 50%;
+  height: 2px;
+  background-color: var(--table-text-color);
+}
+
+.caret-icon:before {
+  left: 1px;
+  transform: rotate(45deg);
+}
+
+.caret-icon:after {
+  right: 3px;
+  transform: rotate(-45deg);
+}
+
+.caret-icon--down {
+  transform: rotate(180deg);
+}

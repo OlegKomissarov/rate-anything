@@ -1,5 +1,6 @@
 :root {
   --table-text-color: #335C67;
+  --caret-size: 16px;
 }
 
 .table {
@@ -8,19 +9,22 @@
   display: grid;
   box-sizing: border-box;
   overflow: auto;
-  text-align: center;
   gap: 25px;
   place-items: center;
 }
 
 .table__item {
-  color: var(--table-text-color);
   word-break: break-word;
+  color: var(--table-text-color);
+}
+
+.table__item--clickable {
+  cursor: pointer;
 }
 
 .table__item--bold {
-  font-weight: 600;
   font-size: 24px;
+  font-weight: 600;
 }
 
 .table__item--first-column {
@@ -29,4 +33,27 @@
 
 .table__item--last-column {
   justify-self: right;
+}
+
+.table__item--header {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.table__item-text:not(:last-child) {
+  margin-right: 10px;
+}
+
+.table__item-text--header:not(:last-child) {
+  margin-right: 5px;
+}
+
+.table__header-caret {
+  width: var(--caret-size);
+  height: var(--caret-size);
+}
+
+.table__item-text--with-gap-for-caret {
+  margin-right: calc(var(--caret-size) + 5px);
 }
