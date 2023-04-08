@@ -2,6 +2,7 @@ import { ZodError } from 'zod';
 import { TRPCClientError } from '@trpc/client';
 import { toast } from 'react-toastify';
 import { InfiniteData } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 
 export const isClient = typeof window !== 'undefined';
 
@@ -71,3 +72,19 @@ export const getFontSizeByNumber = (number: number) =>
 
 export const flattenInfiniteData = (data: InfiniteData<any> | undefined) =>
     data?.pages.reduce((data: any[], page) => data.concat(page.data), []);
+
+export const useDebouncedValue = (value: any, delay: number) => {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setDebouncedValue(value);
+        }, delay);
+
+        return () => {
+            clearTimeout(timeout);
+        };
+    }, [value, delay]);
+
+    return debouncedValue;
+};

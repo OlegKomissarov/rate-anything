@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
 import { trpc } from '../../utils/trpcClient';
 import Table from '../elements/Table';
-import { flattenInfiniteData } from '../../utils/utils';
+import { flattenInfiniteData, useDebouncedValue } from '../../utils/utils';
 import { AverageRate, Rate } from '@prisma/client';
 import UserListModal from './UserListModal';
 
 const RateTable = () => {
     const [sorting, setSorting] = useState({ field: 'subject', order: 'asc' });
     const [searchingValue, setSearchingValue] = useState('');
+    const searchingValueDebounced = useDebouncedValue(searchingValue, 500);
 
     const { data: averageRateList, fetchNextPage } = trpc.rate.getAverageRateList.useInfiniteQuery(
-        { limit: 10, includePlainRates: true, sorting, searching: { field: 'subject', value: searchingValue } },
-        { getNextPageParam: lastPage => lastPage.nextCursor, keepPreviousData : true }
+        {
+            limit: 10,
+            includePlainRates: true,
+            sorting,
+            searching: { field: 'subject', value: searchingValueDebounced }
+        },
+        { getNextPageParam: lastPage => lastPage.nextCursor, keepPreviousData: true }
     );
 
     const fieldList = [
