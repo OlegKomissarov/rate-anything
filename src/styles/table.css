@@ -20,8 +20,8 @@
 
 .table__item {
   word-break: break-word;
-  font-size: 24px;
   color: var(--table-text-color);
+  font-size: 24px;
 }
 
 .table__item--clickable {

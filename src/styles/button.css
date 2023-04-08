@@ -11,6 +11,7 @@
   background-color: var(--button-background-color);
   border: none;
   border-radius: 5px;
+  font-family: Gilroy-Medium;
   color: var(--button-text-color);
   font-size: 24px;
   text-transform: uppercase;
@@ -27,6 +28,7 @@
   padding: 7px 12px;
   background-color: var(--secondary-button-background-color);
   border: 1px solid var(--secondary-button-border-color);
+  font-family: Gilroy-Medium;
   color: var(--secondary-button-text-color);
   font-size: 16px;
 }

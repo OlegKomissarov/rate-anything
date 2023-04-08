@@ -5,7 +5,7 @@
 .header {
   z-index: 1;
   text-align: center;
-  font-family: Gilroy-Medium, sans-serif;
+  font-family: Gilroy-Bold, sans-serif;
   color: var(--header-text-color);
   font-size: 60px;
   user-select: none;
