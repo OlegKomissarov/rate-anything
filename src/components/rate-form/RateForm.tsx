@@ -2,6 +2,7 @@ import React from 'react';
 import Input from '../elements/Input';
 import Button from '../elements/Button';
 import { useSession } from 'next-auth/react';
+import InputWithSuggestions from '../elements/InputWithSuggestions';
 
 const RateForm: React.FC<{
     rateInputRef: React.RefObject<HTMLInputElement>
@@ -19,11 +20,12 @@ const RateForm: React.FC<{
             !!session?.user &&
             <div className="form__user-name-label">{session.user.name}</div>
         }
-        <Input placeholder="Input what you wanna rate"
-               className="form__input"
-               selectOnFocus
-               value={subject}
-               onChange={event => changeSubject(event.target.value)}
+        <InputWithSuggestions placeholder="Input what you wanna rate"
+                              className="form__input"
+                              selectOnFocus
+                              value={subject}
+                              onChange={event => changeSubject(event.target.value)}
+                              suggestions={['Antananarivu', 'Antalya', 'Antanta']}
         />
         <Input placeholder="Input your rate from -10 to 10"
                className="form__input"

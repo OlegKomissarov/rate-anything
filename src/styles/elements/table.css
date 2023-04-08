@@ -1,7 +1,6 @@
 :root {
   --table-text-color: #335C67;
   --caret-size: 16px;
-  --rate-search-input-height: 60px;
   --rate-table-item-gap: 24px;
   --rate-table-outer-gap: 20px;
 }
@@ -31,14 +30,13 @@
 .table__search-input {
   text-align: center;
   justify-self: left;
-  height: var(--rate-search-input-height);
 }
 
 .table__item {
+  padding: calc(var(--rate-table-item-gap) / 2);
   word-break: break-word;
   color: var(--table-text-color);
   font-size: 24px;
-  padding: calc(var(--rate-table-item-gap) / 2);
 }
 
 .table__item--clickable {
@@ -55,10 +53,12 @@
 
 .table__item--header {
   position: sticky;
-  top: calc(var(--rate-table-outer-gap) + var(--rate-search-input-height) + var(--rate-table-item-gap) / 2);
+  top: calc(var(--rate-table-outer-gap) + var(--input-height) + var(--rate-table-item-gap) / 2);
   z-index: 1;
+  width: 100%;
   display: flex;
   align-items: center;
+  box-sizing: border-box;
   background-color: var(--light-background-color);
   white-space: nowrap;
   font-family: Gilroy-Semibold;

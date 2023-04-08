@@ -14,7 +14,9 @@
 :root {
   --default-text-color: #3B3A3A;
   --border-color: #3B3A3A;
+  --light-border-color: #DCDCDC;
   --light-background-color: #DDDFEE;
+  --lighter-background-color: #F7F9FD;
   --dark-background-color: #000000;
   --scrollbar-track-color: #E8E9EB;
   --scrollbar-thumb-color: #999999;
