@@ -1,44 +1,44 @@
 :root {
   --table-text-color: #335C67;
   --caret-size: 16px;
+  --rate-search-input-height: 60px;
+  --rate-table-item-gap: 24px;
+  --rate-table-outer-gap: 20px;
 }
 
 .table {
   position: relative;
-  padding-bottom: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-bottom: var(--rate-table-outer-gap);
+  padding-left: var(--rate-table-outer-gap);
+  padding-right: var(--rate-table-outer-gap);
   max-height: 100%;
   display: grid;
   box-sizing: border-box;
   overflow: auto;
-  gap: 25px;
   place-items: center;
 }
 
-.table__sticky-header {
+.table__search-input-sticky-container {
   position: sticky;
   top: 0;
   z-index: 1;
-  padding-top: 20px;
-  padding-bottom: 10px;
+  padding-top: var(--rate-table-outer-gap);
+  padding-bottom: calc(var(--rate-table-item-gap) / 2);
   width: 100%;
-  display: grid;
-  box-sizing: border-box;
   background-color: var(--light-background-color);
-  gap: 25px;
-  place-items: center;
 }
 
 .table__search-input {
-  width: 100%;
   text-align: center;
+  justify-self: left;
+  height: var(--rate-search-input-height);
 }
 
 .table__item {
   word-break: break-word;
   color: var(--table-text-color);
   font-size: 24px;
+  padding: calc(var(--rate-table-item-gap) / 2);
 }
 
 .table__item--clickable {
@@ -58,8 +58,12 @@
 }
 
 .table__item--header {
+  position: sticky;
+  top: calc(var(--rate-table-outer-gap) + var(--rate-search-input-height) + var(--rate-table-item-gap) / 2);
+  z-index: 1;
   display: flex;
   align-items: center;
+  background-color: var(--light-background-color);
   white-space: nowrap;
   font-family: Gilroy-Semibold;
 }

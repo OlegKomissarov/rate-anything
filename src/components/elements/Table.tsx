@@ -40,7 +40,7 @@ const Table: React.FC<{
     return <div className={getClassName('table custom-scrollbar', className)}
                 ref={scrollableElementRef}
     >
-        <div className="table__sticky-header"
+        <div className="table__search-input-sticky-container"
              style={{ gridColumnStart: 1, gridColumnEnd: fieldList.length + 1 }}
         >
             {
@@ -49,49 +49,48 @@ const Table: React.FC<{
                        onChange={event => setSearchingValue(event.target.value)}
                        className="table__search-input"
                        placeholder="Search by subject"
-                       style={{ gridColumnStart: 1, gridColumnEnd: fieldList.length + 1 }}
                 />
             }
-            {
-                fieldList.map((field, index) =>
-                    <div key={field.name}
-                         className={
-                             getClassName(
-                                 'table__item table__item--header table__item--bold',
-                                 index === 0 && 'table__item--first-column',
-                                 index === fieldList.length - 1 && 'table__item--last-column',
-                                 field.sortable && 'table__item--clickable'
-                             )
-                         }
-                         onClick={
-                             () => setSorting && field.sortable &&
-                                 setSorting({
-                                     field: field.name,
-                                     order: (sorting?.field === field.name && sorting.order === 'asc') ? 'desc' : 'asc'
-                                 })
-                         }
-                    >
-                        <div className={
-                            getClassName(
-                                'table__item-text table__item-text--header',
-                                field.sortable && sorting?.field !== field.name && 'table__item-text--with-gap-for-caret'
-                            )
-                        }
-                        >
-                            {field.previewName}
-                        </div>
-                        {
-                            field.sortable && sorting?.field === field.name &&
-                            (
-                                sorting.order === 'asc'
-                                    ? <div className="caret-icon caret-icon--up table__header-caret" />
-                                    : <div className="caret-icon caret-icon--down table__header-caret" />
-                            )
-                        }
-                    </div>
-                )
-            }
         </div>
+        {
+            fieldList.map((field, index) =>
+                <div key={field.name}
+                     className={
+                         getClassName(
+                             'table__item table__item--header table__item--bold',
+                             index === 0 && 'table__item--first-column',
+                             index === fieldList.length - 1 && 'table__item--last-column',
+                             field.sortable && 'table__item--clickable'
+                         )
+                     }
+                     onClick={
+                         () => setSorting && field.sortable &&
+                             setSorting({
+                                 field: field.name,
+                                 order: (sorting?.field === field.name && sorting.order === 'asc') ? 'desc' : 'asc'
+                             })
+                     }
+                >
+                    <div className={
+                        getClassName(
+                            'table__item-text table__item-text--header',
+                            field.sortable && sorting?.field !== field.name && 'table__item-text--with-gap-for-caret'
+                        )
+                    }
+                    >
+                        {field.previewName}
+                    </div>
+                    {
+                        field.sortable && sorting?.field === field.name &&
+                        (
+                            sorting.order === 'asc'
+                                ? <div className="caret-icon caret-icon--up table__header-caret" />
+                                : <div className="caret-icon caret-icon--down table__header-caret" />
+                        )
+                    }
+                </div>
+            )
+        }
         {
             !!data &&
             data.map(item =>

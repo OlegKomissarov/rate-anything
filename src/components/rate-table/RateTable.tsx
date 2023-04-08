@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { trpc } from '../../utils/trpcClient';
 import Table from '../elements/Table';
-import { flattenInfiniteData, useDebouncedValue } from '../../utils/utils';
+import { flattenInfiniteData, getClassName, useDebouncedValue } from '../../utils/utils';
 import { AverageRate, Rate } from '@prisma/client';
 import UserListModal from './UserListModal';
+import { useSession } from 'next-auth/react';
 
 const RateTable: React.FC<{
     changeSubject: (rate: string) => void
 }> = ({ changeSubject }) => {
+    const { data: session } = useSession();
+
     const [sorting, setSorting] = useState({ field: 'subject', order: 'asc' });
     const [searchingValue, setSearchingValue] = useState('');
     const searchingValueDebounced = useDebouncedValue(searchingValue, 500);
@@ -22,14 +25,19 @@ const RateTable: React.FC<{
         { getNextPageParam: lastPage => lastPage.nextCursor, keepPreviousData: true }
     );
 
+    const getIsRated = (averageRate: AverageRate & { rates: Rate[] }) =>
+        averageRate.rates.some(rate => rate.userEmail === session?.user?.email);
+
     const fieldList = [
         {
             name: 'subject',
             previewName: 'Subject',
             render: (averageRate: AverageRate & { rates: Rate[] }) =>
-                <div className="rate-table__subject-item" onClick={() => changeSubject(averageRate.subject)}>
-                    {averageRate.subject}
-                </div>,
+                !getIsRated(averageRate)
+                    ? <div className="rate-table__subject-item" onClick={() => changeSubject(averageRate.subject)}>
+                        {averageRate.subject}
+                    </div>
+                    : averageRate.subject,
             bold: true,
             sortable: true
         },
@@ -45,6 +53,19 @@ const RateTable: React.FC<{
             render: (averageRate: AverageRate & { rates: Rate[] }) => <UserListModal averageRate={averageRate} />,
             bold: true,
             sortable: true
+        },
+        {
+            name: 'isRated',
+            previewName: 'Rated',
+            render: (averageRate: AverageRate & { rates: Rate[] }) =>
+                <div className={
+                         getClassName(
+                             'rate-table__is-rated',
+                             getIsRated(averageRate) && 'rate-table__is-rated--rated'
+                         )
+                     }
+                />,
+            bold: true
         }
     ];
 

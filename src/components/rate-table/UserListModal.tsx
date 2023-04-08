@@ -18,7 +18,7 @@ const UserListModal: React.FC<{
             {
                 averageRate.rates.map(rate =>
                     <div key={rate.id}>
-                        {rate.userName}
+                        {rate.userName}: {rate.rate}
                     </div>
                 )
             }
