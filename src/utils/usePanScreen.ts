@@ -2,13 +2,8 @@ import { useEffect, useRef } from 'react';
 import { isClient, Position } from './utils';
 
 const getOtherElements = () => isClient
-    ? [
-        document.querySelector('.login__button'),
-        document.querySelector('.login__astronaut'),
-        document.querySelector('.header'),
-        // @ts-ignore
-        ...document.querySelectorAll('.main-page-block')
-    ] as (HTMLElement | null)[]
+    // @ts-ignore
+    ? [...document.querySelectorAll('.pan-screen-child')] as (HTMLElement | null)[]
     : [];
 
 const setBodyStyle = (cursor: 'grab' | 'grabbing' | '', userSelect: 'none' | '') => {

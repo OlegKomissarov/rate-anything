@@ -60,7 +60,7 @@ const RatePage = () => {
 
     return <div className="main-page-grid">
         <Header className="main-page-grid__header" />
-        <div className="main-page-block main-page-block--form">
+        <div className="main-page-block main-page-block--form pan-screen-child">
             <RateForm rateInputRef={rateInputRef}
                       createRate={createRate}
                       subject={subject}
@@ -78,7 +78,7 @@ const RatePage = () => {
                       removeRatesBySubject={removeRatesBySubject}
             />
         </div>
-        {/*<div className="main-page-block main-page-block--chart">*/}
+        {/*<div className="main-page-block main-page-block--chart pan-screen-child">*/}
         {/*    <RateLineChart changeSubject={*/}
         {/*        (subject: string) => {*/}
         {/*            if (!session) {*/}
@@ -93,7 +93,7 @@ const RatePage = () => {
         {/*    }*/}
         {/*    />*/}
         {/*</div>*/}
-        <div className="main-page-block main-page-block--table">
+        <div className="main-page-block main-page-block--table pan-screen-child">
             <RateTable />
         </div>
     </div>;

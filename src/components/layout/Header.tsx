@@ -5,7 +5,7 @@ const Header: React.FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({ className, 
     return <a {...props}
               href="/"
               rel="noopener noreferrer"
-              className={getClassName('header', className)}
+              className={getClassName('header pan-screen-child', className)}
               title="The project is in development. Even more cool features are coming."
     >
         Rate Anything

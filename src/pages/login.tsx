@@ -15,7 +15,7 @@ const LoginPage = () => {
 
     return <div className="login">
         <Header className="login__header" />
-        <Button className="login__button"
+        <Button className="login__button pan-screen-child"
                 onClick={onClickSignIn}
         >
             Sign In To Create Your Rate
@@ -24,7 +24,7 @@ const LoginPage = () => {
                alt="Astronaut"
                width={200} height={200}
                className={getClassName(
-                   'login__astronaut',
+                   'login__astronaut pan-screen-child',
                    shouldAnimateAstronaut && 'login__astronaut--animated'
                )}
                onClick={onClickSignIn}
