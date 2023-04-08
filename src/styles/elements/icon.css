@@ -67,17 +67,17 @@
 }
 
 .check-icon:before {
-  top: calc(45% + 2px);
+  top: calc(46% + 2.5px);
   right: calc(12px + 5%);
   width: 38%;
-  transform: rotate(35deg);
+  transform: rotate(36deg);
   border-radius: 3px 0 0 3px;
 }
 
 .check-icon:after {
-  top: 45%;
+  top: 46%;
   right: calc(3px + 5%);
   width: 50%;
-  transform: rotate(-55deg);
+  transform: rotate(-56deg);
   border-radius: 0 3px 3px 0;
 }
