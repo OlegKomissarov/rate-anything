@@ -34,11 +34,15 @@ const Table: React.FC<{
     }, [inView]);
 
     return <div className={getClassName('table custom-scrollbar', className)}>
-        <Input value={searchingValue}
-               onChange={event => setSearchingValue && setSearchingValue(event.target.value)}
-        />
-        <div />
-        <div />
+        {
+            setSearchingValue &&
+            <Input value={searchingValue}
+                   onChange={event => setSearchingValue(event.target.value)}
+                   className="table__search-input"
+                   placeholder="Search by subject"
+                   style={{ gridColumnStart: 1, gridColumnEnd: fieldList.length + 1 }}
+            />
+        }
         {
             fieldList.map((field, index) =>
                 <div key={field.name}

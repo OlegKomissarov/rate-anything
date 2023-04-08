@@ -60,25 +60,31 @@ a {
 }
 
 @font-face {
-  font-family: 'Virgil';
-  font-weight: 400;
-  src: url(fonts/Virgil-GS-Regular.ttf);
-}
-
-@font-face {
-  font-family: 'Ubuntu-Regular';
-  font-weight: 400;
-  src: url(fonts/Ubuntu-Regular.ttf);
-}
-
-@font-face {
   font-family: 'Gilroy-Regular';
-  font-weight: 400;
   src: url(fonts/Gilroy-Regular.ttf);
 }
 
 @font-face {
   font-family: 'Gilroy-Medium';
-  font-weight: 500;
   src: url(fonts/Gilroy-Medium.ttf);
+}
+
+@font-face {
+  font-family: 'Gilroy-Black';
+  src: url(fonts/Gilroy-Black.ttf);
+}
+
+@font-face {
+  font-family: 'Gilroy-Bold';
+  src: url(fonts/Gilroy-Bold.ttf);
+}
+
+@font-face {
+  font-family: 'Gilroy-Heavy';
+  src: url(fonts/Gilroy-Heavy.ttf);
+}
+
+@font-face {
+  font-family: 'Gilroy-Semibold';
+  src: url(fonts/Gilroy-Semibold.ttf);
 }

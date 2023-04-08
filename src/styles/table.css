@@ -13,8 +13,14 @@
   place-items: center;
 }
 
+.table__search-input {
+  width: 100%;
+  text-align: center;
+}
+
 .table__item {
   word-break: break-word;
+  font-size: 24px;
   color: var(--table-text-color);
 }
 
@@ -23,8 +29,7 @@
 }
 
 .table__item--bold {
-  font-size: 24px;
-  font-weight: 600;
+  font-family: Gilroy-Medium;
 }
 
 .table__item--first-column {
@@ -39,6 +44,7 @@
   display: flex;
   align-items: center;
   white-space: nowrap;
+  font-family: Gilroy-Semibold;
 }
 
 .table__item-text:not(:last-child) {
