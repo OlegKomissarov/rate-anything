@@ -4,11 +4,27 @@
 }
 
 .table {
-  padding: 20px;
+  position: relative;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
   max-height: 100%;
   display: grid;
   box-sizing: border-box;
   overflow: auto;
+  gap: 25px;
+  place-items: center;
+}
+
+.table__sticky-header {
+  position: sticky;
+  top: 0;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  width: 100%;
+  display: grid;
+  box-sizing: border-box;
+  background-color: var(--light-background-color);
   gap: 25px;
   place-items: center;
 }
