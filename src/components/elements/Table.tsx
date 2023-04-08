@@ -1,5 +1,5 @@
-import React, { Dispatch, ReactNode, SetStateAction, useEffect } from 'react';
-import { getClassName } from '../../utils/utils';
+import React, { Dispatch, ReactNode, SetStateAction, useEffect, useRef } from 'react';
+import { getClassName, useDisableBodyScroll } from '../../utils/utils';
 import { useInView } from 'react-intersection-observer';
 import Input from './Input';
 
@@ -25,6 +25,8 @@ const Table: React.FC<{
     fieldList, data, keyFieldName, className, fetchNextPage, sorting, setSorting, searchingValue,
     setSearchingValue
 }) => {
+    const scrollableElementRef = useRef(null);
+
     const { ref: inViewRef, inView } = useInView();
 
     useEffect(() => {
@@ -33,7 +35,11 @@ const Table: React.FC<{
         }
     }, [inView]);
 
-    return <div className={getClassName('table custom-scrollbar', className)}>
+    useDisableBodyScroll(scrollableElementRef.current);
+
+    return <div className={getClassName('table custom-scrollbar', className)}
+                ref={scrollableElementRef}
+    >
         <div className="table__sticky-header"
              style={{ gridColumnStart: 1, gridColumnEnd: fieldList.length + 1 }}
         >

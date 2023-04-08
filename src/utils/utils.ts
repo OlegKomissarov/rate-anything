@@ -3,6 +3,7 @@ import { TRPCClientError } from '@trpc/client';
 import { toast } from 'react-toastify';
 import { InfiniteData } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
 export const isClient = typeof window !== 'undefined';
 
@@ -87,4 +88,15 @@ export const useDebouncedValue = (value: any, delay: number) => {
     }, [value, delay]);
 
     return debouncedValue;
+};
+
+export const useDisableBodyScroll = (scrollableElement: HTMLElement | null) => {
+    useEffect(() => {
+        if (scrollableElement) {
+            disableBodyScroll(scrollableElement);
+            return () => {
+                enableBodyScroll(scrollableElement);
+            };
+        }
+    });
 };
