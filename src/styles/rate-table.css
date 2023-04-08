@@ -11,13 +11,11 @@
 }
 
 .rate-table__is-rated {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   opacity: 0;
-  border-radius: 50%;
 }
 
 .rate-table__is-rated--rated {
   opacity: 1;
-  background-color: green;
 }

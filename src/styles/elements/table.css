@@ -53,10 +53,6 @@
   justify-self: left;
 }
 
-.table__item--last-column {
-  justify-self: right;
-}
-
 .table__item--header {
   position: sticky;
   top: calc(var(--rate-table-outer-gap) + var(--rate-search-input-height) + var(--rate-table-item-gap) / 2);

@@ -61,7 +61,7 @@ const RateTable: React.FC<{
                 <div className={
                          getClassName(
                              'rate-table__is-rated',
-                             getIsRated(averageRate) && 'rate-table__is-rated--rated'
+                             getIsRated(averageRate) && 'check-icon rate-table__is-rated--rated'
                          )
                      }
                 />,

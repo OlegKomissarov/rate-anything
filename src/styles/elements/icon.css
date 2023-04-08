@@ -50,3 +50,34 @@
 .caret-icon--down {
   transform: rotate(180deg);
 }
+
+
+.check-icon {
+  position: relative;
+  background-color: var(--color-green);
+  border-radius: 50%;
+}
+
+.check-icon:before,
+.check-icon:after {
+  content: '';
+  position: absolute;
+  height: 3px;
+  background-color: var(--color-white);
+}
+
+.check-icon:before {
+  top: calc(45% + 2px);
+  right: calc(12px + 5%);
+  width: 38%;
+  transform: rotate(35deg);
+  border-radius: 3px 0 0 3px;
+}
+
+.check-icon:after {
+  top: 45%;
+  right: calc(3px + 5%);
+  width: 50%;
+  transform: rotate(-55deg);
+  border-radius: 0 3px 3px 0;
+}
