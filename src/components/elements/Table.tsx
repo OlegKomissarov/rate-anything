@@ -9,6 +9,7 @@ export type TableFieldList = {
     render?: (item: any) => ReactNode
     bold?: boolean
     sortable?: boolean
+    alignLeft?: boolean
 }[];
 
 const Table: React.FC<{
@@ -53,14 +54,13 @@ const Table: React.FC<{
             }
         </div>
         {
-            fieldList.map((field, index) =>
+            fieldList.map(field =>
                 <div key={field.name}
                      className={
                          getClassName(
                              'table__item table__item--header table__item--bold',
-                             index === 0 && 'table__item--first-column',
-                             index === fieldList.length - 1 && 'table__item--last-column',
-                             field.sortable && 'table__item--clickable'
+                             field.sortable && 'table__item--clickable',
+                             field.alignLeft && 'table__item--align-left'
                          )
                      }
                      onClick={
@@ -94,15 +94,14 @@ const Table: React.FC<{
         {
             !!data &&
             data.map(item =>
-                fieldList.map((field, index) =>
+                fieldList.map(field =>
                     <div key={item[keyFieldName] + field.name}
                          className={
                              getClassName(
                                  'table__item',
                                  field.bold && 'table__item--bold',
-                                 index === 0 && 'table__item--first-column',
-                                 index === fieldList.length - 1 && 'table__item--last-column',
-                                 field.sortable && 'table__item-text--with-gap-for-caret'
+                                 field.sortable && 'table__item-text--with-gap-for-caret',
+                                 field.alignLeft && 'table__item--align-left'
                              )
                          }
                     >

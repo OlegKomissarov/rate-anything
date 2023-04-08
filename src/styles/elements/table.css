@@ -49,7 +49,7 @@
   font-family: Gilroy-Medium;
 }
 
-.table__item--first-column {
+.table__item--align-left {
   justify-self: left;
 }
 

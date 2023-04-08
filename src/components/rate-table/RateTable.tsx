@@ -39,7 +39,8 @@ const RateTable: React.FC<{
                     </div>
                     : averageRate.subject,
             bold: true,
-            sortable: true
+            sortable: true,
+            alignLeft: true
         },
         {
             name: 'averageRate',
