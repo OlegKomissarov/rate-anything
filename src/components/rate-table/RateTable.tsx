@@ -5,7 +5,9 @@ import { flattenInfiniteData, useDebouncedValue } from '../../utils/utils';
 import { AverageRate, Rate } from '@prisma/client';
 import UserListModal from './UserListModal';
 
-const RateTable = () => {
+const RateTable: React.FC<{
+    changeSubject: (rate: string) => void
+}> = ({ changeSubject }) => {
     const [sorting, setSorting] = useState({ field: 'subject', order: 'asc' });
     const [searchingValue, setSearchingValue] = useState('');
     const searchingValueDebounced = useDebouncedValue(searchingValue, 500);
@@ -24,6 +26,10 @@ const RateTable = () => {
         {
             name: 'subject',
             previewName: 'Subject',
+            render: (averageRate: AverageRate & { rates: Rate[] }) =>
+                <div className="rate-table__subject-item" onClick={() => changeSubject(averageRate.subject)}>
+                    {averageRate.subject}
+                </div>,
             bold: true,
             sortable: true
         },

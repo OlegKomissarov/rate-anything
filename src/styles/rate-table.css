@@ -1,3 +1,11 @@
 .rate-table {
   grid-template-columns: 4fr 1fr 5fr;
 }
+
+.rate-table__subject-item {
+  cursor: pointer;
+}
+
+.rate-table__subject-item:hover {
+  text-decoration: underline;
+}

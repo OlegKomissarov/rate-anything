@@ -5,7 +5,7 @@ import Header from '../components/layout/Header';
 import { validateRateSubject, validateRateValue } from '../utils/validations';
 import RateForm from '../components/rate-form/RateForm';
 import RateTable from '../components/rate-table/RateTable';
-import RateLineChart from '../components/rate-chart/RateLineChart';
+// import RateLineChart from '../components/rate-chart/RateLineChart';
 import { trpc } from '../utils/trpcClient';
 import { getQueryKey } from '@trpc/react-query';
 import { useQueryClient } from '@tanstack/react-query';
@@ -25,6 +25,13 @@ const RatePage = () => {
 
     const [subject, setSubject] = useState('');
     const [rate, setRate] = useState<number | string>('');
+    const changeSubject = (subject: string) => {
+        if (!session) {
+            return;
+        }
+        setSubject(subject);
+        setRate('');
+    };
 
     const resetForm = () => {
         setSubject('');
@@ -36,7 +43,7 @@ const RatePage = () => {
     const onMutationSuccess = () => {
         resetForm();
         invalidateRateLists();
-    }
+    };
 
     const createRateMutation = trpc.rate.createRate.useMutation();
 
@@ -64,15 +71,7 @@ const RatePage = () => {
             <RateForm rateInputRef={rateInputRef}
                       createRate={createRate}
                       subject={subject}
-                      changeSubject={
-                          (subject: string) => {
-                              if (!session) {
-                                  return;
-                              }
-                              setSubject(subject);
-                              setRate('');
-                          }
-                      }
+                      changeSubject={changeSubject}
                       rate={rate}
                       changeRate={setRate}
                       removeRatesBySubject={removeRatesBySubject}
@@ -94,7 +93,7 @@ const RatePage = () => {
         {/*    />*/}
         {/*</div>*/}
         <div className="main-page-block main-page-block--table pan-screen-child">
-            <RateTable />
+            <RateTable changeSubject={changeSubject} />
         </div>
     </div>;
 };
