@@ -10,7 +10,7 @@ const RateLineChartItem: React.FC<{
 
     return <div ref={itemRef}
                 onClick={onClickRateItem}
-                className="line-chart__rate-dote"
+                className="selection-slider__rate-dote"
                 style={{ left: `${100 / 20 * (averageRate.averageRate + 10)}%` }}
     >
         <RateCard averageRate={averageRate} parentRef={itemRef} withTriangle />

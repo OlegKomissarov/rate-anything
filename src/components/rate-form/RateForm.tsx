@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import InputWithSuggestions from '../elements/InputWithSuggestions';
 import { trpc } from '../../utils/trpcClient';
 import { useDebouncedValue } from '../../utils/utils';
+import RateSelectionSlider from './RateSelectionSlider';
 
 const RateForm: React.FC<{
     rateInputRef: React.RefObject<HTMLInputElement>
@@ -63,6 +64,7 @@ const RateForm: React.FC<{
                }}
                refValue={rateInputRef}
         />
+        <RateSelectionSlider value={rate} changeValue={changeRate} />
         <Button type="submit" className="form__button">
             RATE
         </Button>

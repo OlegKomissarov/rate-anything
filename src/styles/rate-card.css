@@ -2,6 +2,15 @@
   --rate-card-background-color: #FFFFFF;
 }
 
+/*@media (hover: hover) {*/
+/*  .selection-slider__rate-dote:hover {*/
+/*    z-index: 10;*/
+/*  }*/
+/*  .selection-slider__rate-dote:hover .rate-card {*/
+/*    visibility: visible;*/
+/*  }*/
+/*}*/
+
 .rate-card {
   visibility: hidden;
   position: absolute;
