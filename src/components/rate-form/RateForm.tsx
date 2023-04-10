@@ -29,7 +29,12 @@ const RateForm: React.FC<{
         }
     );
 
-    return <div className="form">
+    return <form className="form"
+                 onSubmit={event => {
+                     event.preventDefault();
+                     createRate();
+                 }}
+    >
         {
             !!session?.user &&
             <div className="form__user-name-label">{session.user.name}</div>
@@ -58,16 +63,16 @@ const RateForm: React.FC<{
                }}
                refValue={rateInputRef}
         />
-        <Button onClick={createRate} className="form__button">
+        <Button type="submit" className="form__button">
             RATE
         </Button>
         {
             session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL &&
-            <Button onClick={removeRatesBySubject} className="button--secondary">
+            <Button type="button" onClick={removeRatesBySubject} className="button--secondary">
                 REMOVE RATE
             </Button>
         }
-    </div>;
+    </form>;
 };
 
 export default RateForm;
