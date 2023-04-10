@@ -32,11 +32,11 @@ const RatePage = () => {
         setSubject(subject);
         setRate('');
     };
-
     const resetForm = () => {
         setSubject('');
         setRate('');
     };
+
     const invalidateRateLists = () => {
         queryClient.invalidateQueries({ queryKey: getQueryKey(trpc.rate.getAverageRateList) });
     };

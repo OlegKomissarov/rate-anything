@@ -2,7 +2,7 @@ import { ZodError } from 'zod';
 import { TRPCClientError } from '@trpc/client';
 import { toast } from 'react-toastify';
 import { InfiniteData } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { EventHandler, useEffect, useState } from 'react';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
 export const isClient = typeof window !== 'undefined';
@@ -97,6 +97,20 @@ export const useDisableBodyScroll = (scrollableElement: HTMLElement | null) => {
             return () => {
                 enableBodyScroll(scrollableElement);
             };
+        }
+    });
+};
+
+export const useOnClickOutside = (element: any, handler: () => void) => {
+    useEffect(() => {
+        const listener: EventHandler<any> = event => {
+            if (!element?.contains(event.target)) {
+                handler();
+            }
+        };
+        document.addEventListener('click', listener);
+        return () => {
+            document.removeEventListener('click', listener);
         }
     });
 };

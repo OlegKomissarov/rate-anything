@@ -3,6 +3,8 @@ import Input from '../elements/Input';
 import Button from '../elements/Button';
 import { useSession } from 'next-auth/react';
 import InputWithSuggestions from '../elements/InputWithSuggestions';
+import { trpc } from '../../utils/trpcClient';
+import { useDebouncedValue } from '../../utils/utils';
 
 const RateForm: React.FC<{
     rateInputRef: React.RefObject<HTMLInputElement>
@@ -15,6 +17,18 @@ const RateForm: React.FC<{
 }> = ({ rateInputRef, createRate, subject, changeSubject, rate, changeRate, removeRatesBySubject }) => {
     const { data: session } = useSession();
 
+    const debouncedSubject = useDebouncedValue(subject, 500);
+    const { data: averageRateListResponse } = trpc.rate.getAverageRateList.useQuery(
+        {
+            limit: 5,
+            searching: { field: 'subject', value: debouncedSubject }
+        },
+        {
+            enabled: !!debouncedSubject,
+            keepPreviousData: true
+        }
+    );
+
     return <div className="form">
         {
             !!session?.user &&
@@ -25,7 +39,8 @@ const RateForm: React.FC<{
                               selectOnFocus
                               value={subject}
                               onChange={event => changeSubject(event.target.value)}
-                              suggestions={['Antananarivu', 'Antalya', 'Antanta']}
+                              suggestions={averageRateListResponse?.data.map(averageRate => averageRate.subject)}
+                              selectSuggestion={changeSubject}
         />
         <Input placeholder="Input your rate from -10 to 10"
                className="form__input"
