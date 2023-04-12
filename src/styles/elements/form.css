@@ -60,6 +60,10 @@ input[type=number]::-webkit-inner-spin-button {
   width: 100%;
 }
 
+.form__selection-slider {
+  margin-bottom: 20px;
+}
+
 .input-with-suggestions-container {
   position: relative;
 }
