@@ -1,6 +1,6 @@
-import React, { InputHTMLAttributes, useRef, useState } from 'react';
+import React, { InputHTMLAttributes, useState } from 'react';
 import Input from './Input';
-import { getClassName, useOnClickOutside } from '../../utils/utils';
+import { getClassName } from '../../utils/utils';
 
 const InputWithSuggestions: React.FC<InputHTMLAttributes<HTMLInputElement> & {
     suggestions?: string[]
@@ -8,21 +8,21 @@ const InputWithSuggestions: React.FC<InputHTMLAttributes<HTMLInputElement> & {
     selectOnFocus?: boolean
     refValue?: React.Ref<HTMLInputElement>
 }> = ({ suggestions, selectSuggestion, className, value, onChange, ...props }) => {
-    const containerRef = useRef(null);
-
     const [showSuggestions, setShowSuggestions] = useState(false);
 
-    useOnClickOutside(containerRef.current, () => setShowSuggestions(false));
+    const onClickSuggestion = (suggestion: string) => {
+        selectSuggestion(suggestion);
+        setShowSuggestions(false);
+    };
 
-    return <div ref={containerRef}
-                className="input-with-suggestions-container form__input"
-    >
+    return <div className="input-with-suggestions-container form__input">
         {/* Be careful with passing props implicitly here. React may not make the implicit props reactive */}
         <Input {...props}
                value={value}
                onChange={onChange}
                className={getClassName('input-with-suggestions')}
                onFocus={() => setShowSuggestions(true)}
+               onBlur={() => setShowSuggestions(false)}
         />
         {
             !!(value && suggestions?.length && showSuggestions) &&
@@ -30,10 +30,8 @@ const InputWithSuggestions: React.FC<InputHTMLAttributes<HTMLInputElement> & {
                 {
                     suggestions.map(suggestion =>
                         <div key={suggestion}
-                             onClick={() => {
-                                 selectSuggestion(suggestion);
-                                 setShowSuggestions(false);
-                             }}
+                             onMouseDown={() => onClickSuggestion(suggestion)}
+                             onTouchStart={() => onClickSuggestion(suggestion)}
                              className="input-dropdown__suggestion"
                         >
                             {suggestion}
