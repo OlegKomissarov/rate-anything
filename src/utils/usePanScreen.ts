@@ -62,14 +62,14 @@ const usePanScreen = (backgroundSize: Position) => {
             document.removeEventListener('mousedown', handleMouseDown);
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
-        }
+        };
     });
 
     useEffect(() => {
         setBodyStyle('grab', '');
         return () => {
             setBodyStyle('', '');
-        }
+        };
     }, []);
 };
 

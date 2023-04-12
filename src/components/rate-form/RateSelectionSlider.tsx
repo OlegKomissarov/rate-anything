@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getClassName } from '../../utils/utils';
 
 const RateSelectionSlider: React.FC<{
@@ -25,19 +25,34 @@ const RateSelectionSlider: React.FC<{
         return value;
     };
 
-    // todo: use document event and check if there is intersection with selection-slider element, contains...
+    useEffect(() => {
+        const handleMouseDown = (event: MouseEvent) => {
+            if (selectionSliderRef.current?.contains(event.target as Node)) {
+                setIsDragging(true);
+                changeValue(calculateValueByDragPosition(event.clientX));
+            }
+        };
+        const handleMouseMove = (event: MouseEvent) => {
+            if (isDragging) {
+                changeValue(calculateValueByDragPosition(event.clientX));
+            }
+        };
+        const handleMouseUp = () => {
+            setIsDragging(false);
+        };
+
+        document.addEventListener('mousedown', handleMouseDown);
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+        return () => {
+            document.removeEventListener('mousedown', handleMouseDown);
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    });
+
     return <div ref={selectionSliderRef}
                 className={getClassName('selection-slider', className)}
-                onMouseDown={event => {
-                    setIsDragging(true);
-                    changeValue(calculateValueByDragPosition(event.clientX));
-                }}
-                onMouseMove={event => {
-                    if (isDragging) {
-                        changeValue(calculateValueByDragPosition(event.clientX));
-                    }
-                }}
-                onMouseUp={() => setIsDragging(false)}
     >
         <div className="selection-slider__main-line">
             {
