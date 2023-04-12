@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { KeyboardEventHandler, useEffect, useRef, useState } from 'react';
 import { getClassName } from '../../utils/utils';
 
 const RateSelectionSlider: React.FC<{
@@ -55,6 +55,23 @@ const RateSelectionSlider: React.FC<{
         };
     });
 
+    const onKeyDown: KeyboardEventHandler = event => {
+        if (event.code === 'ArrowRight' || event.code === 'ArrowUp') {
+            if (typeof value === 'number') {
+                changeValue(value + 1);
+            } else {
+                changeValue(1);
+            }
+        }
+        if (event.code === 'ArrowLeft' || event.code === 'ArrowDown') {
+            if (typeof value === 'number') {
+                changeValue(value - 1);
+            } else {
+                changeValue(-1);
+            }
+        }
+    };
+
     return <div ref={selectionSliderRef}
                 className={getClassName('selection-slider', className)}
                 onMouseMove={event => setHoverPositionValue(calculateValueByDragPosition(event.clientX))}
@@ -80,6 +97,7 @@ const RateSelectionSlider: React.FC<{
                value={value}
                readOnly
                className="selection-slider__hidden-input"
+               onKeyDown={onKeyDown}
         />
         {
             typeof value === 'number' &&

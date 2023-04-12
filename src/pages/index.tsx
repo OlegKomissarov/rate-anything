@@ -25,11 +25,13 @@ const RatePage = () => {
     const [subject, setSubject] = useState('');
     const [rate, setRate] = useState<number | string>('');
     const changeSubject = (subject: string) => {
-        if (!session) {
-            return;
-        }
         setSubject(subject);
         setRate('');
+    };
+    const changeRate = (rate: number | string) => {
+        if (typeof rate === 'string' || (rate <= 10 && rate >= -10)) {
+            setRate(rate);
+        }
     };
     const resetForm = () => {
         setSubject('');
@@ -72,7 +74,7 @@ const RatePage = () => {
                       subject={subject}
                       changeSubject={changeSubject}
                       rate={rate}
-                      changeRate={setRate}
+                      changeRate={changeRate}
                       removeRatesBySubject={removeRatesBySubject}
             />
         </div>
