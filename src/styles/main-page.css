@@ -14,8 +14,6 @@
   grid-template-areas:
     'header header'
     'form table';
-    /*'chart chart';*/
-  /*grid-template-rows: auto 1fr auto;*/
   grid-template-rows: auto 1fr;
   grid-auto-columns: 2fr 3fr;
 }
@@ -26,12 +24,8 @@
     'header'
     'form'
     'table';
-    /*'chart';*/
     grid-template-rows: initial;
   }
-  /*.main-page-block--chart {*/
-  /*  display: none;*/
-  /*}*/
 }
 
 .main-page-block {
@@ -55,10 +49,6 @@
 .main-page-block--form {
   grid-area: form;
 }
-
-/*.main-page-block--chart {*/
-/*  grid-area: chart;*/
-/*}*/
 
 .main-page-block--table {
   padding: 0;

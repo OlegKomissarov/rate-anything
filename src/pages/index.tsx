@@ -5,7 +5,6 @@ import Header from '../components/layout/Header';
 import { validateRateSubject, validateRateValue } from '../utils/validations';
 import RateForm from '../components/rate-form/RateForm';
 import RateTable from '../components/rate-table/RateTable';
-// import RateLineChart from '../components/rate-chart/RateLineChart';
 import { trpc } from '../utils/trpcClient';
 import { getQueryKey } from '@trpc/react-query';
 import { useQueryClient } from '@tanstack/react-query';
@@ -77,21 +76,6 @@ const RatePage = () => {
                       removeRatesBySubject={removeRatesBySubject}
             />
         </div>
-        {/*<div className="main-page-block main-page-block--chart pan-screen-child">*/}
-        {/*    <RateLineChart changeSubject={*/}
-        {/*        (subject: string) => {*/}
-        {/*            if (!session) {*/}
-        {/*                return;*/}
-        {/*            }*/}
-        {/*            setSubject(subject);*/}
-        {/*            setRate('');*/}
-        {/*            if (rateInputRef.current) {*/}
-        {/*                rateInputRef.current.focus();*/}
-        {/*            }*/}
-        {/*        }*/}
-        {/*    }*/}
-        {/*    />*/}
-        {/*</div>*/}
         <div className="main-page-block main-page-block--table pan-screen-child">
             <RateTable changeSubject={changeSubject} />
         </div>
