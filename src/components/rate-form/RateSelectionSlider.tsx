@@ -9,6 +9,7 @@ const RateSelectionSlider: React.FC<{
     const selectionSliderRef = useRef<HTMLDivElement>(null);
 
     const [isDragging, setIsDragging] = useState(false);
+    const [hoverPositionValue, setHoverPositionValue] = useState<number | null>(null);
 
     const calculateValueByDragPosition = (clientX: number) => {
         const containerWidth = selectionSliderRef.current?.offsetWidth || 0;
@@ -40,7 +41,6 @@ const RateSelectionSlider: React.FC<{
         const handleMouseUp = () => {
             setIsDragging(false);
         };
-
         document.addEventListener('mousedown', handleMouseDown);
         document.addEventListener('mousemove', handleMouseMove);
         document.addEventListener('mouseup', handleMouseUp);
@@ -53,11 +53,12 @@ const RateSelectionSlider: React.FC<{
 
     return <div ref={selectionSliderRef}
                 className={getClassName('selection-slider', className)}
+                onMouseMove={event => setHoverPositionValue(calculateValueByDragPosition(event.clientX))}
     >
         <div className="selection-slider__main-line">
             {
-                Array.from(Array(21).keys()).map(item =>
-                    <div key={item} className="selection-slider__dash-dote" />
+                Array.from(Array(21).keys()).map((item, index) =>
+                    <div key={index} className="selection-slider__dash-dote" />
                 )
             }
         </div>
@@ -70,9 +71,15 @@ const RateSelectionSlider: React.FC<{
                          isDragging && 'selection-slider__selected-value--dragging'
                      )
                  }
+            />
+        }
+        {
+            typeof hoverPositionValue === 'number' &&
+            <div className="selection-slider__number-label-container"
+                 style={{ left: `${100 / 20 * (hoverPositionValue + 10)}%` }}
             >
-                <div className="selection-slider__selected-value-label">
-                    {value}
+                <div className="selection-slider__number-label">
+                    {hoverPositionValue}
                 </div>
             </div>
         }

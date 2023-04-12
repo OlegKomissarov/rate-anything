@@ -2,8 +2,8 @@
   --selection-slider-main-line-background-color: #335C67;
   --selection-slider-label-background-color: #757575;
   --selection-slider-main-line-height: 6px;
-  --selection-slider-value-box-shadow-size: 10px;
-  --selection-slider-value-box-shadow-size-big: 16px;
+  --selection-slider-value-box-shadow-size: 8px;
+  --selection-slider-value-box-shadow-size-big: 12px;
 }
 
 .selection-slider {
@@ -34,6 +34,7 @@
 
 .selection-slider__selected-value {
   position: absolute;
+  z-index: 1;
   width: 20px;
   height: 20px;
   transition: box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1) 0s;
@@ -48,8 +49,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: calc(100% + 2 * var(--selection-slider-value-box-shadow-size-big));
-  height: calc(100% + 2 * var(--selection-slider-value-box-shadow-size-big));
+  width: calc(100% + 2 * var(--selection-slider-value-box-shadow-size));
+  height: calc(100% + 2 * var(--selection-slider-value-box-shadow-size));
   transform: translate(-50%, -50%);
   border-radius: 50%;
 }
@@ -62,9 +63,20 @@
   box-shadow: 0 0 0 var(--selection-slider-value-box-shadow-size-big) rgba(125, 118, 210, 0.16);
 }
 
-.selection-slider__selected-value-label {
+.selection-slider__number-label-container {
   position: absolute;
-  top: calc(0px - var(--selection-slider-value-box-shadow-size));
+  top: 0;
+  width: 5%;
+  height: 100%;
+  transform: translateX(-50%);
+}
+
+.selection-slider:hover .selection-slider__number-label {
+  transform: translateX(-50%) translateY(-100%) scale(1);
+}
+
+.selection-slider__number-label {
+  position: absolute;
   left: 50%;
   padding: 4px 12px;
   transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1) 0s;
@@ -75,11 +87,8 @@
   color: var(--color-white);
 }
 
-.selection-slider__selected-value:is(:hover, .selection-slider__selected-value--dragging) .selection-slider__selected-value-label {
-  transform: translateX(-50%) translateY(-100%) scale(1);
-}
-
-.selection-slider__selected-value-label:before {
+/*triangle*/
+.selection-slider__number-label:before {
   content: '';
   position: absolute;
   bottom: 0;
