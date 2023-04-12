@@ -12,32 +12,23 @@ const setBodyStyle = (cursor: 'grab' | 'grabbing' | '', userSelect: 'none' | '')
 };
 
 const setOtherElementStyles = (pointerEvents: 'none' | '') => {
-    const otherElements = getOtherElements();
-    otherElements.forEach(element => {
+    getOtherElements().forEach(element => {
         if (element && element.style) {
             element.style.pointerEvents = pointerEvents;
         }
     });
 };
 
-const disableOtherElementsOnMouseDownEventPropagation = () => {
-    const otherElements = getOtherElements();
-    otherElements.forEach(element => {
-        if (element && !element.onmousedown) {
-            element.onmousedown = event => event.stopPropagation();
-        }
-    });
-};
-
 const usePanScreen = (backgroundSize: Position) => {
     const isPanning = useRef(false);
-    disableOtherElementsOnMouseDownEventPropagation();
 
     useEffect(() => {
-        const handleMouseDown = () => {
-            isPanning.current = true;
-            setBodyStyle('grabbing', 'none');
-            setOtherElementStyles('none');
+        const handleMouseDown = (event: MouseEvent) => {
+            if (!getOtherElements().some(otherElement => otherElement?.contains(event.target as Node))) {
+                isPanning.current = true;
+                setBodyStyle('grabbing', 'none');
+                setOtherElementStyles('none');
+            }
         };
         const handleMouseMove = (event: MouseEvent) => {
             panScreen(event);

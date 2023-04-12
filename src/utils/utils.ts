@@ -101,7 +101,7 @@ export const useDisableBodyScroll = (scrollableElement: HTMLElement | null) => {
     });
 };
 
-export const useOnClickOutside = (element: any, handler: () => void) => {
+export const useOnClickOutside = (element: Node | null, handler: () => void) => {
     useEffect(() => {
         const listener: EventHandler<any> = event => {
             if (!element?.contains(event.target)) {
