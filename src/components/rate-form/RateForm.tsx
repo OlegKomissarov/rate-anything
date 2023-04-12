@@ -40,7 +40,7 @@ const RateForm: React.FC<{
             !!session?.user &&
             <div className="form__user-name-label">{session.user.name}</div>
         }
-        <InputWithSuggestions placeholder="Input what you wanna rate"
+        <InputWithSuggestions placeholder="What You Wanna Rate"
                               className="form__input"
                               selectOnFocus
                               value={subject}
@@ -48,7 +48,7 @@ const RateForm: React.FC<{
                               suggestions={averageRateListResponse?.data.map(averageRate => averageRate.subject)}
                               selectSuggestion={changeSubject}
         />
-        <Input placeholder="Input your rate from -10 to 10"
+        <Input placeholder="Your Rate from -10 to 10"
                className="form__input"
                selectOnFocus
                value={rate}
