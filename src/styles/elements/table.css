@@ -10,10 +10,11 @@
   padding-bottom: var(--rate-table-outer-gap);
   padding-left: var(--rate-table-outer-gap);
   padding-right: var(--rate-table-outer-gap);
-  max-height: inherit;
   height: 100%;
   display: grid;
-  place-items: center;
+  justify-items: center;
+  align-items: start;
+  grid-template-rows: min-content;
   overflow: auto;
   box-sizing: border-box;
 }
@@ -58,8 +59,8 @@
   z-index: 1;
   width: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   background-color: var(--color-white);
   white-space: nowrap;

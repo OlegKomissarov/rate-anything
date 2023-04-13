@@ -21,9 +21,9 @@
 
 .modal {
   position: relative;
-  min-width: 40vw;
-  max-width: 80vw;
-  max-height: 80vh;
+  min-width: 40%;
+  max-width: 80%;
+  max-height: 80%;
   overflow: hidden;
   background-color: var(--modal-background-color);
   border-radius: 10px;
@@ -58,7 +58,6 @@
 
 .modal-content {
   padding-top: 64px;
-  max-height: inherit;
   box-sizing: border-box;
 }
 
