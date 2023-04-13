@@ -132,9 +132,7 @@ const Table: React.FC<{
         }
         {
             isLoading &&
-            <div className="table__empty-content-container">
-                <BigLoader />
-            </div>
+            <BigLoader className="table__empty-content-container" />
         }
         {
             isError &&

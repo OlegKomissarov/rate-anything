@@ -19,7 +19,7 @@ const RateForm: React.FC<{
     const { data: session } = useSession();
 
     const debouncedSubject = useDebouncedValue(subject, 500);
-    const { data: averageRateListResponse } = trpc.rate.getAverageRateList.useQuery(
+    const { data: averageRateListResponse, isLoading, isFetching } = trpc.rate.getAverageRateList.useQuery(
         {
             limit: 5,
             searching: { field: 'subject', value: debouncedSubject }
@@ -47,6 +47,7 @@ const RateForm: React.FC<{
                               onChange={event => changeSubject(event.target.value)}
                               suggestions={averageRateListResponse?.data.map(averageRate => averageRate.subject)}
                               selectSuggestion={changeSubject}
+                              isLoading={debouncedSubject && (isLoading || isFetching)}
         />
         <Input placeholder="Your Rate from -10 to 10"
                className="form__input"

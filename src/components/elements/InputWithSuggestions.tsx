@@ -1,13 +1,15 @@
 import React, { InputHTMLAttributes, useState } from 'react';
 import Input from './Input';
 import { getClassName } from '../../utils/utils';
+import Loader from '../layout/Loader';
 
 const InputWithSuggestions: React.FC<InputHTMLAttributes<HTMLInputElement> & {
     suggestions?: string[]
     selectSuggestion: (suggestion: string) => void
     selectOnFocus?: boolean
     refValue?: React.Ref<HTMLInputElement>
-}> = ({ suggestions, selectSuggestion, className, value, onChange, ...props }) => {
+    isLoading: boolean
+}> = ({ suggestions, selectSuggestion, className, value, onChange, isLoading, ...props }) => {
     const [showSuggestions, setShowSuggestions] = useState(false);
 
     const onClickSuggestion = (suggestion: string) => {
@@ -24,6 +26,10 @@ const InputWithSuggestions: React.FC<InputHTMLAttributes<HTMLInputElement> & {
                onFocus={() => setShowSuggestions(true)}
                onBlur={() => setShowSuggestions(false)}
         />
+        {
+            isLoading &&
+            <Loader className="input-with-suggestions__loader" />
+        }
         {
             !!(value && suggestions?.length && showSuggestions) &&
             <div className="input-dropdown">

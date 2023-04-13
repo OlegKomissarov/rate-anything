@@ -90,3 +90,9 @@ input[type=number]::-webkit-inner-spin-button {
 .input-dropdown__suggestion:hover {
   background-color: var(--light-background-color);
 }
+
+.input-with-suggestions__loader {
+  position: absolute !important;
+  top: 4px;
+  right: 26px;
+}

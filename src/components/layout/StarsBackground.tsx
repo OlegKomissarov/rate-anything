@@ -4,12 +4,13 @@ import usePanScreen from '../../utils/usePanScreen';
 import useBackgroundData from '../../utils/useBackgroundData';
 import useBodyNoScrollBar from '../../utils/useBodyNoScrollBar';
 import { trpc } from '../../utils/trpcClient';
+import Loader from './Loader';
 
 const StarsBackground = () => {
     const { backgroundData, generateBackgroundData } = useBackgroundData();
     const { backgroundSize, itemPositions } = backgroundData;
 
-    const { data: averageRateListResponse } = trpc.rate.getAverageRateList.useQuery(
+    const { data: averageRateListResponse, isLoading, isFetching } = trpc.rate.getAverageRateList.useQuery(
         {
             limit: 500
         },
@@ -50,6 +51,10 @@ const StarsBackground = () => {
         </div>
         <div className="stars-background__decor-stars" />
         <div className="stars-background__twinkling" />
+        {
+            (isLoading || isFetching) &&
+            <Loader className="stars-background__loader" />
+        }
     </div>;
 };
 
