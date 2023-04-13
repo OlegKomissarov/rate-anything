@@ -4,8 +4,6 @@
   left: 50%;
   z-index: 2;
   transform: translate(-50%, -50%);
-  background-color: var(--dark-background-color);
-  white-space: nowrap;
 }
 
 @media (max-width: 640px) {

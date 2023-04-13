@@ -4,7 +4,9 @@
 
 .header {
   z-index: 1;
+  background-color: var(--dark-background-color);
   text-align: center;
+  white-space: nowrap;
   font-family: Gilroy-Bold, sans-serif;
   color: var(--header-text-color);
   font-size: 60px;
