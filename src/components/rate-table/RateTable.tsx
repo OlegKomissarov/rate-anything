@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { trpc } from '../../utils/trpcClient';
 import Table from '../elements/Table';
-import { flattenInfiniteData, getClassName, Searching, Sorting, useDebouncedValue } from '../../utils/utils';
+import {
+    flattenInfiniteData, getClassName, Searching, Sorting, useDebouncedValue, useGetIsSubjectRated
+} from '../../utils/utils';
 import { AverageRate, Rate } from '@prisma/client';
 import RateDetailModal from './RateDetailModal';
 import { useSession } from 'next-auth/react';
@@ -25,16 +27,17 @@ const RateTable: React.FC<{
         { getNextPageParam: lastPage => lastPage.nextCursor, keepPreviousData: true }
     );
 
-    const getIsRated = (averageRate: AverageRate & { rates: Rate[] }) =>
-        averageRate.rates.some(rate => rate.userEmail === session?.user?.email);
+    const getIsSubjectRated = useGetIsSubjectRated();
 
     const fieldList = [
         {
             name: 'subject',
             previewName: 'Subject',
             render: (averageRate: AverageRate & { rates: Rate[] }) =>
-                !getIsRated(averageRate)
-                    ? <div className="rate-table__subject-item" onClick={() => selectSubjectToRate(averageRate.subject)}>
+                !getIsSubjectRated(averageRate)
+                    ? <div className="rate-table__subject-item"
+                           onClick={() => selectSubjectToRate(averageRate.subject)}
+                    >
                         {averageRate.subject}
                     </div>
                     : averageRate.subject,
@@ -63,7 +66,7 @@ const RateTable: React.FC<{
                 <div className={
                     getClassName(
                         'rate-table__is-rated',
-                        getIsRated(averageRate) && 'check-icon rate-table__is-rated--rated'
+                        getIsSubjectRated(averageRate) && 'check-icon rate-table__is-rated--rated'
                     )
                 }
                 />,

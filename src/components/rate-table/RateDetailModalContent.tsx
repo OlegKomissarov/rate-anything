@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AverageRate, Rate } from '@prisma/client';
-import { Searching, Sorting } from '../../utils/utils';
+import { Searching, Sorting, useGetIsSubjectRated } from '../../utils/utils';
 import Table from '../elements/Table';
 import Button from '../elements/Button';
 
@@ -11,6 +11,8 @@ const RateDetailModalContent: React.FC<{
 }> = ({ averageRate, toggleModal, selectSubjectToRate }) => {
     const [sorting, setSorting] = useState<Sorting>({ field: 'userName', order: 'asc' });
     const [searching, setSearching] = useState<Searching>({ field: 'userName', fieldPreview: 'User', value: '' });
+
+    const getIsSubjectRated = useGetIsSubjectRated();
 
     const fieldList = [
         {
@@ -53,6 +55,7 @@ const RateDetailModalContent: React.FC<{
                   searching={searching}
                   setSearching={setSearching}
                   topPanelContent={
+                      !getIsSubjectRated(averageRate) &&
                       <Button className="rate-detail-table__button"
                               onClick={() => {
                                   selectSubjectToRate(averageRate.subject);

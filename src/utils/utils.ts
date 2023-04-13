@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 import { InfiniteData } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import { AverageRate, Rate } from '@prisma/client';
+import { useSession } from 'next-auth/react';
 
 export const isClient = typeof window !== 'undefined';
 
@@ -110,4 +112,11 @@ export type Searching = {
     field: string
     fieldPreview: string
     value: string
+};
+
+export const useGetIsSubjectRated = () => {
+    const { data: session } = useSession();
+
+    return (averageRate: AverageRate & { rates: Rate[] }) =>
+        averageRate.rates.some(rate => rate.userEmail === session?.user?.email);
 };
