@@ -14,7 +14,7 @@ const BigLoader = () => {
                     <div className="big-loader__spot" />
                 </div>
             </div>
-            <div className="big-loader__text">loading</div>
+            <div className="big-loader__text secondary-text">loading</div>
         </div>
     </>;
 };

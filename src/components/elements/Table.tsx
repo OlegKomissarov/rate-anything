@@ -127,7 +127,7 @@ const Table: React.FC<{
         }
         {
             data && !data.length &&
-            <div className="table__empty-content-container">No data found</div>
+            <div className="table__empty-content-container secondary-text">No data found</div>
         }
         {
             isLoading &&
@@ -137,7 +137,7 @@ const Table: React.FC<{
         }
         {
             isError &&
-            <div className="table__empty-content-container">
+            <div className="table__empty-content-container secondary-text">
                 Error occurred while loading data
             </div>
         }

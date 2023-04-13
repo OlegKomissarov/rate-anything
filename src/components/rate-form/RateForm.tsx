@@ -38,7 +38,7 @@ const RateForm: React.FC<{
     >
         {
             !!session?.user &&
-            <div className="rate-form__user-name-label">{session.user.name}</div>
+            <div className="secondary-text rate-form__user-name-label">{session.user.name}</div>
         }
         <InputWithSuggestions placeholder="What You Wanna Rate"
                               className="form__input"

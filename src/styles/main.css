@@ -25,6 +25,7 @@
   --color-black: #000000;
   --color-green: #008000;
   --scrollbar-width: 7px;
+  --secondary-text-color: #335C67;
 }
 
 body {
@@ -60,6 +61,11 @@ a {
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: var(--scrollbar-thumb-hover-color);
+}
+
+.secondary-text {
+  font-family: Gilroy-Semibold;
+  color: var(--secondary-text-color);
 }
 
 @font-face {
