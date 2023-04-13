@@ -3,6 +3,7 @@ import { getClassName, Searching, Sorting, useDisableBodyScroll } from '../../ut
 import { useInView } from 'react-intersection-observer';
 import Input from './Input';
 import BigLoader from '../layout/BigLoader';
+import Loader from '../layout/Loader';
 
 export type TableFieldList = {
     name: string
@@ -60,7 +61,7 @@ const Table: React.FC<{
                 {topPanelContent}
                 {
                     isFetching && !isLoading &&
-                    <div>Updating data</div>
+                    <Loader className="table__refetch-loader" />
                 }
             </div>
         }
