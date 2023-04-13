@@ -37,8 +37,8 @@
 }
 
 .main-page-grid__header {
-  grid-area: header;
   justify-self: center;
+  grid-area: header;
 }
 
 .main-page-block--form {
@@ -47,6 +47,6 @@
 
 .main-page-block--table {
   padding: 0;
-  overflow: hidden;
   grid-area: table;
+  overflow: hidden;
 }

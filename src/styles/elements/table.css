@@ -10,11 +10,12 @@
   padding-bottom: var(--rate-table-outer-gap);
   padding-left: var(--rate-table-outer-gap);
   padding-right: var(--rate-table-outer-gap);
-  max-height: 100%;
+  max-height: inherit;
+  height: 100%;
   display: grid;
-  box-sizing: border-box;
-  overflow: auto;
   place-items: center;
+  overflow: auto;
+  box-sizing: border-box;
 }
 
 .table__search-input-sticky-container {
@@ -28,8 +29,8 @@
 }
 
 .table__search-input {
-  text-align: center;
   justify-self: left;
+  text-align: center;
 }
 
 .table__item {

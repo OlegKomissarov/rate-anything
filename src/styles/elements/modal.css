@@ -8,12 +8,15 @@
   top: 0;
   left: 0;
   z-index: 20;
+  padding-top: 10vh;
+  padding-bottom: 10vh;
   width: 100vw;
   height: 100vh;
   display: grid;
+  justify-items: center;
+  align-items: start;
   background-color: var(--modal-outer-background-color);
   cursor: initial;
-  place-items: center;
 }
 
 .modal {
@@ -21,8 +24,6 @@
   min-width: 40vw;
   max-width: 80vw;
   max-height: 80vh;
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
   background-color: var(--modal-background-color);
   border-radius: 10px;
@@ -30,14 +31,15 @@
 
 .modal__header {
   position: absolute;
+  z-index: 2;
   padding: 20px 10px 20px 20px;
   width: calc(100% - var(--scrollbar-width));
   display: grid;
   align-items: center;
+  grid-template-columns: auto min-content;
   box-sizing: border-box;
   background-color: var(--modal-background-color);
   border-radius: 10px 0 0 10px;
-  grid-template-columns: auto min-content;
 }
 
 .modal__header-text {
@@ -56,7 +58,7 @@
 
 .modal-content {
   padding-top: 64px;
-  flex: 1;
-  overflow: auto;
+  max-height: inherit;
+  box-sizing: border-box;
 }
 
