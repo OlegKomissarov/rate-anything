@@ -43,12 +43,6 @@
   background: transparent url(/twinkling.webp) repeat top left;
 }
 
-.stars-background__loader {
-  position: fixed;
-  top: 20px;
-  right: 40px;
-}
-
 @keyframes move-twink-back {
   from {
     background-position: 0 0;

@@ -41,6 +41,12 @@ a {
   text-decoration: none;
 }
 
+.global-loader {
+  position: fixed;
+  top: 20px;
+  right: 40px;
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

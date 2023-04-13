@@ -6,6 +6,7 @@ import { SessionProvider } from 'next-auth/react';
 import { trpc } from '../utils/trpcClient';
 import { Slide, ToastContainer } from 'react-toastify';
 import StarsBackground from '../components/layout/StarsBackground';
+import SessionLoader from '../components/layout/SessionLoader';
 
 const App = (props: any) => {
     const { Component, pageProps: { session, ...pageProps } } = props;
@@ -25,6 +26,7 @@ const App = (props: any) => {
                         position="top-left"
                         limit={3}
         />
+        <SessionLoader />
     </SessionProvider>;
 };
 

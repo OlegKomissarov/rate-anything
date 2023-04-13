@@ -53,7 +53,7 @@ const StarsBackground = () => {
         <div className="stars-background__twinkling" />
         {
             (isLoading || isFetching) &&
-            <Loader className="stars-background__loader" />
+            <Loader className="global-loader" />
         }
     </div>;
 };
