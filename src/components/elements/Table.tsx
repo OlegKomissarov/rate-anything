@@ -25,9 +25,9 @@ const Table: React.FC<{
     searching?: Searching
     setSearching?: Dispatch<SetStateAction<Searching>>
     topPanelContent?: ReactNode
-    isLoading: boolean
-    isFetching: boolean
-    isError: boolean
+    isLoading?: boolean
+    isFetching?: boolean
+    isError?: boolean
 }> = ({
     fieldList, data, keyFieldName, className, fetchNextPage, sorting, setSorting, searching, setSearching,
     topPanelContent, isLoading, isFetching, isError
