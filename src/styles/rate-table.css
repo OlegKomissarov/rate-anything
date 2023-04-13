@@ -23,3 +23,7 @@
 .rate-table .table__search-input-sticky-container, .rate-table .table__item--header {
   background-color: var(--light-background-color);
 }
+
+.rate-detail-table {
+  grid-template-columns: 4fr 1fr;
+}

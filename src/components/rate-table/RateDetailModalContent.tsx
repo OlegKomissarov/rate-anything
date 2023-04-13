@@ -14,7 +14,8 @@ const RateDetailModalContent: React.FC<{
             name: 'userName',
             previewName: 'User',
             bold: true,
-            sortable: true
+            sortable: true,
+            alignLeft: true
         },
         {
             name: 'rate',

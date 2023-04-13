@@ -48,10 +48,6 @@
   font-family: Gilroy-Medium;
 }
 
-.table__item--align-left {
-  justify-self: left;
-}
-
 .table__search-input-sticky-container ~ .table__item--header {
   top: calc(var(--rate-table-outer-gap) + var(--input-height) + var(--rate-table-item-gap) / 2);
 }
@@ -63,10 +59,16 @@
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
   box-sizing: border-box;
   background-color: var(--color-white);
   white-space: nowrap;
   font-family: Gilroy-Semibold;
+}
+
+.table__item--align-left {
+  justify-self: left;
+  justify-content: flex-start;
 }
 
 .table__item-text:not(:last-child) {
