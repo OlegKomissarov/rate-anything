@@ -6,7 +6,9 @@ import Button from '../elements/Button';
 
 const RateDetailModalContent: React.FC<{
     averageRate: AverageRate & { rates: Rate[] }
-}> = ({ averageRate }) => {
+    toggleModal: () => void
+    selectSubjectToRate: (rate: string) => void
+}> = ({ averageRate, toggleModal, selectSubjectToRate }) => {
     const [sorting, setSorting] = useState<Sorting>({ field: 'userName', order: 'asc' });
     const [searching, setSearching] = useState<Searching>({ field: 'userName', fieldPreview: 'User', value: '' });
 
@@ -51,7 +53,12 @@ const RateDetailModalContent: React.FC<{
                   searching={searching}
                   setSearching={setSearching}
                   topPanelContent={
-                      <Button className="rate-detail-table__button">
+                      <Button className="rate-detail-table__button"
+                              onClick={() => {
+                                  selectSubjectToRate(averageRate.subject);
+                                  toggleModal();
+                              }}
+                      >
                           Rate {averageRate.subject}
                       </Button>
                   }

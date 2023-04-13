@@ -7,8 +7,8 @@ import RateDetailModal from './RateDetailModal';
 import { useSession } from 'next-auth/react';
 
 const RateTable: React.FC<{
-    changeSubject: (rate: string) => void
-}> = ({ changeSubject }) => {
+    selectSubjectToRate: (rate: string) => void
+}> = ({ selectSubjectToRate }) => {
     const { data: session } = useSession();
 
     const [sorting, setSorting] = useState<Sorting>({ field: 'subject', order: 'asc' });
@@ -34,7 +34,7 @@ const RateTable: React.FC<{
             previewName: 'Subject',
             render: (averageRate: AverageRate & { rates: Rate[] }) =>
                 !getIsRated(averageRate)
-                    ? <div className="rate-table__subject-item" onClick={() => changeSubject(averageRate.subject)}>
+                    ? <div className="rate-table__subject-item" onClick={() => selectSubjectToRate(averageRate.subject)}>
                         {averageRate.subject}
                     </div>
                     : averageRate.subject,
@@ -51,7 +51,8 @@ const RateTable: React.FC<{
         {
             name: 'ratesAmount',
             previewName: 'Popularity',
-            render: (averageRate: AverageRate & { rates: Rate[] }) => <RateDetailModal averageRate={averageRate} />,
+            render: (averageRate: AverageRate & { rates: Rate[] }) =>
+                <RateDetailModal averageRate={averageRate} selectSubjectToRate={selectSubjectToRate} />,
             bold: true,
             sortable: true
         },

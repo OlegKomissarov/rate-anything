@@ -33,6 +33,12 @@ const RatePage = () => {
             setRate(rate);
         }
     };
+    const selectSubjectToRate = (subject: string) => {
+        setSubject(subject);
+        setRate('');
+        const rateValueInput = document.getElementById('rate-value-input') as HTMLInputElement;
+        rateValueInput?.focus();
+    };
     const resetForm = () => {
         setSubject('');
         setRate('');
@@ -79,7 +85,7 @@ const RatePage = () => {
             />
         </div>
         <div className="main-page-block main-page-block--table pan-screen-child">
-            <RateTable changeSubject={changeSubject} />
+            <RateTable selectSubjectToRate={selectSubjectToRate} />
         </div>
     </div>;
 };
