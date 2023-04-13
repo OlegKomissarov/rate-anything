@@ -8,13 +8,17 @@
 
 .button {
   padding: 9px 16px;
+  height: var(--input-height);
+  overflow: hidden;
   background-color: var(--button-background-color);
   border: none;
   border-radius: 5px;
+  white-space: nowrap;
   font-family: Gilroy-Medium;
   color: var(--button-text-color);
   font-size: 24px;
   text-transform: uppercase;
+  text-overflow: ellipsis;
   cursor: pointer;
 }
 
@@ -26,6 +30,7 @@
 
 .button--secondary {
   padding: 7px 12px;
+  height: initial;
   background-color: var(--secondary-button-background-color);
   border: 1px solid var(--secondary-button-border-color);
   font-family: Gilroy-Medium;

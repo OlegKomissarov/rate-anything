@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AverageRate, Rate } from '@prisma/client';
 import { Searching, Sorting } from '../../utils/utils';
 import Table from '../elements/Table';
+import Button from '../elements/Button';
 
 const RateDetailModalContent: React.FC<{
     averageRate: AverageRate & { rates: Rate[] }
@@ -49,6 +50,11 @@ const RateDetailModalContent: React.FC<{
                   setSorting={setSorting}
                   searching={searching}
                   setSearching={setSearching}
+                  topPanelContent={
+                      <Button className="rate-detail-table__button">
+                          Rate {averageRate.subject}
+                      </Button>
+                  }
     />;
 };
 

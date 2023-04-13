@@ -22,7 +22,11 @@ const Table: React.FC<{
     setSorting?: Dispatch<SetStateAction<Sorting>>
     searching?: Searching
     setSearching?: Dispatch<SetStateAction<Searching>>
-}> = ({ fieldList, data, keyFieldName, className, fetchNextPage, sorting, setSorting, searching, setSearching }) => {
+    topPanelContent?: ReactNode
+}> = ({
+    fieldList, data, keyFieldName, className, fetchNextPage, sorting, setSorting, searching, setSearching,
+    topPanelContent
+}) => {
     const scrollableElementRef = useRef(null);
 
     const { ref: inViewRef, inView } = useInView();
@@ -39,15 +43,19 @@ const Table: React.FC<{
                 ref={scrollableElementRef}
     >
         {
-            searching && setSearching &&
-            <div className="table__search-input-sticky-container"
+            !!((searching && setSearching) || topPanelContent) &&
+            <div className="table__top-panel-sticky-container"
                  style={{ gridColumnStart: 1, gridColumnEnd: fieldList.length + 1 }}
             >
-                <Input value={searching.value}
-                       onChange={event => setSearching({ ...searching, value: event.target.value })}
-                       className="table__search-input"
-                       placeholder={`Search by ${searching.fieldPreview}`}
-                />
+                {
+                    !!(searching && setSearching) &&
+                    <Input value={searching.value}
+                           onChange={event => setSearching({ ...searching, value: event.target.value })}
+                           className="table__search-input"
+                           placeholder={`Search by ${searching.fieldPreview}`}
+                    />
+                }
+                {topPanelContent}
             </div>
         }
         {
