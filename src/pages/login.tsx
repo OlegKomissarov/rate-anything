@@ -4,8 +4,11 @@ import Button from '../components/elements/Button';
 import Header from '../components/layout/Header';
 import { signIn, useSession } from 'next-auth/react';
 import { getClassName } from '../utils/utils';
+import { useRouter } from 'next/router';
 
 const LoginPage = () => {
+    const router = useRouter();
+
     const { status: sessionStatus } = useSession();
 
     const [shouldAnimateAstronaut, setShouldAnimateAstronaut] = useState(false);
@@ -16,6 +19,10 @@ const LoginPage = () => {
     };
 
     const authDisabled = sessionStatus !== 'unauthenticated';
+
+    if (sessionStatus === 'authenticated') {
+        router.push('/');
+    }
 
     return <div className="login">
         <Header className="login__header" />
