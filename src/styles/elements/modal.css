@@ -45,10 +45,13 @@
 }
 
 .modal__header-text {
+  overflow: hidden;
+  white-space: nowrap;
   font-family: Gilroy-Semibold;
   font-size: 24px;
   line-height: 24px;
   text-transform: uppercase;
+  text-overflow: ellipsis;
 }
 
 .modal__close-button {
