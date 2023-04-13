@@ -6,13 +6,10 @@ import {
 } from '../../utils/utils';
 import { AverageRate, Rate } from '@prisma/client';
 import RateDetailModal from './RateDetailModal';
-import { useSession } from 'next-auth/react';
 
 const RateTable: React.FC<{
     selectSubjectToRate: (rate: string) => void
 }> = ({ selectSubjectToRate }) => {
-    const { data: session } = useSession();
-
     const [sorting, setSorting] = useState<Sorting>({ field: 'subject', order: 'asc' });
     const [searching, setSearching] = useState<Searching>({ field: 'subject', fieldPreview: 'Subject', value: '' });
     const searchingValueDebounced = useDebouncedValue(searching.value, 500);

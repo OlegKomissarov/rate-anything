@@ -15,11 +15,20 @@ const RateForm: React.FC<{
     rate: number | string
     changeRate: (rate: number | string) => void
     removeRatesBySubject: () => void
-}> = ({ rateInputRef, createRate, subject, changeSubject, rate, changeRate, removeRatesBySubject }) => {
+    isCreateRateLoading: boolean
+    isRemoveRateLoading: boolean
+}> = ({
+    rateInputRef, createRate, subject, changeSubject, rate, changeRate, removeRatesBySubject, isCreateRateLoading,
+    isRemoveRateLoading
+}) => {
     const { data: session } = useSession();
 
     const debouncedSubject = useDebouncedValue(subject, 500);
-    const { data: averageRateListResponse, isLoading, isFetching } = trpc.rate.getAverageRateList.useQuery(
+    const {
+        data: averageRateListResponse,
+        isLoading: isSuggestionListLoading,
+        isFetching: isSuggestionListFetching
+    } = trpc.rate.getAverageRateList.useQuery(
         {
             limit: 5,
             searching: { field: 'subject', value: debouncedSubject }
@@ -47,7 +56,8 @@ const RateForm: React.FC<{
                               onChange={event => changeSubject(event.target.value)}
                               suggestions={averageRateListResponse?.data.map(averageRate => averageRate.subject)}
                               selectSuggestion={changeSubject}
-                              isLoading={debouncedSubject && (isLoading || isFetching)}
+                              isLoading={debouncedSubject && (isSuggestionListLoading || isSuggestionListFetching)}
+                              id="rate-subject-input"
         />
         <Input placeholder="Your Rate from -10 to 10"
                className="form__input"
@@ -70,12 +80,19 @@ const RateForm: React.FC<{
                              changeValue={changeRate}
                              className="form__selection-slider"
         />
-        <Button type="submit" className="form__button">
+        <Button type="submit"
+                className="form__button"
+                disabled={!subject || typeof rate !== 'number' || isCreateRateLoading }
+        >
             RATE
         </Button>
         {
             session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL &&
-            <Button type="button" onClick={removeRatesBySubject} className="button--secondary">
+            <Button type="button"
+                    onClick={removeRatesBySubject}
+                    className="button--secondary"
+                    disabled={!subject || isRemoveRateLoading}
+            >
                 REMOVE RATE
             </Button>
         }

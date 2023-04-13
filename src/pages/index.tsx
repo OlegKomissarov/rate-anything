@@ -8,6 +8,7 @@ import RateTable from '../components/rate-table/RateTable';
 import { trpc } from '../utils/trpcClient';
 import { getQueryKey } from '@trpc/react-query';
 import { useQueryClient } from '@tanstack/react-query';
+import { TRPCClientError } from '@trpc/client';
 
 const RatePage = () => {
     const queryClient = useQueryClient();
@@ -33,11 +34,18 @@ const RatePage = () => {
             setRate(rate);
         }
     };
+    const focusSubjectInput = () => {
+        const rateValueInput = document.getElementById('rate-subject-input') as HTMLInputElement;
+        rateValueInput?.focus();
+    };
+    const focusRateInput = () => {
+        const rateValueInput = document.getElementById('rate-value-input') as HTMLInputElement;
+        rateValueInput?.focus();
+    };
     const selectSubjectToRate = (subject: string) => {
         setSubject(subject);
         setRate('');
-        const rateValueInput = document.getElementById('rate-value-input') as HTMLInputElement;
-        rateValueInput?.focus();
+        focusRateInput();
     };
     const resetForm = () => {
         setSubject('');
@@ -56,7 +64,15 @@ const RatePage = () => {
 
     const createRate = () => {
         if (validateRateSubject(subject) && validateRateValue(rate)) {
-            createRateMutation.mutate({ subject, rate }, { onSuccess: onMutationSuccess });
+            createRateMutation.mutate({ subject, rate }, {
+                onSuccess: onMutationSuccess,
+                onError: error => {
+                    if (error instanceof TRPCClientError && error.data.code === 'FORBIDDEN') {
+                        resetForm();
+                        focusSubjectInput();
+                    }
+                }
+            });
         }
     };
 
@@ -82,6 +98,8 @@ const RatePage = () => {
                       rate={rate}
                       changeRate={changeRate}
                       removeRatesBySubject={removeRatesBySubject}
+                      isCreateRateLoading={createRateMutation.isLoading}
+                      isRemoveRateLoading={removeRatesBySubjectMutation.isLoading}
             />
         </div>
         <div className="main-page-block main-page-block--table pan-screen-child">

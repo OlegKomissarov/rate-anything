@@ -37,3 +37,9 @@
   color: var(--secondary-button-text-color);
   font-size: 16px;
 }
+
+.button--disabled {
+  opacity: 0.6;
+  cursor: default;
+  pointer-events: none;
+}
