@@ -24,7 +24,7 @@
   padding-top: var(--rate-table-outer-gap);
   padding-bottom: calc(var(--rate-table-item-gap) / 2);
   width: 100%;
-  background-color: var(--light-background-color);
+  background-color: var(--color-white);
 }
 
 .table__search-input {
@@ -51,15 +51,19 @@
   justify-self: left;
 }
 
+.table__search-input-sticky-container ~ .table__item--header {
+  top: calc(var(--rate-table-outer-gap) + var(--input-height) + var(--rate-table-item-gap) / 2);
+}
+
 .table__item--header {
   position: sticky;
-  top: calc(var(--rate-table-outer-gap) + var(--input-height) + var(--rate-table-item-gap) / 2);
+  top: 0;
   z-index: 1;
   width: 100%;
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  background-color: var(--light-background-color);
+  background-color: var(--color-white);
   white-space: nowrap;
   font-family: Gilroy-Semibold;
 }

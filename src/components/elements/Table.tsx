@@ -1,5 +1,5 @@
 import React, { Dispatch, ReactNode, SetStateAction, useEffect, useRef } from 'react';
-import { getClassName, useDisableBodyScroll } from '../../utils/utils';
+import { getClassName, Searching, Sorting, useDisableBodyScroll } from '../../utils/utils';
 import { useInView } from 'react-intersection-observer';
 import Input from './Input';
 
@@ -18,14 +18,11 @@ const Table: React.FC<{
     keyFieldName: string
     className?: string
     fetchNextPage?: () => void
-    sorting?: { field: string, order: string }
-    setSorting?: Dispatch<SetStateAction<{ field: string; order: string; }>>
-    searchingValue?: string
-    setSearchingValue?: Dispatch<SetStateAction<string>>
-}> = ({
-    fieldList, data, keyFieldName, className, fetchNextPage, sorting, setSorting, searchingValue,
-    setSearchingValue
-}) => {
+    sorting?: Sorting
+    setSorting?: Dispatch<SetStateAction<Sorting>>
+    searching?: Searching
+    setSearching?: Dispatch<SetStateAction<Searching>>
+}> = ({ fieldList, data, keyFieldName, className, fetchNextPage, sorting, setSorting, searching, setSearching }) => {
     const scrollableElementRef = useRef(null);
 
     const { ref: inViewRef, inView } = useInView();
@@ -41,18 +38,18 @@ const Table: React.FC<{
     return <div className={getClassName('table custom-scrollbar', className)}
                 ref={scrollableElementRef}
     >
-        <div className="table__search-input-sticky-container"
-             style={{ gridColumnStart: 1, gridColumnEnd: fieldList.length + 1 }}
-        >
-            {
-                setSearchingValue &&
-                <Input value={searchingValue}
-                       onChange={event => setSearchingValue(event.target.value)}
+        {
+            searching && setSearching &&
+            <div className="table__search-input-sticky-container"
+                 style={{ gridColumnStart: 1, gridColumnEnd: fieldList.length + 1 }}
+            >
+                <Input value={searching.value}
+                       onChange={event => setSearching({ ...searching, value: event.target.value })}
                        className="table__search-input"
-                       placeholder="Search by subject"
+                       placeholder={`Search by ${searching.fieldPreview}`}
                 />
-            }
-        </div>
+            </div>
+        }
         {
             fieldList.map(field =>
                 <div key={field.name}

@@ -100,3 +100,14 @@ export const useDisableBodyScroll = (scrollableElement: HTMLElement | null) => {
         }
     });
 };
+
+export type Sorting = {
+    field: string
+    order: 'asc' | 'desc'
+};
+
+export type Searching = {
+    field: string
+    fieldPreview: string
+    value: string
+};

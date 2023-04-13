@@ -19,3 +19,7 @@
 .rate-table__is-rated--rated {
   opacity: 1;
 }
+
+.rate-table .table__search-input-sticky-container, .rate-table .table__item--header {
+  background-color: var(--light-background-color);
+}

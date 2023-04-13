@@ -2,8 +2,9 @@ import React from 'react';
 import { AverageRate, Rate } from '@prisma/client';
 import useModal from '../elements/useModal';
 import Button from '../elements/Button';
+import RateDetailModalContent from './RateDetailModalContent';
 
-const UserListModal: React.FC<{
+const RateDetailModal: React.FC<{
     averageRate: AverageRate & { rates: Rate[] }
 }> = ({ averageRate }) => {
     const { toggleModal, Modal } = useModal();
@@ -14,16 +15,10 @@ const UserListModal: React.FC<{
         >
             Details ({averageRate.ratesAmount})
         </Button>
-        <Modal headerText="User List">
-            {
-                averageRate.rates.map(rate =>
-                    <div key={rate.id}>
-                        {rate.userName}: {rate.rate}
-                    </div>
-                )
-            }
+        <Modal headerText={`${averageRate.subject}: ${averageRate.averageRate}`}>
+            <RateDetailModalContent averageRate={averageRate} />
         </Modal>
     </>;
 };
 
-export default UserListModal;
+export default RateDetailModal;

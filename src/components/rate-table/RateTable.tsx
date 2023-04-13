@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { trpc } from '../../utils/trpcClient';
 import Table from '../elements/Table';
-import { flattenInfiniteData, getClassName, useDebouncedValue } from '../../utils/utils';
+import { flattenInfiniteData, getClassName, Searching, Sorting, useDebouncedValue } from '../../utils/utils';
 import { AverageRate, Rate } from '@prisma/client';
-import UserListModal from './UserListModal';
+import RateDetailModal from './RateDetailModal';
 import { useSession } from 'next-auth/react';
 
 const RateTable: React.FC<{
@@ -11,9 +11,9 @@ const RateTable: React.FC<{
 }> = ({ changeSubject }) => {
     const { data: session } = useSession();
 
-    const [sorting, setSorting] = useState({ field: 'subject', order: 'asc' });
-    const [searchingValue, setSearchingValue] = useState('');
-    const searchingValueDebounced = useDebouncedValue(searchingValue, 500);
+    const [sorting, setSorting] = useState<Sorting>({ field: 'subject', order: 'asc' });
+    const [searching, setSearching] = useState<Searching>({ field: 'subject', fieldPreview: 'Subject', value: '' });
+    const searchingValueDebounced = useDebouncedValue(searching.value, 500);
 
     const { data: averageRateList, fetchNextPage } = trpc.rate.getAverageRateList.useInfiniteQuery(
         {
@@ -51,7 +51,7 @@ const RateTable: React.FC<{
         {
             name: 'ratesAmount',
             previewName: 'Popularity',
-            render: (averageRate: AverageRate & { rates: Rate[] }) => <UserListModal averageRate={averageRate} />,
+            render: (averageRate: AverageRate & { rates: Rate[] }) => <RateDetailModal averageRate={averageRate} />,
             bold: true,
             sortable: true
         },
@@ -60,28 +60,26 @@ const RateTable: React.FC<{
             previewName: 'Rated',
             render: (averageRate: AverageRate & { rates: Rate[] }) =>
                 <div className={
-                         getClassName(
-                             'rate-table__is-rated',
-                             getIsRated(averageRate) && 'check-icon rate-table__is-rated--rated'
-                         )
-                     }
+                    getClassName(
+                        'rate-table__is-rated',
+                        getIsRated(averageRate) && 'check-icon rate-table__is-rated--rated'
+                    )
+                }
                 />,
             bold: true
         }
     ];
 
-    return <>
-        <Table keyFieldName="subject"
-               className="rate-table"
-               data={flattenInfiniteData(averageRateList)}
-               fieldList={fieldList}
-               fetchNextPage={fetchNextPage}
-               sorting={sorting}
-               setSorting={setSorting}
-               searchingValue={searchingValue}
-               setSearchingValue={setSearchingValue}
-        />
-    </>;
+    return <Table keyFieldName="subject"
+                  className="rate-table"
+                  data={flattenInfiniteData(averageRateList)}
+                  fieldList={fieldList}
+                  fetchNextPage={fetchNextPage}
+                  sorting={sorting}
+                  setSorting={setSorting}
+                  searching={searching}
+                  setSearching={setSearching}
+    />;
 };
 
 export default RateTable;
