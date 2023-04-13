@@ -30,7 +30,7 @@ const RateForm: React.FC<{
         }
     );
 
-    return <form className="form"
+    return <form className="form rate-form custom-scrollbar"
                  onSubmit={event => {
                      event.preventDefault();
                      createRate();
@@ -38,7 +38,7 @@ const RateForm: React.FC<{
     >
         {
             !!session?.user &&
-            <div className="form__user-name-label">{session.user.name}</div>
+            <div className="rate-form__user-name-label">{session.user.name}</div>
         }
         <InputWithSuggestions placeholder="What You Wanna Rate"
                               className="form__input"

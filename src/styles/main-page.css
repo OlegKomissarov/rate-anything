@@ -29,7 +29,6 @@
 }
 
 .main-page-block {
-  padding: 20px;
   background-color: var(--light-background-color);
   border: 5px solid var(--dark-border-color);
   border-radius: 20px;
@@ -37,16 +36,30 @@
 }
 
 .main-page-grid__header {
+  padding: 20px;
   justify-self: center;
   grid-area: header;
 }
 
 .main-page-block--form {
   grid-area: form;
+  overflow: hidden;
 }
 
 .main-page-block--table {
-  padding: 0;
   grid-area: table;
   overflow: hidden;
+}
+
+.rate-form {
+  padding: 20px;
+  height: 100%;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.rate-form__user-name-label {
+  margin-bottom: 20px;
+  font-family: Gilroy-Semibold;
+  color: var(--user-name-text-color);
 }

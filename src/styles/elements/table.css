@@ -28,6 +28,7 @@
   width: 100%;
   display: flex;
   align-items: center;
+  grid-column: 1 / -1;
   background-color: var(--color-white);
 }
 
@@ -93,4 +94,9 @@
 
 .table__item-text--with-gap-for-caret {
   margin-right: calc(var(--caret-size) + 5px);
+}
+
+.table__empty-content-container {
+  grid-column: 1 / -1;
+  margin: 20px 20px 50px;
 }

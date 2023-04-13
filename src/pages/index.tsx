@@ -74,7 +74,7 @@ const RatePage = () => {
 
     return <div className="main-page-grid">
         <Header className="main-page-grid__header" />
-        <div className="main-page-block main-page-block--form pan-screen-child">
+        <div className="main-page-block main-page-block--form custom-scrollbar pan-screen-child">
             <RateForm rateInputRef={rateInputRef}
                       createRate={createRate}
                       subject={subject}

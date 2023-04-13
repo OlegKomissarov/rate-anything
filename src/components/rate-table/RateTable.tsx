@@ -17,7 +17,13 @@ const RateTable: React.FC<{
     const [searching, setSearching] = useState<Searching>({ field: 'subject', fieldPreview: 'Subject', value: '' });
     const searchingValueDebounced = useDebouncedValue(searching.value, 500);
 
-    const { data: averageRateList, fetchNextPage } = trpc.rate.getAverageRateList.useInfiniteQuery(
+    const {
+        data: averageRateList,
+        fetchNextPage,
+        isLoading,
+        isFetching,
+        isError
+    } = trpc.rate.getAverageRateList.useInfiniteQuery(
         {
             limit: 10,
             includePlainRates: true,
@@ -83,6 +89,9 @@ const RateTable: React.FC<{
                   setSorting={setSorting}
                   searching={searching}
                   setSearching={setSearching}
+                  isLoading={isLoading}
+                  isFetching={isFetching}
+                  isError={isError}
     />;
 };
 

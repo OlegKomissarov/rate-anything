@@ -2,6 +2,7 @@ import React, { Dispatch, ReactNode, SetStateAction, useEffect, useRef } from 'r
 import { getClassName, Searching, Sorting, useDisableBodyScroll } from '../../utils/utils';
 import { useInView } from 'react-intersection-observer';
 import Input from './Input';
+import BigLoader from '../layout/BigLoader';
 
 export type TableFieldList = {
     name: string
@@ -23,9 +24,12 @@ const Table: React.FC<{
     searching?: Searching
     setSearching?: Dispatch<SetStateAction<Searching>>
     topPanelContent?: ReactNode
+    isLoading: boolean
+    isFetching: boolean
+    isError: boolean
 }> = ({
     fieldList, data, keyFieldName, className, fetchNextPage, sorting, setSorting, searching, setSearching,
-    topPanelContent
+    topPanelContent, isLoading, isFetching, isError
 }) => {
     const scrollableElementRef = useRef(null);
 
@@ -44,9 +48,7 @@ const Table: React.FC<{
     >
         {
             !!((searching && setSearching) || topPanelContent) &&
-            <div className="table__top-panel-sticky-container"
-                 style={{ gridColumnStart: 1, gridColumnEnd: fieldList.length + 1 }}
-            >
+            <div className="table__top-panel-sticky-container">
                 {
                     !!(searching && setSearching) &&
                     <Input value={searching.value}
@@ -56,6 +58,10 @@ const Table: React.FC<{
                     />
                 }
                 {topPanelContent}
+                {
+                    isFetching && !isLoading &&
+                    <div>Updating data</div>
+                }
             </div>
         }
         {
@@ -118,6 +124,22 @@ const Table: React.FC<{
                     </div>
                 )
             )
+        }
+        {
+            data && !data.length &&
+            <div className="table__empty-content-container">No data found</div>
+        }
+        {
+            isLoading &&
+            <div className="table__empty-content-container">
+                <BigLoader />
+            </div>
+        }
+        {
+            isError &&
+            <div className="table__empty-content-container">
+                Error occurred while loading data
+            </div>
         }
         <div ref={inViewRef} />
     </div>;
