@@ -15,6 +15,7 @@
   display: grid;
   justify-items: center;
   align-items: start;
+  box-sizing: border-box;
   background-color: var(--modal-outer-background-color);
   cursor: initial;
 }
@@ -23,7 +24,8 @@
   position: relative;
   min-width: 40%;
   max-width: 80%;
-  max-height: 80%;
+  max-height: 100%;
+  display: flex;
   overflow: hidden;
   background-color: var(--modal-background-color);
   border-radius: 10px;
@@ -32,8 +34,8 @@
 .modal__header {
   position: absolute;
   z-index: 2;
-  padding: 20px 10px 20px 20px;
-  width: calc(100% - var(--scrollbar-width));
+  padding: 20px;
+  width: 100%;
   display: grid;
   align-items: center;
   grid-template-columns: auto min-content;
@@ -58,6 +60,7 @@
 
 .modal-content {
   padding-top: 64px;
+  flex: 1;
   box-sizing: border-box;
 }
 
