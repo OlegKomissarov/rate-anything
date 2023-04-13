@@ -30,11 +30,6 @@
 
 .main-page-block {
   padding: 20px;
-  /*box-shadow: rgba(25, 118, 210, 0.4) -5px 5px,*/
-  /*rgba(25, 118, 210, 0.3) -10px 10px,*/
-  /*rgba(25, 118, 210, 0.25) -15px 15px,*/
-  /*rgba(25, 118, 210, 0.2) -20px 20px,*/
-  /*rgba(25, 118, 210, 0.15) -25px 25px;*/
   background-color: var(--light-background-color);
   border: 5px solid var(--dark-border-color);
   border-radius: 20px;

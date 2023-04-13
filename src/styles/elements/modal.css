@@ -41,9 +41,9 @@
 }
 
 .modal__header-text {
+  font-family: Gilroy-Semibold;
   font-size: 24px;
   line-height: 24px;
-  font-family: Gilroy-Semibold;
   text-transform: uppercase;
 }
 
