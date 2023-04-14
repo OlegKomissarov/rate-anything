@@ -46,6 +46,7 @@
 
 @media (max-width: 1024px) and (orientation: portrait) {
   .rate-detail-table__button {
+    margin-top: 15px;
     width: 100%;
   }
 }
