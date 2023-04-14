@@ -1,5 +1,20 @@
+.global-loader {
+  position: fixed;
+  top: 20px;
+  right: 40px;
+}
+
+@media (max-width: 1024px) and (orientation: portrait) {
+  .loader {
+    position: fixed !important;
+    top: 5px !important;
+    right: 15px !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+}
+
 .loader {
-  position: relative;
   width: 33px;
   height: 33px;
   display: block;

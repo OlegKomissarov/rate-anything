@@ -42,12 +42,6 @@ a {
   text-decoration: none;
 }
 
-.global-loader {
-  position: fixed;
-  top: 20px;
-  right: 40px;
-}
-
 .disabled {
   pointer-events: none;
   opacity: 0.6;

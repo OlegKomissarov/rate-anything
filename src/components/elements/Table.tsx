@@ -131,11 +131,7 @@ const Table: React.FC<{
         }
         {
             isLoading &&
-            (
-                isMobile()
-                    ? <Loader className="table__empty-content-container" />
-                    : <BigLoader className="table__empty-content-container" />
-            )
+            <BigLoader className="table__empty-content-container" />
         }
         {
             isError &&
