@@ -4,7 +4,7 @@ import Button from '../elements/Button';
 import { useSession } from 'next-auth/react';
 import InputWithSuggestions from '../elements/InputWithSuggestions';
 import { trpc } from '../../utils/trpcClient';
-import { useDebouncedValue } from '../../utils/utils';
+import { isMobile, useDebouncedValue } from '../../utils/utils';
 import RateSelectionSlider from './RateSelectionSlider';
 
 const RateForm: React.FC<{
@@ -48,7 +48,7 @@ const RateForm: React.FC<{
                  }}
     >
         {
-            !!session?.user &&
+            !!session?.user && !isMobile() &&
             <div className="secondary-text rate-form__user-name-label">{session.user.name}</div>
         }
         <InputWithSuggestions placeholder="What You Wanna Rate"
@@ -87,7 +87,7 @@ const RateForm: React.FC<{
                              disabled={!subject}
         />
         <Button type="submit"
-                className="form__button"
+                className="form__button form__submit-button"
                 disabled={!subject || typeof rate !== 'number' || isCreateRateLoading }
         >
             RATE
@@ -96,7 +96,7 @@ const RateForm: React.FC<{
             session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL &&
             <Button type="button"
                     onClick={removeRatesBySubject}
-                    className="button--secondary"
+                    className="button--secondary form__button"
                     disabled={!subject || isRemoveRateLoading}
             >
                 REMOVE RATE

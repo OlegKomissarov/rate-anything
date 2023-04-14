@@ -134,3 +134,7 @@ export const useLoaderDelay = () => {
 
     return showLoader;
 };
+
+const maxMobileWidth = 1024;
+
+export const isMobile = () => window.innerWidth <= maxMobileWidth;

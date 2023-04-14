@@ -9,6 +9,7 @@ import { trpc } from '../utils/trpcClient';
 import { getQueryKey } from '@trpc/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 import { TRPCClientError } from '@trpc/client';
+import { getClassName, isMobile } from '../utils/utils';
 
 const RatePage = () => {
     const queryClient = useQueryClient();
@@ -22,6 +23,8 @@ const RatePage = () => {
             router.push('login');
         }
     });
+
+    const [currentMobileScreen, setCurrentMobileScreen] = useState<'form' | 'table'>('form');
 
     const [subject, setSubject] = useState('');
     const [rate, setRate] = useState<number | string>('');
@@ -90,7 +93,14 @@ const RatePage = () => {
 
     return <div className="main-page-grid">
         <Header className="main-page-grid__header" />
-        <div className="main-page-block main-page-block--form custom-scrollbar pan-screen-child">
+        <div onClick={() => setCurrentMobileScreen('form')}
+             className={
+                 getClassName(
+                     'main-page-block main-page-block--form custom-scrollbar pan-screen-child',
+                     (isMobile() && currentMobileScreen === 'form') && 'main-page-block--expanded-mobile'
+                 )
+             }
+        >
             <RateForm rateInputRef={rateInputRef}
                       createRate={createRate}
                       subject={subject}
@@ -102,7 +112,14 @@ const RatePage = () => {
                       isRemoveRateLoading={removeRatesBySubjectMutation.isLoading}
             />
         </div>
-        <div className="main-page-block main-page-block--table pan-screen-child">
+        <div onClick={() => setCurrentMobileScreen('table')}
+             className={
+                 getClassName(
+                     'main-page-block main-page-block--table pan-screen-child',
+                     (isMobile() && currentMobileScreen === 'table') && 'main-page-block--expanded-mobile'
+                 )
+             }
+        >
             <RateTable selectSubjectToRate={selectSubjectToRate} />
         </div>
     </div>;

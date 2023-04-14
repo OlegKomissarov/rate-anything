@@ -6,6 +6,12 @@
   --input-height: 60px;
 }
 
+@media (max-width: 640px) {
+  :root {
+    --input-height: 50px;
+  }
+}
+
 input, button {
   outline: none;
   font-family: Gilroy-Regular, sans-serif;
@@ -42,12 +48,11 @@ input[type=number]::-webkit-inner-spin-button {
   text-align: center;
 }
 
-.form__input:not(:last-child) {
+.form__input:not(:last-child), .form__button:not(:last-child) {
   margin-bottom: 20px;
 }
 
-.form__button {
-  margin-bottom: 20px;
+.form__submit-button {
   width: 100%;
 }
 
