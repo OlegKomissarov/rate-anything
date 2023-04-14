@@ -33,6 +33,7 @@ const Table: React.FC<{
     topPanelContent, isLoading, isFetching, isError
 }) => {
     const scrollableElementRef = useRef(null);
+    useDisableBodyScroll(scrollableElementRef.current);
 
     const { ref: inViewRef, inView } = useInView();
 
@@ -41,8 +42,6 @@ const Table: React.FC<{
             fetchNextPage();
         }
     }, [inView]);
-
-    useDisableBodyScroll(scrollableElementRef.current);
 
     return <div className={getClassName('table custom-scrollbar', className)}
                 ref={scrollableElementRef}

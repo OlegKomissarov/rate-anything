@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Input from '../elements/Input';
 import Button from '../elements/Button';
 import { useSession } from 'next-auth/react';
 import InputWithSuggestions from '../elements/InputWithSuggestions';
 import { trpc } from '../../utils/trpcClient';
-import { isMobile, useDebouncedValue } from '../../utils/utils';
+import { isMobile, useDebouncedValue, useDisableBodyScroll } from '../../utils/utils';
 import RateSelectionSlider from './RateSelectionSlider';
 
 const RateForm: React.FC<{
@@ -21,6 +21,9 @@ const RateForm: React.FC<{
     rateInputRef, createRate, subject, changeSubject, rate, changeRate, removeRatesBySubject, isCreateRateLoading,
     isRemoveRateLoading
 }) => {
+    const scrollableElementRef = useRef(null);
+    useDisableBodyScroll(scrollableElementRef.current);
+
     const { data: session } = useSession();
 
     const [showSubjectSuggestions, setShowSubjectSuggestions] = useState(false);
@@ -41,7 +44,8 @@ const RateForm: React.FC<{
         }
     );
 
-    return <form className="form rate-form custom-scrollbar"
+    return <form ref={scrollableElementRef}
+                 className="form rate-form custom-scrollbar"
                  onSubmit={event => {
                      event.preventDefault();
                      createRate();

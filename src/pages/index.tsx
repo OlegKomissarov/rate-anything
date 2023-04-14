@@ -96,7 +96,7 @@ const RatePage = () => {
         <div onClick={() => setCurrentMobileScreen('form')}
              className={
                  getClassName(
-                     'main-page-block main-page-block--form custom-scrollbar pan-screen-child',
+                     'main-page-block main-page-block--form pan-screen-child',
                      (isMobile() && currentMobileScreen === 'form') && 'main-page-block--expanded-mobile'
                  )
              }

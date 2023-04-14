@@ -18,7 +18,7 @@
   grid-auto-columns: 2fr 3fr;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1024px) and (orientation: portrait) {
   .main-page-grid {
     top: 3vh;
     left: 3vw;
@@ -37,7 +37,7 @@
   cursor: initial;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1024px) and (orientation: portrait) {
   .main-page-block {
     min-height: calc(20px + var(--input-height) + 20px);
     transition: flex 0.5s;
