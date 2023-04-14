@@ -1,16 +1,10 @@
 import React from 'react';
-import { getClassName, isMobile, useLoaderDelay } from '../../utils/utils';
+import { getClassName, isMobile } from '../../utils/utils';
 import Loader from './Loader';
 
 const BigLoader: React.FC<{ className?: string }> = ({ className }) => {
-    const showLoader = useLoaderDelay();
-
     if (isMobile()) {
         return <Loader />;
-    }
-
-    if (!showLoader) {
-        return null;
     }
 
     return <div className={getClassName('big-loader', className)}>

@@ -121,20 +121,6 @@ export const useGetIsSubjectRated = () => {
         averageRate.rates.some(rate => rate.userEmail === session?.user?.email);
 };
 
-const loaderDelay = 100;
-
-export const useLoaderDelay = () => {
-    const [showLoader, setShowLoader] = useState(false);
-
-    useEffect(() => {
-        setTimeout(() => {
-            setShowLoader(true);
-        }, loaderDelay);
-    }, []);
-
-    return showLoader;
-};
-
 const maxMobileWidth = 1024;
 
 export const isMobile = () => window.innerWidth <= maxMobileWidth;
