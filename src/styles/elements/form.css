@@ -35,6 +35,13 @@ input[type=number]::-webkit-inner-spin-button {
   line-height: 24px;
 }
 
+@media (max-width: 1024px) and (orientation: portrait) {
+  .input {
+    font-size: 20px;
+    line-height: 20px;
+  }
+}
+
 .input::placeholder {
   color: var(--input-placeholder-color);
 }

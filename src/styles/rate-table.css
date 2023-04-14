@@ -43,3 +43,9 @@
 .rate-detail-table__button {
   flex: 1;
 }
+
+@media (max-width: 1024px) and (orientation: portrait) {
+  .rate-detail-table__button {
+    width: 100%;
+  }
+}

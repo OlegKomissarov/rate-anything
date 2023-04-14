@@ -39,6 +39,12 @@
   background-color: var(--color-white);
 }
 
+@media (max-width: 1024px) and (orientation: portrait) {
+  .table__top-panel-sticky-container {
+    flex-direction: column;
+  }
+}
+
 .table__search-input {
   justify-self: left;
   text-align: center;
@@ -50,8 +56,16 @@
   }
 }
 
-.table__search-input:not(:last-child) {
-  margin-right: 20px;
+@media (min-width: 1024px) or (orientation: landscape) {
+  .table__search-input:not(:last-child) {
+    margin-right: 20px;
+  }
+}
+
+@media (max-width: 1024px) and (orientation: portrait) {
+  .table__search-input:not(:last-child) {
+    margin-bottom: 15px;
+  }
 }
 
 .table__item {

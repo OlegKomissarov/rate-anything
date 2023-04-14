@@ -20,6 +20,13 @@
   cursor: initial;
 }
 
+@media (max-width: 1024px) and (orientation: portrait) {
+  .modal-container {
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+  }
+}
+
 .modal {
   position: relative;
   min-width: 40%;
@@ -29,6 +36,13 @@
   overflow: hidden;
   background-color: var(--modal-background-color);
   border-radius: 10px;
+}
+
+@media (max-width: 1024px) and (orientation: portrait) {
+  .modal {
+    min-width: 92%;
+    max-width: 92%;
+  }
 }
 
 .modal__header {

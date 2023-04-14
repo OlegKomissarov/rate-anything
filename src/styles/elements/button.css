@@ -22,6 +22,12 @@
   cursor: pointer;
 }
 
+@media (max-width: 1024px) and (orientation: portrait) {
+  .button {
+    font-size: 20px;
+  }
+}
+
 @media (hover: hover) {
   .button:hover {
     filter: brightness(1.25);
@@ -36,4 +42,10 @@
   font-family: Gilroy-Medium;
   color: var(--secondary-button-text-color);
   font-size: 16px;
+}
+
+@media (max-width: 1024px) and (orientation: portrait) {
+  .button--secondary {
+    font-size: 14px;
+  }
 }
