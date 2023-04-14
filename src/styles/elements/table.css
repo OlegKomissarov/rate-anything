@@ -125,6 +125,12 @@
   height: var(--caret-size);
 }
 
+@media (max-width: 1024px) and (orientation: portrait) {
+  .table__header-caret {
+    transform: scale(0.75);
+  }
+}
+
 .table__item-text--with-gap-for-caret {
   margin-right: calc(var(--caret-size) + 5px);
 }

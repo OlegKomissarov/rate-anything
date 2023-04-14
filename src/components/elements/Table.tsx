@@ -93,11 +93,13 @@ const Table: React.FC<{
                     </div>
                     {
                         field.sortable && sorting?.field === field.name &&
-                        (
-                            sorting.order === 'asc'
-                                ? <div className="caret-icon caret-icon--up table__header-caret" />
-                                : <div className="caret-icon caret-icon--down table__header-caret" />
-                        )
+                        <div className="table__header-caret">
+                            {
+                                sorting.order === 'asc'
+                                    ? <div className="caret-icon caret-icon--up" />
+                                    : <div className="caret-icon caret-icon--down" />
+                            }
+                        </div>
                     }
                 </div>
             )
