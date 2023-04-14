@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, useState } from 'react';
+import React, { Dispatch, InputHTMLAttributes, SetStateAction } from 'react';
 import Input from './Input';
 import { getClassName } from '../../utils/utils';
 import Loader from '../layout/Loader';
@@ -9,9 +9,11 @@ const InputWithSuggestions: React.FC<InputHTMLAttributes<HTMLInputElement> & {
     selectOnFocus?: boolean
     refValue?: React.Ref<HTMLInputElement>
     isLoading: boolean
-}> = ({ suggestions, selectSuggestion, className, value, onChange, isLoading, ...props }) => {
-    const [showSuggestions, setShowSuggestions] = useState(false);
-
+    showSuggestions: boolean
+    setShowSuggestions: Dispatch<SetStateAction<boolean>>
+}> = ({
+    suggestions, selectSuggestion, className, value, onChange, isLoading, showSuggestions, setShowSuggestions, ...props
+}) => {
     const onClickSuggestion = (suggestion: string) => {
         selectSuggestion(suggestion);
         setShowSuggestions(false);

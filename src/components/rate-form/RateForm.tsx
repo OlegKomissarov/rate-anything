@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Input from '../elements/Input';
 import Button from '../elements/Button';
 import { useSession } from 'next-auth/react';
@@ -23,6 +23,8 @@ const RateForm: React.FC<{
 }) => {
     const { data: session } = useSession();
 
+    const [showSubjectSuggestions, setShowSubjectSuggestions] = useState(false);
+
     const debouncedSubject = useDebouncedValue(subject, 500);
     const {
         data: averageRateListResponse,
@@ -34,7 +36,7 @@ const RateForm: React.FC<{
             searching: { field: 'subject', value: debouncedSubject }
         },
         {
-            enabled: !!debouncedSubject,
+            enabled: !!debouncedSubject && showSubjectSuggestions,
             keepPreviousData: true
         }
     );
@@ -58,6 +60,8 @@ const RateForm: React.FC<{
                               selectSuggestion={changeSubject}
                               isLoading={debouncedSubject && (isSuggestionListLoading || isSuggestionListFetching)}
                               id="rate-subject-input"
+                              showSuggestions={showSubjectSuggestions}
+                              setShowSuggestions={setShowSubjectSuggestions}
         />
         <Input placeholder="Your Rate from -10 to 10"
                className="form__input"
