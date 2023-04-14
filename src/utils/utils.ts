@@ -120,3 +120,17 @@ export const useGetIsSubjectRated = () => {
     return (averageRate: AverageRate & { rates: Rate[] }) =>
         averageRate.rates.some(rate => rate.userEmail === session?.user?.email);
 };
+
+const loaderDelay = 100;
+
+export const useLoaderDelay = () => {
+    const [showLoader, setShowLoader] = useState(false);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setShowLoader(true);
+        }, loaderDelay);
+    }, []);
+
+    return showLoader;
+};
