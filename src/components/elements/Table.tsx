@@ -1,5 +1,5 @@
 import React, { Dispatch, ReactNode, SetStateAction, useEffect, useRef } from 'react';
-import { getClassName, Searching, Sorting, useDisableBodyScroll } from '../../utils/utils';
+import { getClassName, isMobile, Searching, Sorting, useDisableBodyScroll } from '../../utils/utils';
 import { useInView } from 'react-intersection-observer';
 import Input from './Input';
 import BigLoader from '../layout/BigLoader';
@@ -131,7 +131,11 @@ const Table: React.FC<{
         }
         {
             isLoading &&
-            <BigLoader className="table__empty-content-container" />
+            (
+                isMobile()
+                    ? <Loader className="table__empty-content-container" />
+                    : <BigLoader className="table__empty-content-container" />
+            )
         }
         {
             isError &&

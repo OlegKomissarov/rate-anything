@@ -1,8 +1,15 @@
 :root {
   --table-text-color: #335C67;
   --caret-size: 16px;
-  --rate-table-item-gap: 24px;
+  --rate-table-item-gap: 20px;
   --rate-table-outer-gap: 20px;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --rate-table-item-gap: 15px;
+    --rate-table-outer-gap: 15px;
+  }
 }
 
 .table {
@@ -13,7 +20,7 @@
   height: 100%;
   display: grid;
   justify-items: center;
-  align-items: start;
+  align-items: center;
   grid-template-rows: min-content;
   overflow: auto;
   box-sizing: border-box;
@@ -37,6 +44,12 @@
   text-align: center;
 }
 
+@media (max-width: 1024px) and (orientation: portrait) {
+  .table__search-input {
+    width: 100%;
+  }
+}
+
 .table__search-input:not(:last-child) {
   margin-right: 20px;
 }
@@ -46,6 +59,12 @@
   word-break: break-word;
   color: var(--table-text-color);
   font-size: 24px;
+}
+
+@media (max-width: 1024px) {
+  .table__item {
+    font-size: 16px;
+  }
 }
 
 .table__item--clickable {
@@ -97,8 +116,8 @@
 }
 
 .table__empty-content-container {
-  grid-column: 1 / -1;
   margin: 20px 20px 50px;
+  grid-column: 1 / -1;
 }
 
 .table__refetch-loader {

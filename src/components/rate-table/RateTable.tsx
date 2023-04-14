@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { trpc } from '../../utils/trpcClient';
-import Table from '../elements/Table';
+import Table, { TableFieldList } from '../elements/Table';
 import {
-    flattenInfiniteData, getClassName, Searching, Sorting, useDebouncedValue, useGetIsSubjectRated
+    flattenInfiniteData, getClassName, isMobile, Searching, Sorting, useDebouncedValue, useGetIsSubjectRated
 } from '../../utils/utils';
 import { AverageRate, Rate } from '@prisma/client';
 import RateDetailModal from './RateDetailModal';
@@ -32,7 +32,7 @@ const RateTable: React.FC<{
 
     const getIsSubjectRated = useGetIsSubjectRated();
 
-    const fieldList = [
+    const fieldList: TableFieldList = [
         {
             name: 'subject',
             previewName: 'Subject',
@@ -61,8 +61,11 @@ const RateTable: React.FC<{
                 <RateDetailModal averageRate={averageRate} selectSubjectToRate={selectSubjectToRate} />,
             bold: true,
             sortable: true
-        },
-        {
+        }
+    ];
+
+    if (!isMobile()) {
+        fieldList.push({
             name: 'isRated',
             previewName: 'Rated',
             render: (averageRate: AverageRate & { rates: Rate[] }) =>
@@ -74,8 +77,8 @@ const RateTable: React.FC<{
                 }
                 />,
             bold: true
-        }
-    ];
+        });
+    }
 
     return <Table keyFieldName="subject"
                   className="rate-table"

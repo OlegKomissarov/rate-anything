@@ -12,7 +12,7 @@ const getBaseUrl = () => {
 };
 
 const shouldRetry = (failureCount: number, error: unknown) =>
-    failureCount < 2 && (!(error instanceof TRPCClientError) || error.data.code === 'INTERNAL_SERVER_ERROR');
+    failureCount < 2 && (!(error instanceof TRPCClientError) || error.data?.code === 'INTERNAL_SERVER_ERROR');
 
 export const trpc = createTRPCNext<AppRouter>({
     config: () => ({

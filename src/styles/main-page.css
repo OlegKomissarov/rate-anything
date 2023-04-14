@@ -39,7 +39,7 @@
 
 @media (max-width: 1024px) and (orientation: portrait) {
   .main-page-block {
-    min-height: calc(20px + var(--input-height) + 20px);
+    min-height: calc(var(--rate-table-outer-gap) + var(--input-height) + var(--rate-table-item-gap));
     transition: flex 0.5s;
   }
   .main-page-block--expanded-mobile {
@@ -74,22 +74,10 @@
 
 .main-page-block__expand-icon {
   position: absolute;
-  top: calc((20px + var(--input-height) + 20px) / 2);
-  right: 5px;
+  top: calc(calc(var(--rate-table-outer-gap) + var(--input-height) + var(--rate-table-item-gap)) / 2);
+  right: 1px;
   z-index: 1;
   opacity: 0;
   transition: opacity 0.25s;
   transform: translateY(-50%);
-}
-
-.rate-form {
-  padding: 20px;
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  box-sizing: border-box;
-}
-
-.rate-form__user-name-label:not(:last-child) {
-  margin-bottom: 20px;
 }

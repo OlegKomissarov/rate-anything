@@ -72,7 +72,7 @@
   }
 }
 
-@media (hover: hover) and (min-width: calc(640px + 1px)) {
+@media (hover: hover) and (min-width: calc(641px)) {
   .login__astronaut:not(.login__astronaut--animated):hover, .login__button:hover ~ .login__astronaut:not(.login__astronaut--animated) {
     transform: translate(-50%, -50%) rotateZ(15deg);
   }

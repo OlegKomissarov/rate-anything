@@ -2,6 +2,12 @@
   grid-template-columns: 4fr 1fr 2fr 1fr;
 }
 
+@media (max-width: 1024px) {
+  .rate-table {
+    grid-template-columns: 4fr 1fr 2fr;
+  }
+}
+
 .rate-table__subject-item {
   cursor: pointer;
 }
@@ -22,6 +28,12 @@
 
 .rate-table .table__top-panel-sticky-container, .rate-table .table__item--header {
   background-color: var(--light-background-color);
+}
+
+@media (max-width: 1024px) {
+  .open-rate-detail-modal-button {
+    font-size: 12px;
+  }
 }
 
 .rate-detail-table {
