@@ -5,7 +5,8 @@ const RateSelectionSlider: React.FC<{
     value: number | string
     changeValue: (value: number) => void
     className?: string
-}> = ({ value, changeValue, className }) => {
+    disabled?: boolean
+}> = ({ value, changeValue, className, disabled }) => {
     const selectionSliderRef = useRef<HTMLDivElement>(null);
     const hiddenInputRef = useRef<HTMLInputElement>(null);
 
@@ -73,7 +74,7 @@ const RateSelectionSlider: React.FC<{
     };
 
     return <div ref={selectionSliderRef}
-                className={getClassName('selection-slider', className)}
+                className={getClassName('selection-slider', className, disabled && 'disabled')}
                 onMouseMove={event => setHoverPositionValue(calculateValueByDragPosition(event.clientX))}
     >
         <div className="selection-slider__main-line">

@@ -38,7 +38,7 @@ const LoginPage = () => {
                className={getClassName(
                    'login__astronaut pan-screen-child',
                    shouldAnimateAstronaut && 'login__astronaut--animated',
-                   authDisabled && 'login__astronaut--disabled'
+                   authDisabled && 'disabled'
                )}
                onClick={onClickSignIn}
                priority

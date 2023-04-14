@@ -1,12 +1,12 @@
-import React, { FocusEventHandler, InputHTMLAttributes } from 'react';
+import React, { InputHTMLAttributes } from 'react';
+import { getClassName } from '../../utils/utils';
 
 const Input: React.FC<InputHTMLAttributes<HTMLInputElement> & {
     selectOnFocus?: boolean
-    onFocus?: FocusEventHandler
     refValue?: React.Ref<HTMLInputElement>
-}> = ({ className, selectOnFocus, onFocus, refValue, ...props }) => {
+}> = ({ className, selectOnFocus, onFocus, refValue, disabled, ...props }) => {
     return <input {...props}
-                  className={className ? `input ${className}` : 'input'}
+                  className={getClassName('input', className, disabled && 'disabled')}
                   onFocus={event => {
                       if (selectOnFocus) {
                           event.target.select();

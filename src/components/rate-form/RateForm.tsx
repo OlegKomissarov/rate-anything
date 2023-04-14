@@ -79,10 +79,12 @@ const RateForm: React.FC<{
                }}
                refValue={rateInputRef}
                id="rate-value-input"
+               disabled={!subject}
         />
         <RateSelectionSlider value={rate}
                              changeValue={changeRate}
                              className="form__selection-slider"
+                             disabled={!subject}
         />
         <Button type="submit"
                 className="form__button"
