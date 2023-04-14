@@ -5,7 +5,6 @@ import Head from 'next/head';
 import { SessionProvider } from 'next-auth/react';
 import { trpc } from '../utils/trpcClient';
 import { Slide, ToastContainer } from 'react-toastify';
-import StarsBackground from '../components/layout/StarsBackground';
 import SessionLoader from '../components/layout/SessionLoader';
 
 const App = (props: any) => {
@@ -18,7 +17,6 @@ const App = (props: any) => {
         </Head>
         <div className="app">
             <Component {...pageProps} />
-            <StarsBackground />
         </div>
         <ToastContainer autoClose={false}
                         transition={Slide}

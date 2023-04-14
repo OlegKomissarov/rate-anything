@@ -6,7 +6,7 @@ import useBodyNoScrollBar from '../../utils/useBodyNoScrollBar';
 import { trpc } from '../../utils/trpcClient';
 import Loader from './Loader';
 
-const StarsBackground = () => {
+const StarsBackground: React.FC<{ showStars?: boolean }> = ({ showStars }) => {
     const { backgroundData, generateBackgroundData } = useBackgroundData();
     const { backgroundSize, itemPositions } = backgroundData;
 
@@ -15,6 +15,7 @@ const StarsBackground = () => {
             limit: 500
         },
         {
+            enabled: showStars,
             onSuccess: averageRateListResponse => {
                 generateBackgroundData(averageRateListResponse.data.length);
             }
@@ -52,10 +53,14 @@ const StarsBackground = () => {
         <div className="stars-background__decor-stars" />
         <div className="stars-background__twinkling" />
         {
-            (isLoading || isFetching) &&
+            showStars && (isLoading || isFetching) &&
             <Loader className="global-loader" />
         }
     </div>;
+};
+
+StarsBackground.defaultProps = {
+    showStars: true
 };
 
 export default StarsBackground;

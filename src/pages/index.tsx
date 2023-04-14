@@ -10,6 +10,7 @@ import { getQueryKey } from '@trpc/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 import { TRPCClientError } from '@trpc/client';
 import { getClassName, isMobile } from '../utils/utils';
+import StarsBackground from '../components/layout/StarsBackground';
 
 const RatePage = () => {
     const queryClient = useQueryClient();
@@ -91,44 +92,47 @@ const RatePage = () => {
         return null;
     }
 
-    return <div className="main-page-grid">
-        <Header className="main-page-grid__header" />
-        <div onClick={() => setCurrentMobileScreen('form')}
-             className={
-                 getClassName(
-                     'main-page-block main-page-block--form pan-screen-child',
-                     (isMobile() && currentMobileScreen === 'form') && 'main-page-block--expanded-mobile'
-                 )
-             }
-        >
-            <RateForm rateInputRef={rateInputRef}
-                      createRate={createRate}
-                      subject={subject}
-                      changeSubject={changeSubject}
-                      rate={rate}
-                      changeRate={changeRate}
-                      removeRatesBySubject={removeRatesBySubject}
-                      isCreateRateLoading={createRateMutation.isLoading}
-                      isRemoveRateLoading={removeRatesBySubjectMutation.isLoading}
-            />
-            <div className="main-page-block__expand-icon">
-                <div className="expand-icon" />
+    return <>
+        <StarsBackground showStars={!isMobile()} />
+        <div className="main-page-grid">
+            <Header className="main-page-grid__header" />
+            <div onClick={() => setCurrentMobileScreen('form')}
+                 className={
+                     getClassName(
+                         'main-page-block main-page-block--form pan-screen-child',
+                         (isMobile() && currentMobileScreen === 'form') && 'main-page-block--expanded-mobile'
+                     )
+                 }
+            >
+                <RateForm rateInputRef={rateInputRef}
+                          createRate={createRate}
+                          subject={subject}
+                          changeSubject={changeSubject}
+                          rate={rate}
+                          changeRate={changeRate}
+                          removeRatesBySubject={removeRatesBySubject}
+                          isCreateRateLoading={createRateMutation.isLoading}
+                          isRemoveRateLoading={removeRatesBySubjectMutation.isLoading}
+                />
+                <div className="main-page-block__expand-icon">
+                    <div className="expand-icon" />
+                </div>
+            </div>
+            <div onClick={() => setCurrentMobileScreen('table')}
+                 className={
+                     getClassName(
+                         'main-page-block main-page-block--table pan-screen-child',
+                         (isMobile() && currentMobileScreen === 'table') && 'main-page-block--expanded-mobile'
+                     )
+                 }
+            >
+                <RateTable selectSubjectToRate={selectSubjectToRate} />
+                <div className="main-page-block__expand-icon">
+                    <div className="expand-icon" />
+                </div>
             </div>
         </div>
-        <div onClick={() => setCurrentMobileScreen('table')}
-             className={
-                 getClassName(
-                     'main-page-block main-page-block--table pan-screen-child',
-                     (isMobile() && currentMobileScreen === 'table') && 'main-page-block--expanded-mobile'
-                 )
-             }
-        >
-            <RateTable selectSubjectToRate={selectSubjectToRate} />
-            <div className="main-page-block__expand-icon">
-                <div className="expand-icon" />
-            </div>
-        </div>
-    </div>;
+    </>;
 };
 
 export default RatePage;
