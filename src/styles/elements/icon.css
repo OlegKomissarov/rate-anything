@@ -81,3 +81,57 @@
   transform: rotate(-56deg);
   border-radius: 0 3px 3px 0;
 }
+
+
+.expand-icon {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  animation: expand-icon-animation infinite 5s;
+}
+
+@keyframes expand-icon-animation {
+  0% {
+    transform: scaleY(1);
+  }
+  42% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(1.5);
+  }
+  58% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+.expand-icon::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 6px;
+  width: 2px;
+  height: 22px;
+  display: block;
+  box-sizing: border-box;
+  border-top: 9px solid;
+  border-bottom: 9px solid;
+}
+
+.expand-icon::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  display: block;
+  box-sizing: border-box;
+  transform: rotate(-45deg);
+  animation: expand-icon-arrows-animation infinite 1s;
+  box-shadow: -6px 6px 0 -4px,
+  6px -6px 0 -4px;
+}

@@ -111,6 +111,9 @@ const RatePage = () => {
                       isCreateRateLoading={createRateMutation.isLoading}
                       isRemoveRateLoading={removeRatesBySubjectMutation.isLoading}
             />
+            <div className="main-page-block__expand-icon">
+                <div className="expand-icon" />
+            </div>
         </div>
         <div onClick={() => setCurrentMobileScreen('table')}
              className={
@@ -121,6 +124,9 @@ const RatePage = () => {
              }
         >
             <RateTable selectSubjectToRate={selectSubjectToRate} />
+            <div className="main-page-block__expand-icon">
+                <div className="expand-icon" />
+            </div>
         </div>
     </div>;
 };
