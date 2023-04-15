@@ -8,7 +8,6 @@ import { isMobile, useDebouncedValue, useDisableBodyScroll } from '../../utils/u
 import RateSelectionSlider from './RateSelectionSlider';
 
 const RateForm: React.FC<{
-    rateInputRef: React.RefObject<HTMLInputElement>
     createRate: () => void
     subject: string
     changeSubject: (subject: string) => void
@@ -18,8 +17,7 @@ const RateForm: React.FC<{
     isCreateRateLoading: boolean
     isRemoveRateLoading: boolean
 }> = ({
-    rateInputRef, createRate, subject, changeSubject, rate, changeRate, removeRatesBySubject, isCreateRateLoading,
-    isRemoveRateLoading
+    createRate, subject, changeSubject, rate, changeRate, removeRatesBySubject, isCreateRateLoading, isRemoveRateLoading
 }) => {
     const scrollableElementRef = useRef(null);
     useDisableBodyScroll(scrollableElementRef.current);
@@ -81,7 +79,6 @@ const RateForm: React.FC<{
                        }
                    }
                }}
-               refValue={rateInputRef}
                id="rate-value-input"
                disabled={!subject}
         />

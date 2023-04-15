@@ -4,11 +4,12 @@
 
 .main-page-grid {
   position: fixed;
-  top: 5vh;
-  left: 5vw;
+  top: 0;
+  left: 0;
   z-index: 10;
-  width: 90vw;
-  height: 90vh;
+  padding: 5vh 5vw;
+  width: 100vw;
+  height: 100vh;
   display: grid;
   gap: 25px;
   grid-template-areas:
@@ -16,14 +17,16 @@
     'form table';
   grid-template-rows: auto 1fr;
   grid-auto-columns: 2fr 3fr;
+  box-sizing: border-box;
 }
 
 @media (max-width: 1024px) and (orientation: portrait) {
   .main-page-grid {
-    top: 3vh;
-    left: 3vw;
-    width: 94vw;
-    height: 94vh;
+    top: 0;
+    left: 0;
+    padding: 3vh 3vw;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
   }

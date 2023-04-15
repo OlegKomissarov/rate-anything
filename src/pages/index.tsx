@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Header from '../components/layout/Header';
@@ -9,15 +9,12 @@ import { trpc } from '../utils/trpcClient';
 import { getQueryKey } from '@trpc/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 import { TRPCClientError } from '@trpc/client';
-import { getClassName, isMobile } from '../utils/utils';
+import { getClassName, isClient, isMobile } from '../utils/utils';
 import StarsBackground from '../components/layout/StarsBackground';
 
 const RatePage = () => {
     const queryClient = useQueryClient();
     const router = useRouter();
-
-    const rateInputRef = useRef<HTMLInputElement>(null);
-
     const { data: session } = useSession({
         required: true,
         onUnauthenticated: () => {
@@ -26,6 +23,19 @@ const RatePage = () => {
     });
 
     const [currentMobileScreen, setCurrentMobileScreen] = useState<'form' | 'table'>('form');
+    const [screenHeight, setScreenHeight] =
+        useState(isClient ? document.documentElement.clientHeight : 0);
+    useEffect(() => {
+        if (isMobile()) {
+            const onResize = () => {
+                setScreenHeight(document.documentElement.clientHeight);
+            };
+            window.addEventListener('resize', onResize);
+            return () => {
+                window.removeEventListener('resize', onResize);
+            };
+        }
+    }, []);
 
     const [subject, setSubject] = useState('');
     const [rate, setRate] = useState<number | string>('');
@@ -65,7 +75,6 @@ const RatePage = () => {
     };
 
     const createRateMutation = trpc.rate.createRate.useMutation();
-
     const createRate = () => {
         if (validateRateSubject(subject) && validateRateValue(rate)) {
             createRateMutation.mutate({ subject, rate }, {
@@ -81,7 +90,6 @@ const RatePage = () => {
     };
 
     const removeRatesBySubjectMutation = trpc.rate.removeRatesBySubject.useMutation();
-
     const removeRatesBySubject = () => {
         if (validateRateSubject(subject)) {
             removeRatesBySubjectMutation.mutate({ subject }, { onSuccess: onMutationSuccess });
@@ -94,7 +102,7 @@ const RatePage = () => {
 
     return <>
         <StarsBackground showStars={!isMobile()} />
-        <div className="main-page-grid">
+        <div className="main-page-grid" style={{ height: isMobile() ? screenHeight : undefined }}>
             <Header className="main-page-grid__header" />
             <div onClick={() => setCurrentMobileScreen('form')}
                  className={
@@ -104,8 +112,7 @@ const RatePage = () => {
                      )
                  }
             >
-                <RateForm rateInputRef={rateInputRef}
-                          createRate={createRate}
+                <RateForm createRate={createRate}
                           subject={subject}
                           changeSubject={changeSubject}
                           rate={rate}
