@@ -132,7 +132,7 @@ const Table: React.FC<{
             <div className="table__empty-content-container secondary-text">No data found</div>
         }
         {
-            // isLoading &&
+            isLoading &&
             <BigLoader className="table__empty-content-container" />
         }
         {
