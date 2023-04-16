@@ -18,8 +18,7 @@ const App = (props: any) => {
         <div className="app">
             <Component {...pageProps} />
         </div>
-        <ToastContainer autoClose={false}
-                        transition={Slide}
+        <ToastContainer transition={Slide}
                         hideProgressBar
                         position="top-left"
                         limit={3}

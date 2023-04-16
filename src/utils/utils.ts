@@ -47,7 +47,7 @@ export const showError = (error: unknown, validationFieldName?: string, validati
         errorOutput = `Internal Server Error occurred for the request ${error.data.path}`;
     }
     if (isClient) {
-        toast(errorOutput, { toastId: errorOutput });
+        toast(errorOutput, { toastId: errorOutput, type: 'error' });
     }
 };
 

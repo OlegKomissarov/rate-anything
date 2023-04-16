@@ -86,7 +86,10 @@ const RatePage = () => {
         if (validateRateSubject(subject) && validateRateValue(rate)) {
             createRateMutation.mutate({ subject, rate }, {
                 onSuccess: response => {
-                    toast(`Your rate for ${response.averageRate.subject} is recorded. New average rate is ${response.averageRate.averageRate}.`);
+                    toast(
+                        `Your rate for ${response.averageRate.subject} is recorded. New average rate is ${response.averageRate.averageRate}.`,
+                        { type: 'success' }
+                    );
                     onRateListMutationSuccess();
                 },
                 onError: error => {
@@ -105,7 +108,7 @@ const RatePage = () => {
             removeRatesBySubjectMutation.mutate({ subject },
                 {
                     onSuccess: () => {
-                        toast(`All rates for ${subject} are removed.`);
+                        toast(`All rates for ${subject} are removed.`, { type: 'success' });
                         onRateListMutationSuccess();
                     }
                 }
