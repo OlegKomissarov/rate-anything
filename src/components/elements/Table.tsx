@@ -58,11 +58,11 @@ const Table: React.FC<{
                     />
                 }
                 {topPanelContent}
+                {
+                    isFetching && !isLoading && !isMobile() &&
+                    <Loader className="table__refetch-loader" />
+                }
             </div>
-        }
-        {
-            // isFetching && !isLoading &&
-            <Loader className="table__refetch-loader" />
         }
         {
             fieldList.map(field =>
@@ -130,6 +130,10 @@ const Table: React.FC<{
         {
             data && !data.length &&
             <div className="table__empty-content-container secondary-text">No data found</div>
+        }
+        {
+            isFetching && !isLoading && isMobile() &&
+            <Loader />
         }
         {
             isLoading &&
