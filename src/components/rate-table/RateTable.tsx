@@ -27,7 +27,10 @@ const RateTable: React.FC<{
             sorting,
             searching: { field: 'subject', value: searchingValueDebounced }
         },
-        { getNextPageParam: lastPage => lastPage.nextCursor, keepPreviousData: true }
+        {
+            getNextPageParam: lastPage => lastPage.nextCursor,
+            keepPreviousData: true
+        }
     );
 
     const getIsSubjectRated = useGetIsSubjectRated();

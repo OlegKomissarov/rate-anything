@@ -60,7 +60,10 @@ const RateForm: React.FC<{
                               onChange={event => changeSubject(event.target.value)}
                               suggestions={averageRateListResponse?.data.map(averageRate => averageRate.subject)}
                               selectSuggestion={changeSubject}
-                              isLoading={debouncedSubject && (isSuggestionListLoading || isSuggestionListFetching)}
+                              isLoading={
+                                  debouncedSubject && showSubjectSuggestions
+                                  && (isSuggestionListLoading || isSuggestionListFetching)
+                              }
                               id="rate-subject-input"
                               showSuggestions={showSubjectSuggestions}
                               setShowSuggestions={setShowSubjectSuggestions}
