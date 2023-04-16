@@ -58,11 +58,11 @@ const Table: React.FC<{
                     />
                 }
                 {topPanelContent}
-                {
-                    // isFetching && !isLoading &&
-                    <Loader className="table__refetch-loader" />
-                }
             </div>
+        }
+        {
+            // isFetching && !isLoading &&
+            <Loader className="table__refetch-loader" />
         }
         {
             fieldList.map(field =>
