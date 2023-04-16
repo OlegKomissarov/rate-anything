@@ -39,7 +39,8 @@ export const rateRouter = createTRPCRouter({
             if (existingRateData) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: `You have already rated ${subject}.` });
             } else {
-                const modifiedSubject = subject.charAt(0).toUpperCase() + subject.slice(1).toLowerCase();
+                const trimmedSubject = subject.trim();
+                const modifiedSubject = trimmedSubject.charAt(0).toUpperCase() + trimmedSubject.slice(1).toLowerCase();
                 const existingAverageRate = await prisma.averageRate.findFirst({ where: { subject } });
                 let updateOrCreateAverageRate;
                 if (existingAverageRate) {
