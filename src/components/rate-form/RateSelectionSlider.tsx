@@ -29,30 +29,51 @@ const RateSelectionSlider: React.FC<{
     };
 
     useEffect(() => {
-        const handleMouseDown = (event: MouseEvent) => {
+        const handleSlideStart = (event: MouseEvent | TouchEvent) => {
             if (selectionSliderRef.current?.contains(event.target as Node)) {
                 setIsDragging(true);
-                changeValue(calculateValueByDragPosition(event.clientX));
+                let clientX;
+                if (event instanceof MouseEvent) {
+                    clientX = event.clientX;
+                } else {
+                    clientX = event.touches[0].clientX;
+                }
+                changeValue(calculateValueByDragPosition(clientX));
             }
         };
-        const handleMouseMove = (event: MouseEvent) => {
+        const handleSlideMove = (event: MouseEvent | TouchEvent) => {
+            let clientX;
+            if (event instanceof MouseEvent) {
+                clientX = event.clientX;
+            } else {
+                clientX = event.touches[0].clientX;
+            }
             if (isDragging) {
-                changeValue(calculateValueByDragPosition(event.clientX));
+                changeValue(calculateValueByDragPosition(clientX));
+            }
+            if (selectionSliderRef.current?.contains(event.target as Node)) {
+                setHoverPositionValue(calculateValueByDragPosition(clientX));
             }
         };
-        const handleMouseUp = () => {
+        const handleSlideEnd = () => {
             if (isDragging) {
                 hiddenInputRef.current?.focus();
                 setIsDragging(false);
             }
         };
-        document.addEventListener('mousedown', handleMouseDown);
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', handleMouseUp);
+        document.addEventListener('mousedown', handleSlideStart);
+        document.addEventListener('touchstart', handleSlideStart);
+        document.addEventListener('mousemove', handleSlideMove);
+        document.addEventListener('touchmove', handleSlideMove);
+        document.addEventListener('mouseup', handleSlideEnd);
+        document.addEventListener('touchend', handleSlideEnd);
         return () => {
-            document.removeEventListener('mousedown', handleMouseDown);
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp);
+            document.removeEventListener('mousedown', handleSlideStart);
+            document.removeEventListener('touchstart', handleSlideStart);
+            document.removeEventListener('mousemove', handleSlideMove);
+            document.removeEventListener('touchmove', handleSlideMove);
+            document.removeEventListener('mouseup', handleSlideEnd);
+            document.removeEventListener('touchend', handleSlideEnd);
         };
     });
 
@@ -75,7 +96,6 @@ const RateSelectionSlider: React.FC<{
 
     return <div ref={selectionSliderRef}
                 className={getClassName('selection-slider', className, disabled && 'disabled')}
-                onMouseMove={event => setHoverPositionValue(calculateValueByDragPosition(event.clientX))}
     >
         <div className="selection-slider__main-line">
             {

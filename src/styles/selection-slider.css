@@ -72,7 +72,7 @@
   transform: translateX(-50%);
 }
 
-.selection-slider:hover .selection-slider__number-label {
+.selection-slider:has(:hover, .selection-slider__selected-value--dragging) .selection-slider__number-label {
   transform: translateX(-50%) translateY(-100%) scale(1);
 }
 
