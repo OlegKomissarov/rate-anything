@@ -5,8 +5,8 @@ import { useSession } from 'next-auth/react';
 import InputWithSuggestions from '../elements/InputWithSuggestions';
 import { trpc } from '../../utils/trpcClient';
 import { isMobile, useDebouncedValue, useDisableBodyScroll } from '../../utils/utils';
-import RateSelectionSlider from './RateSelectionSlider';
 import Loader from '../layout/Loader';
+import NumberSelectionSlider from '../elements/NumberSelectionSlider';
 
 const RateForm: React.FC<{
     createRate: () => void
@@ -86,10 +86,12 @@ const RateForm: React.FC<{
                id="rate-value-input"
                disabled={!subject}
         />
-        <RateSelectionSlider value={rate}
-                             changeValue={changeRate}
-                             className="form__selection-slider"
-                             disabled={!subject}
+        <NumberSelectionSlider minValue={-10}
+                               maxValue={10}
+                               value={rate}
+                               changeValue={changeRate}
+                               className="form__selection-slider"
+                               disabled={!subject}
         />
         <Button type="submit"
                 className="form__button form__submit-button"

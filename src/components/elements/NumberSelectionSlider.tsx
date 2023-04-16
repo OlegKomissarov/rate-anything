@@ -1,36 +1,41 @@
 import React, { KeyboardEventHandler, useEffect, useRef, useState } from 'react';
 import { getClassName } from '../../utils/utils';
 
-const RateSelectionSlider: React.FC<{
+const NumberSelectionSlider: React.FC<{
+    minValue: number
+    maxValue: number
     value: number | string
     changeValue: (value: number) => void
     className?: string
     disabled?: boolean
-}> = ({ value, changeValue, className, disabled }) => {
-    const selectionSliderRef = useRef<HTMLDivElement>(null);
+}> = ({ minValue, maxValue, value, changeValue, className, disabled }) => {
+    const containerRef = useRef<HTMLDivElement>(null);
     const hiddenInputRef = useRef<HTMLInputElement>(null);
 
     const [isDragging, setIsDragging] = useState(false);
     const [hoverPositionValue, setHoverPositionValue] = useState<number | null>(null);
 
+    const checkValue = (value: number) => {
+        let resultValue = value;
+        if (value > maxValue) {
+            resultValue = maxValue;
+        }
+        if (value < minValue) {
+            resultValue = minValue;
+        }
+        return resultValue;
+    };
+
     const calculateValueByDragPosition = (clientX: number) => {
-        const containerWidth = selectionSliderRef.current?.offsetWidth || 0;
-        const containerOffsetLeft = selectionSliderRef.current?.getClientRects()[0].x || 0;
+        const containerWidth = containerRef.current?.offsetWidth || 0;
+        const containerOffsetLeft = containerRef.current?.getClientRects()[0].x || 0;
         const position = clientX - containerOffsetLeft;
-        const percentagePosition = position / containerWidth * 100;
-        let value = Math.round(percentagePosition * 20 / 100 - 10);
-        if (value > 10) {
-            value = 10;
-        }
-        if (value < -10) {
-            value = -10;
-        }
-        return value;
+        return Math.round(position / containerWidth * (maxValue - minValue) + minValue);
     };
 
     useEffect(() => {
         const handleSlideStart = (event: MouseEvent | TouchEvent) => {
-            if (selectionSliderRef.current?.contains(event.target as Node)) {
+            if (containerRef.current?.contains(event.target as Node)) {
                 setIsDragging(true);
                 let clientX;
                 if (event instanceof MouseEvent) {
@@ -38,7 +43,7 @@ const RateSelectionSlider: React.FC<{
                 } else {
                     clientX = event.touches[0].clientX;
                 }
-                changeValue(calculateValueByDragPosition(clientX));
+                changeValue(checkValue(calculateValueByDragPosition(clientX)));
             }
         };
         const handleSlideMove = (event: MouseEvent | TouchEvent) => {
@@ -49,10 +54,10 @@ const RateSelectionSlider: React.FC<{
                 clientX = event.touches[0].clientX;
             }
             if (isDragging) {
-                changeValue(calculateValueByDragPosition(clientX));
+                changeValue(checkValue(calculateValueByDragPosition(clientX)));
             }
-            if (selectionSliderRef.current?.contains(event.target as Node)) {
-                setHoverPositionValue(calculateValueByDragPosition(clientX));
+            if (containerRef.current?.contains(event.target as Node)) {
+                setHoverPositionValue(checkValue(calculateValueByDragPosition(clientX)));
             }
         };
         const handleSlideEnd = () => {
@@ -80,26 +85,28 @@ const RateSelectionSlider: React.FC<{
     const onKeyDown: KeyboardEventHandler = event => {
         if (event.code === 'ArrowRight' || event.code === 'ArrowUp') {
             if (typeof value === 'number') {
-                changeValue(value + 1);
+                changeValue(checkValue(value + 1));
             } else {
-                changeValue(1);
+                changeValue(checkValue(1));
             }
         }
         if (event.code === 'ArrowLeft' || event.code === 'ArrowDown') {
             if (typeof value === 'number') {
-                changeValue(value - 1);
+                changeValue(checkValue(value - 1));
             } else {
-                changeValue(-1);
+                changeValue(checkValue(-1));
             }
         }
     };
 
-    return <div ref={selectionSliderRef}
+    const calculatePercentageOffset = (value: number) => 100 / (maxValue - minValue) * (value - minValue);
+
+    return <div ref={containerRef}
                 className={getClassName('selection-slider', className, disabled && 'disabled')}
     >
         <div className="selection-slider__main-line">
             {
-                Array.from(Array(21).keys()).map((item, index) =>
+                Array.from(Array(maxValue - minValue + 1).keys()).map((item, index) =>
                     <div key={index} className="selection-slider__dash-dote" />
                 )
             }
@@ -107,7 +114,7 @@ const RateSelectionSlider: React.FC<{
         {
             typeof hoverPositionValue === 'number' &&
             <div className="selection-slider__number-label-container"
-                 style={{ left: `${100 / 20 * (hoverPositionValue + 10)}%` }}
+                 style={{ left: `${calculatePercentageOffset(hoverPositionValue)}%` }}
             >
                 <div className="selection-slider__number-label">
                     {hoverPositionValue}
@@ -122,7 +129,7 @@ const RateSelectionSlider: React.FC<{
         />
         {
             typeof value === 'number' &&
-            <div style={{ left: `${100 / 20 * (value + 10)}%` }}
+            <div style={{ left: `${calculatePercentageOffset(value)}%` }}
                  className={
                      getClassName(
                          'selection-slider__selected-value',
@@ -134,4 +141,4 @@ const RateSelectionSlider: React.FC<{
     </div>;
 };
 
-export default RateSelectionSlider;
+export default NumberSelectionSlider;
