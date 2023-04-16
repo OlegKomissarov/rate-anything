@@ -26,7 +26,7 @@ const RateForm: React.FC<{
 
     const [showSubjectSuggestions, setShowSubjectSuggestions] = useState(false);
 
-    const debouncedSubject = useDebouncedValue(subject, 500);
+    const debouncedSubject = useDebouncedValue(subject);
     const {
         data: averageRateListResponse,
         isLoading: isSuggestionListLoading,

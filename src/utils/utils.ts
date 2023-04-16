@@ -76,7 +76,9 @@ export const getFontSizeByNumber = (number: number) =>
 export const flattenInfiniteData = (data: InfiniteData<any> | undefined) =>
     data?.pages.reduce((data: any[], page) => data.concat(page.data), []);
 
-export const useDebouncedValue = (value: any, delay: number) => {
+const defaultDebounceValue = 275;
+
+export const useDebouncedValue = (value: any, delay: number = defaultDebounceValue) => {
     const [debouncedValue, setDebouncedValue] = useState(value);
 
     useEffect(() => {

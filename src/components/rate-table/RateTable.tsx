@@ -12,7 +12,7 @@ const RateTable: React.FC<{
 }> = ({ selectSubjectToRate }) => {
     const [sorting, setSorting] = useState<Sorting>({ field: 'subject', order: 'asc' });
     const [searching, setSearching] = useState<Searching>({ field: 'subject', fieldPreview: 'Subject', value: '' });
-    const searchingValueDebounced = useDebouncedValue(searching.value, 500);
+    const searchingValueDebounced = useDebouncedValue(searching.value);
 
     const {
         data: averageRateList,
