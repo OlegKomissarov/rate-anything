@@ -50,14 +50,14 @@ const RatePage = () => {
         }
     };
     const focusSubjectInput = () => {
-        if (currentMobileScreen !== 'form') {
+        if (isMobile() && currentMobileScreen !== 'form') {
             setCurrentMobileScreen('form');
         }
         const rateValueInput = document.getElementById('rate-subject-input') as HTMLInputElement;
         rateValueInput?.focus();
     };
     const focusRateInput = () => {
-        if (currentMobileScreen !== 'form') {
+        if (isMobile() && currentMobileScreen !== 'form') {
             setCurrentMobileScreen('form');
         }
         const rateValueInput = document.getElementById('rate-value-input') as HTMLInputElement;
@@ -127,7 +127,7 @@ const RatePage = () => {
         <StarsBackground showStars={!isMobile()} />
         <div className="main-page-grid" style={{ height: isMobile() ? screenHeight : undefined }}>
             <Header className="main-page-grid__header" />
-            <div onClick={() => currentMobileScreen !== 'form' && setCurrentMobileScreen('form')}
+            <div onClick={() => isMobile() && currentMobileScreen !== 'form' && setCurrentMobileScreen('form')}
                  className={
                      getClassName(
                          'main-page-block main-page-block--form pan-screen-child',
@@ -148,7 +148,7 @@ const RatePage = () => {
                     <div className="expand-icon" />
                 </div>
             </div>
-            <div onClick={() => currentMobileScreen !== 'table' && setCurrentMobileScreen('table')}
+            <div onClick={() => isMobile() && currentMobileScreen !== 'table' && setCurrentMobileScreen('table')}
                  className={
                      getClassName(
                          'main-page-block main-page-block--table pan-screen-child',
