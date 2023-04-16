@@ -45,6 +45,9 @@
     min-height: calc(var(--rate-table-outer-gap) + var(--input-height) + var(--rate-table-item-gap));
     transition: flex 0.5s;
   }
+  .main-page-block:not(.main-page-block--expanded-mobile) > * {
+    pointer-events: none;
+  }
   .main-page-block--expanded-mobile {
     flex: 1;
   }
