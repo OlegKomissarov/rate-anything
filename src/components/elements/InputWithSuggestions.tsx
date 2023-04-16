@@ -29,7 +29,7 @@ const InputWithSuggestions: React.FC<InputHTMLAttributes<HTMLInputElement> & {
                onBlur={() => setShowSuggestions(false)}
         />
         {
-            isLoading &&
+            // isLoading &&
             <Loader className="input-with-suggestions__loader" />
         }
         {

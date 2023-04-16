@@ -59,7 +59,7 @@ const Table: React.FC<{
                 }
                 {topPanelContent}
                 {
-                    // isFetching && !isLoading &&
+                    isFetching && !isLoading &&
                     <Loader className="table__refetch-loader" />
                 }
             </div>
