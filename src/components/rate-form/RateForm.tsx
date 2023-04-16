@@ -6,6 +6,7 @@ import InputWithSuggestions from '../elements/InputWithSuggestions';
 import { trpc } from '../../utils/trpcClient';
 import { isMobile, useDebouncedValue, useDisableBodyScroll } from '../../utils/utils';
 import RateSelectionSlider from './RateSelectionSlider';
+import Loader from '../layout/Loader';
 
 const RateForm: React.FC<{
     createRate: () => void
@@ -105,6 +106,10 @@ const RateForm: React.FC<{
             >
                 REMOVE RATE
             </Button>
+        }
+        {
+            (isCreateRateLoading || isRemoveRateLoading) &&
+            <Loader className="global-loader" />
         }
     </form>;
 };
