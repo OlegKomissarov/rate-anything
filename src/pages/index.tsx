@@ -51,10 +51,12 @@ const RatePage = () => {
     const focusSubjectInput = () => {
         const rateValueInput = document.getElementById('rate-subject-input') as HTMLInputElement;
         rateValueInput?.focus();
+        setCurrentMobileScreen('form');
     };
     const focusRateInput = () => {
         const rateValueInput = document.getElementById('rate-value-input') as HTMLInputElement;
         rateValueInput?.focus();
+        setCurrentMobileScreen('form');
     };
     const selectSubjectToRate = (subject: string) => {
         setSubject(subject);
