@@ -52,11 +52,11 @@ a {
   color: var(--secondary-text-color);
 }
 
-@media (min-width: 1025px) {
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
 
+@media (min-width: 1025px) {
   .custom-scrollbar::-webkit-scrollbar {
     width: var(--scrollbar-width);
     height: var(--scrollbar-width);
