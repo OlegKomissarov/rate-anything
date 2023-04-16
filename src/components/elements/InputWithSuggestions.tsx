@@ -21,7 +21,7 @@ const InputWithSuggestions: React.FC<InputHTMLAttributes<HTMLInputElement> & {
     const { data: suggestionList, isLoading, isFetching } = suggestionListQuery(
         {
             limit: 5,
-            searching: { field: 'subject', debouncedValue }
+            searching: { field: suggestionKeyField, value: debouncedValue }
         },
         {
             enabled: !!debouncedValue && showSuggestions,
@@ -48,7 +48,7 @@ const InputWithSuggestions: React.FC<InputHTMLAttributes<HTMLInputElement> & {
             <Loader className="input-with-suggestions__loader" />
         }
         {
-            !!(value && suggestionList?.length && showSuggestions) &&
+            !!(value && suggestionList?.data.length && showSuggestions) &&
             <div className="input-dropdown">
                 {
                     suggestionList?.data.map((item: any) => item[suggestionKeyField]).map((suggestion: string) =>

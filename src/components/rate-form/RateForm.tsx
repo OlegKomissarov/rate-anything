@@ -35,17 +35,18 @@ const RateForm: React.FC<{
             !!session?.user && !isMobile() &&
             <div className="secondary-text rate-form__user-name-label">{session.user.name}</div>
         }
-        <InputWithSuggestions placeholder="What You Wanna Rate"
+        <InputWithSuggestions id="rate-subject-input"
+                              placeholder="What You Wanna Rate"
                               className="form__input"
                               selectOnFocus
                               value={subject}
                               onChange={event => changeSubject(event.target.value)}
                               selectSuggestion={changeSubject}
-                              id="rate-subject-input"
                               suggestionListQuery={trpc.rate.getAverageRateList.useQuery}
                               suggestionKeyField="subject"
         />
-        <Input placeholder="Your Rate from -10 to 10"
+        <Input id="rate-value-input"
+               placeholder="Your Rate from -10 to 10"
                className="form__input"
                selectOnFocus
                value={rate}
@@ -59,7 +60,6 @@ const RateForm: React.FC<{
                        }
                    }
                }}
-               id="rate-value-input"
                disabled={!subject}
         />
         <NumberSelectionSlider minValue={-10}
