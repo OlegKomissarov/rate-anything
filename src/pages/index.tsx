@@ -11,6 +11,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { TRPCClientError } from '@trpc/client';
 import { getClassName, isClient, isMobile } from '../utils/utils';
 import StarsBackground from '../components/layout/StarsBackground';
+import { toast } from 'react-toastify';
 
 const RatePage = () => {
     const queryClient = useQueryClient();
@@ -75,7 +76,7 @@ const RatePage = () => {
     const invalidateRateLists = () => {
         queryClient.invalidateQueries({ queryKey: getQueryKey(trpc.rate.getAverageRateList) });
     };
-    const onMutationSuccess = () => {
+    const onRateListMutationSuccess = () => {
         resetForm();
         invalidateRateLists();
     };
@@ -84,7 +85,10 @@ const RatePage = () => {
     const createRate = () => {
         if (validateRateSubject(subject) && validateRateValue(rate)) {
             createRateMutation.mutate({ subject, rate }, {
-                onSuccess: onMutationSuccess,
+                onSuccess: response => {
+                    toast(`Your rate for ${response.averageRate.subject} is recorded. New average rate is ${response.averageRate.averageRate}.`);
+                    onRateListMutationSuccess();
+                },
                 onError: error => {
                     if (error instanceof TRPCClientError && error.data.code === 'FORBIDDEN') {
                         resetForm();
@@ -98,7 +102,14 @@ const RatePage = () => {
     const removeRatesBySubjectMutation = trpc.rate.removeRatesBySubject.useMutation();
     const removeRatesBySubject = () => {
         if (validateRateSubject(subject)) {
-            removeRatesBySubjectMutation.mutate({ subject }, { onSuccess: onMutationSuccess });
+            removeRatesBySubjectMutation.mutate({ subject },
+                {
+                    onSuccess: () => {
+                        toast(`All rates for ${subject} are removed.`);
+                        onRateListMutationSuccess();
+                    }
+                }
+            );
         }
     };
 

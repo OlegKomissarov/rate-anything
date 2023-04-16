@@ -74,7 +74,8 @@ export const rateRouter = createTRPCRouter({
                         userName: session.userName
                     }
                 });
-                return await Promise.all([createRate, updateOrCreateAverageRate]);
+                const [rate, averageRate] = await Promise.all([createRate, updateOrCreateAverageRate]);
+                return { rate, averageRate };
             }
         }),
     removeRatesBySubject: adminProcedure
