@@ -108,7 +108,10 @@ const RatePage = () => {
             removeRatesBySubjectMutation.mutate({ subject },
                 {
                     onSuccess: () => {
-                        toast(`All rates for ${subject} are removed.`, { type: 'success' });
+                        toast(
+                            `All rates for ${subject} are successfully removed (if there were any).`,
+                            { type: 'success' }
+                        );
                         onRateListMutationSuccess();
                     }
                 }
