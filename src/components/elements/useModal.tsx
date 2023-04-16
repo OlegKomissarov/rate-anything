@@ -1,15 +1,13 @@
-import React, { ReactNode, useRef, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useDisableBodyScroll } from '../../utils/utils';
 
 const useModal = () => {
-    const scrollableElementRef = useRef(null);
-
     const [showModal, setShowModal] = useState(false);
 
     const toggleModal = () => setShowModal(showModal => !showModal);
 
-    useDisableBodyScroll(scrollableElementRef.current);
+    const scrollableElementRef = useDisableBodyScroll();
 
     const Modal: React.FC<{
         children: ReactNode,

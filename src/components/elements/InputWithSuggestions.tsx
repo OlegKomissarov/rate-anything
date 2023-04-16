@@ -1,19 +1,34 @@
-import React, { Dispatch, InputHTMLAttributes, SetStateAction } from 'react';
+import React, { InputHTMLAttributes, useState } from 'react';
 import Input from './Input';
-import { getClassName } from '../../utils/utils';
+import { getClassName, useDebouncedValue } from '../../utils/utils';
 import Loader from '../layout/Loader';
+import { ProcedureUseQuery } from '@trpc/react-query/dist/createTRPCReact';
 
 const InputWithSuggestions: React.FC<InputHTMLAttributes<HTMLInputElement> & {
-    suggestions?: string[]
     selectSuggestion: (suggestion: string) => void
     selectOnFocus?: boolean
     refValue?: React.Ref<HTMLInputElement>
-    isLoading: boolean
-    showSuggestions: boolean
-    setShowSuggestions: Dispatch<SetStateAction<boolean>>
+    value: string
+    suggestionListQuery: ProcedureUseQuery<any, any>
+    suggestionKeyField: string
 }> = ({
-    suggestions, selectSuggestion, className, value, onChange, isLoading, showSuggestions, setShowSuggestions, ...props
+    suggestionListQuery, suggestionKeyField, selectSuggestion, className, value, onChange, ...props
 }) => {
+    const [showSuggestions, setShowSuggestions] = useState(false);
+
+    const debouncedValue = useDebouncedValue<string>(value);
+
+    const { data: suggestionList, isLoading, isFetching } = suggestionListQuery(
+        {
+            limit: 5,
+            searching: { field: 'subject', debouncedValue }
+        },
+        {
+            enabled: !!debouncedValue && showSuggestions,
+            keepPreviousData: true
+        }
+    );
+
     const onClickSuggestion = (suggestion: string) => {
         selectSuggestion(suggestion);
         setShowSuggestions(false);
@@ -29,14 +44,14 @@ const InputWithSuggestions: React.FC<InputHTMLAttributes<HTMLInputElement> & {
                onBlur={() => setShowSuggestions(false)}
         />
         {
-            isLoading &&
+            !!(debouncedValue && showSuggestions) && (isLoading || isFetching) &&
             <Loader className="input-with-suggestions__loader" />
         }
         {
-            !!(value && suggestions?.length && showSuggestions) &&
+            !!(value && suggestionList?.length && showSuggestions) &&
             <div className="input-dropdown">
                 {
-                    suggestions.map(suggestion =>
+                    suggestionList?.data.map((item: any) => item[suggestionKeyField]).map((suggestion: string) =>
                         <div key={suggestion}
                              onMouseDown={() => onClickSuggestion(suggestion)}
                              onTouchStart={() => onClickSuggestion(suggestion)}

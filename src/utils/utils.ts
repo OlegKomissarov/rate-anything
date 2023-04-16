@@ -2,7 +2,7 @@ import { ZodError } from 'zod';
 import { TRPCClientError } from '@trpc/client';
 import { toast } from 'react-toastify';
 import { InfiniteData } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { AverageRate, Rate } from '@prisma/client';
 import { useSession } from 'next-auth/react';
@@ -78,7 +78,7 @@ export const flattenInfiniteData = (data: InfiniteData<any> | undefined) =>
 
 const defaultDebounceValue = 275;
 
-export const useDebouncedValue = (value: any, delay: number = defaultDebounceValue) => {
+export const useDebouncedValue = <T>(value: T, delay: number = defaultDebounceValue) => {
     const [debouncedValue, setDebouncedValue] = useState(value);
 
     useEffect(() => {
@@ -94,15 +94,20 @@ export const useDebouncedValue = (value: any, delay: number = defaultDebounceVal
     return debouncedValue;
 };
 
-export const useDisableBodyScroll = (scrollableElement: HTMLElement | null) => {
+export const useDisableBodyScroll = () => {
+    const scrollableElementRef = useRef(null);
+
     useEffect(() => {
-        if (scrollableElement) {
+        if (scrollableElementRef.current) {
+            const scrollableElement = scrollableElementRef.current;
             disableBodyScroll(scrollableElement);
             return () => {
                 enableBodyScroll(scrollableElement);
             };
         }
     });
+
+    return scrollableElementRef;
 };
 
 export type Sorting = {

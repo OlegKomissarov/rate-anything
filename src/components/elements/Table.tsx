@@ -1,4 +1,4 @@
-import React, { Dispatch, ReactNode, SetStateAction, useEffect, useRef } from 'react';
+import React, { Dispatch, ReactNode, SetStateAction, useEffect } from 'react';
 import { getClassName, isMobile, Searching, Sorting, useDisableBodyScroll } from '../../utils/utils';
 import { useInView } from 'react-intersection-observer';
 import Input from './Input';
@@ -32,8 +32,7 @@ const Table: React.FC<{
     fieldList, data, keyFieldName, className, fetchNextPage, sorting, setSorting, searching, setSearching,
     topPanelContent, isLoading, isFetching, isError
 }) => {
-    const scrollableElementRef = useRef(null);
-    useDisableBodyScroll(scrollableElementRef.current);
+    const scrollableElementRef = useDisableBodyScroll();
 
     const { ref: inViewRef, inView } = useInView();
 
