@@ -12,7 +12,8 @@ const RateDetailModal: React.FC<{
 
     return <>
         <Button onClick={toggleModal}
-                className="open-rate-detail-modal-button button--secondary"
+                secondary
+                className="open-rate-detail-modal-button"
         >
             Details ({averageRate.ratesAmount})
         </Button>

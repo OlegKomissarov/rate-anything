@@ -120,7 +120,8 @@ const RateForm = () => {
             session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL &&
             <Button type="button"
                     onClick={removeRatesBySubject}
-                    className="button--secondary form__button"
+                    secondary
+                    className="form__button"
                     disabled={!validateRateSubject(subject) || removeRatesBySubjectMutation.isLoading}
             >
                 REMOVE RATE
