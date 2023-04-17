@@ -15,17 +15,6 @@ const NumberSelectionSlider: React.FC<{
     const [isDragging, setIsDragging] = useState(false);
     const [hoverPositionValue, setHoverPositionValue] = useState<number | null>(null);
 
-    const checkValue = (value: number) => {
-        let resultValue = value;
-        if (value > maxValue) {
-            resultValue = maxValue;
-        }
-        if (value < minValue) {
-            resultValue = minValue;
-        }
-        return resultValue;
-    };
-
     const calculateValueByDragPosition = (clientX: number) => {
         const containerWidth = containerRef.current?.offsetWidth || 0;
         const containerOffsetLeft = containerRef.current?.getClientRects()[0].x || 0;
@@ -43,7 +32,7 @@ const NumberSelectionSlider: React.FC<{
                 } else {
                     clientX = event.touches[0].clientX;
                 }
-                changeValue(checkValue(calculateValueByDragPosition(clientX)));
+                changeValue(calculateValueByDragPosition(clientX));
             }
         };
         const handleSlideMove = (event: MouseEvent | TouchEvent) => {
@@ -54,10 +43,10 @@ const NumberSelectionSlider: React.FC<{
                 clientX = event.touches[0].clientX;
             }
             if (isDragging) {
-                changeValue(checkValue(calculateValueByDragPosition(clientX)));
+                changeValue(calculateValueByDragPosition(clientX));
             }
             if (containerRef.current?.contains(event.target as Node)) {
-                setHoverPositionValue(checkValue(calculateValueByDragPosition(clientX)));
+                setHoverPositionValue(calculateValueByDragPosition(clientX));
             }
         };
         const handleSlideEnd = () => {
@@ -85,16 +74,16 @@ const NumberSelectionSlider: React.FC<{
     const onKeyDown: KeyboardEventHandler = event => {
         if (event.code === 'ArrowRight' || event.code === 'ArrowUp') {
             if (typeof value === 'number') {
-                changeValue(checkValue(value + 1));
+                changeValue(value + 1);
             } else {
-                changeValue(checkValue(1));
+                changeValue(1);
             }
         }
         if (event.code === 'ArrowLeft' || event.code === 'ArrowDown') {
             if (typeof value === 'number') {
-                changeValue(checkValue(value - 1));
+                changeValue(value - 1);
             } else {
-                changeValue(checkValue(-1));
+                changeValue(-1);
             }
         }
     };

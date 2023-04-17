@@ -65,7 +65,7 @@ const RateForm = () => {
                 {
                     onSuccess: () => {
                         toast(
-                            `All rates for ${subject} are successfully removed (if there were any).`,
+                            `All rates for ${subject} were successfully removed (if there were any).`,
                             { type: 'success' }
                         );
                         onRateListMutationSuccess();
@@ -112,7 +112,7 @@ const RateForm = () => {
         />
         <Button type="submit"
                 className="form__button form__submit-button"
-                disabled={!subject || typeof rate !== 'number' || createRateMutation.isLoading }
+                disabled={!subject || typeof rate !== 'number' || createRateMutation.isLoading}
         >
             RATE
         </Button>

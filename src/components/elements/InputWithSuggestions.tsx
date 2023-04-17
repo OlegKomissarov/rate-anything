@@ -5,12 +5,12 @@ import Loader from '../layout/Loader';
 import { ProcedureUseQuery } from '@trpc/react-query/dist/createTRPCReact';
 
 const InputWithSuggestions: React.FC<InputHTMLAttributes<HTMLInputElement> & {
-    selectSuggestion: (suggestion: string) => void
-    selectOnFocus?: boolean
-    refValue?: RefObject<HTMLInputElement>
     value: string
-    suggestionListQuery: ProcedureUseQuery<any, any>
     suggestionKeyField: string
+    suggestionListQuery: ProcedureUseQuery<any, any>
+    selectSuggestion: (suggestion: string) => void
+    refValue?: RefObject<HTMLInputElement>
+    selectOnFocus?: boolean
 }> = ({
     suggestionListQuery, suggestionKeyField, selectSuggestion, className, value, onChange, ...props
 }) => {
