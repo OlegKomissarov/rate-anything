@@ -1,7 +1,7 @@
 import { getRandomDecimal, getRandomInteger, isClient } from '../../utils/utils';
 import { useEffect, useRef, useState } from 'react';
 
-interface Position {
+type Position = {
     x: number;
     y: number;
 }
