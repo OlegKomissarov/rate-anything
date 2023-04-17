@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { getFontSizeByNumber, getRandomTextColor } from '../../utils/utils';
+import { getFontSizeByRateValue, getRandomTextColor } from '../../utils/utils';
 import { AverageRate } from '@prisma/client';
 
 const RateStar: React.FC<{
@@ -8,7 +8,7 @@ const RateStar: React.FC<{
     topPosition: number
 }> = ({ averageRate, leftPosition, topPosition }) => {
     const color = useRef<string>(getRandomTextColor());
-    const fontSize = useRef<number>(getFontSizeByNumber(averageRate.averageRate));
+    const fontSize = useRef<number>(getFontSizeByRateValue(averageRate.averageRate));
 
     return <div className="rate-star"
                 style={{

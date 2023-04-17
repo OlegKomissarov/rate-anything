@@ -9,6 +9,10 @@ import { useSession } from 'next-auth/react';
 
 export const isClient = typeof window !== 'undefined';
 
+const maxMobileWidth = 1024;
+
+export const isMobile = () => window.innerWidth <= maxMobileWidth;
+
 export const getClassName = (...classNames: Array<string | boolean | undefined>) => {
     let classNamesString = '';
     classNames.forEach(className => {
@@ -21,6 +25,31 @@ export const getClassName = (...classNames: Array<string | boolean | undefined>)
         }
     });
     return classNamesString.trim();
+};
+
+export const useDisableBodyScroll = () => {
+    const scrollableElementRef = useRef(null);
+
+    useEffect(() => {
+        if (scrollableElementRef.current) {
+            const scrollableElement = scrollableElementRef.current;
+            disableBodyScroll(scrollableElement);
+            return () => {
+                enableBodyScroll(scrollableElement);
+            };
+        }
+    });
+
+    return scrollableElementRef;
+};
+
+export const useBodyNoScrollBar = () => {
+    useEffect(() => {
+        document.body.classList.add('no-scrollbar');
+        return () => {
+            document.body.classList.remove('no-scrollbar');
+        };
+    }, []);
 };
 
 export const showError = (error: unknown, validationFieldName?: string, validationValue?: unknown) => {
@@ -63,17 +92,6 @@ export const getRandomTextColor = () => {
     return colors[getRandomInteger(0, colors.length - 1)];
 };
 
-export const getFontSizeByNumber = (number: number) => {
-    const minNumber = -10;
-    const maxNumber = 10;
-    const minFontSize = 7;
-    const maxFontSize = 20;
-    return minFontSize + (number - minNumber) / (maxNumber - minNumber) * (maxFontSize - minFontSize);
-};
-
-export const flattenInfiniteData = (data: InfiniteData<any> | undefined) =>
-    data?.pages.reduce((data: any[], page) => data.concat(page.data), []);
-
 const defaultDebounceValue = 275;
 
 export const useDebouncedValue = <T>(value: T, delay: number = defaultDebounceValue) => {
@@ -92,20 +110,16 @@ export const useDebouncedValue = <T>(value: T, delay: number = defaultDebounceVa
     return debouncedValue;
 };
 
-export const useDisableBodyScroll = () => {
-    const scrollableElementRef = useRef(null);
+export const flattenInfiniteData = (data: InfiniteData<any> | undefined) =>
+    data?.pages.reduce((data: any[], page) => data.concat(page.data), []);
 
-    useEffect(() => {
-        if (scrollableElementRef.current) {
-            const scrollableElement = scrollableElementRef.current;
-            disableBodyScroll(scrollableElement);
-            return () => {
-                enableBodyScroll(scrollableElement);
-            };
-        }
-    });
+export const minRateValue = -10;
+export const maxRateValue = 10;
 
-    return scrollableElementRef;
+export const getFontSizeByRateValue = (rateValue: number) => {
+    const minFontSize = 7;
+    const maxFontSize = 20;
+    return minFontSize + (rateValue - minRateValue) / (maxRateValue - minRateValue) * (maxFontSize - minFontSize);
 };
 
 export const useGetIsSubjectRated = () => {
@@ -113,17 +127,4 @@ export const useGetIsSubjectRated = () => {
 
     return (averageRate: AverageRate & { rates: Rate[] }) =>
         averageRate.rates.some(rate => rate.userEmail === session?.user?.email);
-};
-
-const maxMobileWidth = 1024;
-
-export const isMobile = () => window.innerWidth <= maxMobileWidth;
-
-export const useBodyNoScrollBar = () => {
-    useEffect(() => {
-        document.body.classList.add('no-scrollbar');
-        return () => {
-            document.body.classList.remove('no-scrollbar');
-        };
-    }, []);
 };

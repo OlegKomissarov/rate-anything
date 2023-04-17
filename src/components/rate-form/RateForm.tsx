@@ -4,7 +4,7 @@ import Button from '../elements/Button';
 import { useSession } from 'next-auth/react';
 import InputWithSuggestions from '../elements/InputWithSuggestions';
 import { trpc } from '../../utils/trpcClient';
-import { isMobile, useDisableBodyScroll } from '../../utils/utils';
+import { isMobile, maxRateValue, minRateValue, useDisableBodyScroll } from '../../utils/utils';
 import Loader from '../layout/Loader';
 import NumberSelectionSlider from '../elements/NumberSelectionSlider';
 import { getQueryKey } from '@trpc/react-query';
@@ -96,15 +96,15 @@ const RateForm = () => {
                               suggestionKeyField="subject"
         />
         <Input refValue={rateInputRef}
-               placeholder="Your Rate from -10 to 10"
+               placeholder={`Your Rate from ${minRateValue} to ${maxRateValue}`}
                className="form__input"
                selectOnFocus
                value={rate}
                onChange={event => changeRate(event.target.value)}
                disabled={!validateRateSubject(subject)}
         />
-        <NumberSelectionSlider minValue={-10}
-                               maxValue={10}
+        <NumberSelectionSlider minValue={minRateValue}
+                               maxValue={maxRateValue}
                                value={rate}
                                changeValue={changeRate}
                                className="form__selection-slider"

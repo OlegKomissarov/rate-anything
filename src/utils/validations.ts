@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { showError } from './utils';
+import { maxRateValue, minRateValue, showError } from './utils';
 
 type ValidateOptions = {
     showError?: boolean
@@ -21,6 +21,6 @@ export const rateSubjectSchema = z.string().min(1);
 export const validateRateSubject = (subject: unknown, options?: ValidateOptions): subject is string =>
     validate<string>(rateSubjectSchema, 'rate subject', subject, options);
 
-export const rateValueSchema = z.number().min(-10).max(10);
+export const rateValueSchema = z.number().min(minRateValue).max(maxRateValue);
 export const validateRateValue = (rate: unknown, options?: ValidateOptions): rate is number =>
     validate<number>(rateValueSchema, 'rate value', rate, options);
