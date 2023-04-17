@@ -110,17 +110,6 @@ export const useDisableBodyScroll = () => {
     return scrollableElementRef;
 };
 
-export type Sorting = {
-    field: string
-    order: 'asc' | 'desc'
-};
-
-export type Searching = {
-    field: string
-    fieldPreview: string
-    value: string
-};
-
 export const useGetIsSubjectRated = () => {
     const { data: session } = useSession();
 

@@ -1,9 +1,20 @@
 import React, { Dispatch, ReactNode, SetStateAction, useEffect } from 'react';
-import { getClassName, isMobile, Searching, Sorting, useDisableBodyScroll } from '../../utils/utils';
+import { getClassName, isMobile, useDisableBodyScroll } from '../../utils/utils';
 import { useInView } from 'react-intersection-observer';
 import Input from './Input';
 import BigLoader from '../layout/BigLoader';
 import Loader from '../layout/Loader';
+
+export type TableSorting = {
+    field: string
+    order: 'asc' | 'desc'
+};
+
+export type TableSearching = {
+    field: string
+    fieldPreview: string
+    value: string
+};
 
 export type TableFieldList = {
     name: string
@@ -20,10 +31,10 @@ const Table: React.FC<{
     keyFieldName: string
     className?: string
     fetchNextPage?: () => void
-    sorting?: Sorting
-    setSorting?: Dispatch<SetStateAction<Sorting>>
-    searching?: Searching
-    setSearching?: Dispatch<SetStateAction<Searching>>
+    sorting?: TableSorting
+    setSorting?: Dispatch<SetStateAction<TableSorting>>
+    searching?: TableSearching
+    setSearching?: Dispatch<SetStateAction<TableSearching>>
     topPanelContent?: ReactNode
     isLoading?: boolean
     isFetching?: boolean

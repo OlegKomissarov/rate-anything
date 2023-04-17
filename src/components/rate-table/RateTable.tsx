@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { trpc } from '../../utils/trpcClient';
-import Table, { TableFieldList } from '../elements/Table';
+import Table, { TableFieldList, TableSearching, TableSorting } from '../elements/Table';
 import {
-    flattenInfiniteData, getClassName, isMobile, Searching, Sorting, useDebouncedValue, useGetIsSubjectRated
+    flattenInfiniteData, getClassName, isMobile, useDebouncedValue, useGetIsSubjectRated
 } from '../../utils/utils';
 import { AverageRate, Rate } from '@prisma/client';
 import RateDetailModal from './RateDetailModal';
@@ -10,8 +10,8 @@ import RateDetailModal from './RateDetailModal';
 const RateTable: React.FC<{
     selectSubjectToRateForm: (rate: string) => void
 }> = ({ selectSubjectToRateForm }) => {
-    const [sorting, setSorting] = useState<Sorting>({ field: 'subject', order: 'asc' });
-    const [searching, setSearching] = useState<Searching>({ field: 'subject', fieldPreview: 'Subject', value: '' });
+    const [sorting, setSorting] = useState<TableSorting>({ field: 'subject', order: 'asc' });
+    const [searching, setSearching] = useState<TableSearching>({ field: 'subject', fieldPreview: 'Subject', value: '' });
     const searchingValueDebounced = useDebouncedValue(searching.value);
 
     const {
