@@ -1,5 +1,6 @@
 import React, { KeyboardEventHandler, useEffect, useRef, useState } from 'react';
 import { getClassName } from '../../utils/utils';
+import { validateRateValue } from '../../utils/validations';
 
 const NumberSelectionSlider: React.FC<{
     minValue: number
@@ -101,7 +102,7 @@ const NumberSelectionSlider: React.FC<{
             }
         </div>
         {
-            typeof hoverPositionValue === 'number' &&
+            validateRateValue(hoverPositionValue) &&
             <div className="selection-slider__number-label-container"
                  style={{ left: `${calculatePercentageOffset(hoverPositionValue)}%` }}
             >
@@ -117,7 +118,7 @@ const NumberSelectionSlider: React.FC<{
                onKeyDown={onKeyDown}
         />
         {
-            typeof value === 'number' &&
+            validateRateValue(value) &&
             <div style={{ left: `${calculatePercentageOffset(value)}%` }}
                  className={
                      getClassName(
