@@ -33,13 +33,13 @@ const RatePage = () => {
     }, []);
 
     const changeRateFormSubject = useRateFormStore(state => state.changeSubject);
+    const rateFormInputRef = useRateFormStore(state => state.rateInputRef);
     const selectSubjectToRateForm = (subject: string) => {
         changeRateFormSubject(subject);
-        const rateValueInput = document.getElementById('rate-value-input') as HTMLInputElement;
-        rateValueInput?.focus();
         if (isMobile() && currentMobileScreen !== 'form') {
             setCurrentMobileScreen('form');
         }
+        rateFormInputRef.current?.focus();
     };
 
     if (!session) {

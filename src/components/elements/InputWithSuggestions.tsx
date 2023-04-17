@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, useState } from 'react';
+import React, { InputHTMLAttributes, RefObject, useState } from 'react';
 import Input from './Input';
 import { getClassName, useDebouncedValue } from '../../utils/utils';
 import Loader from '../layout/Loader';
@@ -7,7 +7,7 @@ import { ProcedureUseQuery } from '@trpc/react-query/dist/createTRPCReact';
 const InputWithSuggestions: React.FC<InputHTMLAttributes<HTMLInputElement> & {
     selectSuggestion: (suggestion: string) => void
     selectOnFocus?: boolean
-    refValue?: React.Ref<HTMLInputElement>
+    refValue?: RefObject<HTMLInputElement>
     value: string
     suggestionListQuery: ProcedureUseQuery<any, any>
     suggestionKeyField: string

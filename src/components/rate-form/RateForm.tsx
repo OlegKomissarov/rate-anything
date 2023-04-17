@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Input from '../elements/Input';
 import Button from '../elements/Button';
 import { useSession } from 'next-auth/react';
@@ -19,6 +19,12 @@ const RateForm = () => {
     const { data: session } = useSession();
 
     const scrollableElementRef = useDisableBodyScroll();
+
+    const rateInputRef = useRef<HTMLInputElement>(null);
+    const setRateInputRef = useRateFormStore(state => state.setRateInputRef);
+    useEffect(() => {
+        setRateInputRef(rateInputRef);
+    }, []);
 
     const subject = useRateFormStore(state => state.subject);
     const changeSubject = useRateFormStore(state => state.changeSubject);
@@ -45,8 +51,7 @@ const RateForm = () => {
                 onError: error => {
                     if (error instanceof TRPCClientError && error.data.code === 'FORBIDDEN') {
                         resetForm();
-                        const rateValueInput = document.getElementById('rate-subject-input') as HTMLInputElement;
-                        rateValueInput?.focus();
+                        rateInputRef.current?.focus();
                     }
                 }
             });
@@ -81,8 +86,7 @@ const RateForm = () => {
             !!session?.user && !isMobile() &&
             <div className="secondary-text rate-form__user-name-label">{session.user.name}</div>
         }
-        <InputWithSuggestions id="rate-subject-input"
-                              placeholder="What You Wanna Rate"
+        <InputWithSuggestions placeholder="What You Wanna Rate"
                               className="form__input"
                               selectOnFocus
                               value={subject}
@@ -91,7 +95,7 @@ const RateForm = () => {
                               suggestionListQuery={trpc.rate.getAverageRateList.useQuery}
                               suggestionKeyField="subject"
         />
-        <Input id="rate-value-input"
+        <Input refValue={rateInputRef}
                placeholder="Your Rate from -10 to 10"
                className="form__input"
                selectOnFocus
