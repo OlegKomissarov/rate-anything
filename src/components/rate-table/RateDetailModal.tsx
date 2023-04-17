@@ -6,8 +6,8 @@ import RateDetailModalContent from './RateDetailModalContent';
 
 const RateDetailModal: React.FC<{
     averageRate: AverageRate & { rates: Rate[] }
-    selectSubjectToRate: (rate: string) => void
-}> = ({ averageRate, selectSubjectToRate }) => {
+    selectSubjectToRateForm: (rate: string) => void
+}> = ({ averageRate, selectSubjectToRateForm }) => {
     const { toggleModal, Modal } = useModal();
 
     return <>
@@ -18,7 +18,7 @@ const RateDetailModal: React.FC<{
         </Button>
         <Modal headerText={`${averageRate.subject}: ${averageRate.averageRate}`}>
             <RateDetailModalContent averageRate={averageRate}
-                                    selectSubjectToRate={selectSubjectToRate}
+                                    selectSubjectToRateForm={selectSubjectToRateForm}
                                     toggleModal={toggleModal}
             />
         </Modal>

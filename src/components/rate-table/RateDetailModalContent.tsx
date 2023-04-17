@@ -7,8 +7,8 @@ import Button from '../elements/Button';
 const RateDetailModalContent: React.FC<{
     averageRate: AverageRate & { rates: Rate[] }
     toggleModal: () => void
-    selectSubjectToRate: (rate: string) => void
-}> = ({ averageRate, toggleModal, selectSubjectToRate }) => {
+    selectSubjectToRateForm: (rate: string) => void
+}> = ({ averageRate, toggleModal, selectSubjectToRateForm }) => {
     const [sorting, setSorting] = useState<Sorting>({ field: 'userName', order: 'asc' });
     const [searching, setSearching] = useState<Searching>({ field: 'userName', fieldPreview: 'User', value: '' });
 
@@ -58,7 +58,7 @@ const RateDetailModalContent: React.FC<{
                       !getIsSubjectRated(averageRate) &&
                       <Button className="rate-detail-table__button"
                               onClick={() => {
-                                  selectSubjectToRate(averageRate.subject);
+                                  selectSubjectToRateForm(averageRate.subject);
                                   toggleModal();
                               }}
                       >

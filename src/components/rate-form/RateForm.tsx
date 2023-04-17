@@ -7,22 +7,68 @@ import { trpc } from '../../utils/trpcClient';
 import { isMobile, useDisableBodyScroll } from '../../utils/utils';
 import Loader from '../layout/Loader';
 import NumberSelectionSlider from '../elements/NumberSelectionSlider';
+import { getQueryKey } from '@trpc/react-query';
+import { validateRateSubject, validateRateValue } from '../../utils/validations';
+import { toast } from 'react-toastify';
+import { TRPCClientError } from '@trpc/client';
+import { useQueryClient } from '@tanstack/react-query';
+import useRateFormStore from './useRateFormStore';
 
-const RateForm: React.FC<{
-    createRate: () => void
-    subject: string
-    changeSubject: (subject: string) => void
-    rate: number | string
-    changeRate: (rate: number | string) => void
-    removeRatesBySubject: () => void
-    isCreateRateLoading: boolean
-    isRemoveRateLoading: boolean
-}> = ({
-    createRate, subject, changeSubject, rate, changeRate, removeRatesBySubject, isCreateRateLoading, isRemoveRateLoading
-}) => {
+const RateForm = () => {
+    const queryClient = useQueryClient();
+    const { data: session } = useSession();
+
     const scrollableElementRef = useDisableBodyScroll();
 
-    const { data: session } = useSession();
+    const subject = useRateFormStore(state => state.subject);
+    const changeSubject = useRateFormStore(state => state.changeSubject);
+    const rate = useRateFormStore(state => state.rate);
+    const changeRate = useRateFormStore(state => state.changeRate);
+    const resetForm = useRateFormStore(state => state.resetForm);
+
+    const onRateListMutationSuccess = () => {
+        resetForm();
+        queryClient.invalidateQueries({ queryKey: getQueryKey(trpc.rate.getAverageRateList) });
+    };
+
+    const createRateMutation = trpc.rate.createRate.useMutation();
+    const createRate = () => {
+        if (validateRateSubject(subject) && validateRateValue(rate)) {
+            createRateMutation.mutate({ subject, rate }, {
+                onSuccess: response => {
+                    toast(
+                        `Your rate for ${response.averageRate.subject} is recorded. New average rate is ${response.averageRate.averageRate}.`,
+                        { type: 'success' }
+                    );
+                    onRateListMutationSuccess();
+                },
+                onError: error => {
+                    if (error instanceof TRPCClientError && error.data.code === 'FORBIDDEN') {
+                        resetForm();
+                        const rateValueInput = document.getElementById('rate-subject-input') as HTMLInputElement;
+                        rateValueInput?.focus();
+                    }
+                }
+            });
+        }
+    };
+
+    const removeRatesBySubjectMutation = trpc.rate.removeRatesBySubject.useMutation();
+    const removeRatesBySubject = () => {
+        if (validateRateSubject(subject)) {
+            removeRatesBySubjectMutation.mutate({ subject },
+                {
+                    onSuccess: () => {
+                        toast(
+                            `All rates for ${subject} are successfully removed (if there were any).`,
+                            { type: 'success' }
+                        );
+                        onRateListMutationSuccess();
+                    }
+                }
+            );
+        }
+    };
 
     return <form ref={scrollableElementRef}
                  className="form rate-form custom-scrollbar"
@@ -50,16 +96,7 @@ const RateForm: React.FC<{
                className="form__input"
                selectOnFocus
                value={rate}
-               onChange={event => {
-                   if (event.target.value === '' || event.target.value === '-') {
-                       changeRate(event.target.value);
-                   } else if (/^([-]?[1-9]\d*|0)$/.test(event.target.value)) {
-                       const numberValue = +event.target.value;
-                       if (numberValue >= -10 && numberValue <= 10) {
-                           changeRate(numberValue);
-                       }
-                   }
-               }}
+               onChange={event => changeRate(event.target.value)}
                disabled={!subject}
         />
         <NumberSelectionSlider minValue={-10}
@@ -71,7 +108,7 @@ const RateForm: React.FC<{
         />
         <Button type="submit"
                 className="form__button form__submit-button"
-                disabled={!subject || typeof rate !== 'number' || isCreateRateLoading }
+                disabled={!subject || typeof rate !== 'number' || createRateMutation.isLoading }
         >
             RATE
         </Button>
@@ -80,13 +117,13 @@ const RateForm: React.FC<{
             <Button type="button"
                     onClick={removeRatesBySubject}
                     className="button--secondary form__button"
-                    disabled={!subject || isRemoveRateLoading}
+                    disabled={!subject || removeRatesBySubjectMutation.isLoading}
             >
                 REMOVE RATE
             </Button>
         }
         {
-            (isCreateRateLoading || isRemoveRateLoading) &&
+            (createRateMutation.isLoading || removeRatesBySubjectMutation.isLoading) &&
             <Loader className="global-loader" />
         }
     </form>;

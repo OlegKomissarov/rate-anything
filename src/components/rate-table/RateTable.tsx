@@ -8,8 +8,8 @@ import { AverageRate, Rate } from '@prisma/client';
 import RateDetailModal from './RateDetailModal';
 
 const RateTable: React.FC<{
-    selectSubjectToRate: (rate: string) => void
-}> = ({ selectSubjectToRate }) => {
+    selectSubjectToRateForm: (rate: string) => void
+}> = ({ selectSubjectToRateForm }) => {
     const [sorting, setSorting] = useState<Sorting>({ field: 'subject', order: 'asc' });
     const [searching, setSearching] = useState<Searching>({ field: 'subject', fieldPreview: 'Subject', value: '' });
     const searchingValueDebounced = useDebouncedValue(searching.value);
@@ -42,7 +42,7 @@ const RateTable: React.FC<{
             render: (averageRate: AverageRate & { rates: Rate[] }) =>
                 !getIsSubjectRated(averageRate)
                     ? <div className="rate-table__subject-item"
-                           onClick={() => selectSubjectToRate(averageRate.subject)}
+                           onClick={() => selectSubjectToRateForm(averageRate.subject)}
                     >
                         {averageRate.subject}
                     </div>
@@ -61,7 +61,7 @@ const RateTable: React.FC<{
             name: 'ratesAmount',
             previewName: 'Popularity',
             render: (averageRate: AverageRate & { rates: Rate[] }) =>
-                <RateDetailModal averageRate={averageRate} selectSubjectToRate={selectSubjectToRate} />,
+                <RateDetailModal averageRate={averageRate} selectSubjectToRateForm={selectSubjectToRateForm} />,
             bold: true,
             sortable: true
         }
