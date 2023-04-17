@@ -3,6 +3,11 @@ import { adminProcedure, createTRPCRouter, protectedProcedure, publicProcedure }
 import { rateSubjectSchema, rateValueSchema } from '../../utils/validations';
 import { TRPCError } from '@trpc/server';
 
+const modifySubject = (subject: string) => {
+    const trimmedSubject = subject.trim();
+    return trimmedSubject.charAt(0).toUpperCase() + trimmedSubject.slice(1).toLowerCase();
+};
+
 export const rateRouter = createTRPCRouter({
     getAverageRateList: publicProcedure
         .input(z.object({
@@ -35,8 +40,7 @@ export const rateRouter = createTRPCRouter({
     createRate: protectedProcedure
         .input(z.object({ subject: rateSubjectSchema, rate: rateValueSchema }))
         .mutation(async ({ input: { subject, rate: rateValue }, ctx: { session, prisma } }) => {
-            const trimmedSubject = subject.trim();
-            const modifiedSubject = trimmedSubject.charAt(0).toUpperCase() + trimmedSubject.slice(1).toLowerCase();
+            const modifiedSubject = modifySubject(subject);
             const existingRateData = await prisma.rate.findFirst({ where: { userEmail: session.userEmail, subject: modifiedSubject } });
             if (existingRateData) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: `You have already rated ${modifiedSubject}.` });
@@ -81,9 +85,10 @@ export const rateRouter = createTRPCRouter({
     removeRatesBySubject: adminProcedure
         .input(z.object({ subject: rateSubjectSchema }))
         .mutation(async ({ input: { subject }, ctx: { prisma } }) => {
+            const modifiedSubject = modifySubject(subject);
             return await Promise.all([
-                prisma.rate.deleteMany({ where: { subject } }),
-                prisma.averageRate.deleteMany({ where: { subject } })
+                prisma.rate.deleteMany({ where: { subject: modifiedSubject } }),
+                prisma.averageRate.deleteMany({ where: { subject: modifiedSubject } })
             ]);
         })
 });
