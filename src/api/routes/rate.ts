@@ -35,13 +35,13 @@ export const rateRouter = createTRPCRouter({
     createRate: protectedProcedure
         .input(z.object({ subject: rateSubjectSchema, rate: rateValueSchema }))
         .mutation(async ({ input: { subject, rate: rateValue }, ctx: { session, prisma } }) => {
-            const existingRateData = await prisma.rate.findFirst({ where: { userEmail: session.userEmail, subject } });
+            const trimmedSubject = subject.trim();
+            const modifiedSubject = trimmedSubject.charAt(0).toUpperCase() + trimmedSubject.slice(1).toLowerCase();
+            const existingRateData = await prisma.rate.findFirst({ where: { userEmail: session.userEmail, subject: modifiedSubject } });
             if (existingRateData) {
-                throw new TRPCError({ code: 'FORBIDDEN', message: `You have already rated ${subject}.` });
+                throw new TRPCError({ code: 'FORBIDDEN', message: `You have already rated ${modifiedSubject}.` });
             } else {
-                const trimmedSubject = subject.trim();
-                const modifiedSubject = trimmedSubject.charAt(0).toUpperCase() + trimmedSubject.slice(1).toLowerCase();
-                const existingAverageRate = await prisma.averageRate.findFirst({ where: { subject } });
+                const existingAverageRate = await prisma.averageRate.findFirst({ where: { subject: modifiedSubject } });
                 let updateOrCreateAverageRate;
                 if (existingAverageRate) {
                     const newAverageRate = Math.round(
