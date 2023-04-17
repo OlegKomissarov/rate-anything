@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import RateStar from './RateStar';
-import usePanScreen from './usePanScreen';
-import useBackgroundData from './useBackgroundData';
 import { trpc } from '../../utils/trpcClient';
 import Loader from './Loader';
 import { useBodyNoScrollBar } from '../../utils/utils';
+import { useBackgroundData, usePanScreen } from './backgroundUtils';
 
 const StarsBackground: React.FC<{ showStars?: boolean }> = ({ showStars }) => {
     const { backgroundData, generateBackgroundData } = useBackgroundData();

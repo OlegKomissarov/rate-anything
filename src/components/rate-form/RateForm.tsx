@@ -39,7 +39,7 @@ const RateForm = () => {
 
     const createRateMutation = trpc.rate.createRate.useMutation();
     const createRate = () => {
-        if (validateRateSubject(subject) && validateRateValue(rate)) {
+        if (validateRateSubject(subject, { showError: true }) && validateRateValue(rate, { showError: true })) {
             createRateMutation.mutate({ subject, rate }, {
                 onSuccess: response => {
                     toast(
@@ -60,7 +60,7 @@ const RateForm = () => {
 
     const removeRatesBySubjectMutation = trpc.rate.removeRatesBySubject.useMutation();
     const removeRatesBySubject = () => {
-        if (validateRateSubject(subject)) {
+        if (validateRateSubject(subject, { showError: true })) {
             removeRatesBySubjectMutation.mutate({ subject },
                 {
                     onSuccess: () => {
@@ -101,18 +101,18 @@ const RateForm = () => {
                selectOnFocus
                value={rate}
                onChange={event => changeRate(event.target.value)}
-               disabled={!subject}
+               disabled={!validateRateSubject(subject)}
         />
         <NumberSelectionSlider minValue={-10}
                                maxValue={10}
                                value={rate}
                                changeValue={changeRate}
                                className="form__selection-slider"
-                               disabled={!subject}
+                               disabled={!validateRateSubject(subject)}
         />
         <Button type="submit"
                 className="form__button form__submit-button"
-                disabled={!subject || typeof rate !== 'number' || createRateMutation.isLoading}
+                disabled={!validateRateSubject(subject) || !validateRateValue(rate) || createRateMutation.isLoading}
         >
             RATE
         </Button>
@@ -121,7 +121,7 @@ const RateForm = () => {
             <Button type="button"
                     onClick={removeRatesBySubject}
                     className="button--secondary form__button"
-                    disabled={!subject || removeRatesBySubjectMutation.isLoading}
+                    disabled={!validateRateSubject(subject) || removeRatesBySubjectMutation.isLoading}
             >
                 REMOVE RATE
             </Button>

@@ -1,5 +1,10 @@
-import { getRandomDecimal, getRandomInteger, isClient, Position } from '../../utils/utils';
-import { useState } from 'react';
+import { getRandomDecimal, getRandomInteger, isClient } from '../../utils/utils';
+import { useEffect, useRef, useState } from 'react';
+
+interface Position {
+    x: number;
+    y: number;
+}
 
 const minDistanceBetweenItemsHorizontal = 150;
 const minDistanceBetweenItemsVertical = 150;
@@ -16,7 +21,8 @@ const getRandomPosition = (itemPosition: Position) => (
     }
 );
 
-const useBackgroundData = () => {
+// todo: try to optimize it even more.
+export const useBackgroundData = () => {
     const [backgroundData, setBackgroundData] = useState<{ backgroundSize: Position, itemPositions: Position[] }>(
         { itemPositions: [], backgroundSize: zeroPosition }
     );
@@ -111,4 +117,75 @@ const useBackgroundData = () => {
     return { backgroundData, generateBackgroundData };
 };
 
-export default useBackgroundData;
+
+const getPanScreenChildren = () => isClient
+    // @ts-ignore
+    ? [...document.querySelectorAll('.pan-screen-child')] as (HTMLElement | null)[]
+    : [];
+
+const setPanScreenChildrenStyle = (pointerEvents: 'none' | '') => {
+    getPanScreenChildren().forEach(element => {
+        if (element && element.style) {
+            element.style.pointerEvents = pointerEvents;
+        }
+    });
+};
+
+const setBodyStyle = (cursor: 'grab' | 'grabbing' | '', userSelect: 'none' | '') => {
+    document.body.style.cursor = cursor;
+    document.body.style.userSelect = userSelect;
+};
+
+export const usePanScreen = (backgroundSize: Position) => {
+    const isPanning = useRef(false);
+
+    useEffect(() => {
+        const handleMouseDown = (event: MouseEvent) => {
+            if (!getPanScreenChildren().some(otherElement => otherElement?.contains(event.target as Node))) {
+                isPanning.current = true;
+                setBodyStyle('grabbing', 'none');
+                setPanScreenChildrenStyle('none');
+            }
+        };
+        const handleMouseMove = (event: MouseEvent) => {
+            panScreen(event);
+        };
+        const handleMouseUp = () => {
+            isPanning.current = false;
+            setBodyStyle('grab', '');
+            setPanScreenChildrenStyle('');
+        };
+        const panScreen = (event: MouseEvent) => {
+            if (!isPanning.current) {
+                return;
+            }
+            const minPosition = { x: 0, y: 0 };
+            const maxPosition = { x: backgroundSize.x - window.innerWidth, y: backgroundSize.y - window.innerHeight };
+            const newPosition = { x: window.scrollX, y: window.scrollY };
+            const newX = window.scrollX - event.movementX;
+            const newY = window.scrollY - event.movementY;
+            if (newX >= minPosition.x && newX <= maxPosition.x) {
+                newPosition.x = newX;
+            }
+            if (newY >= minPosition.y && newY <= maxPosition.y) {
+                newPosition.y = newY;
+            }
+            window.scrollTo(newPosition.x, newPosition.y);
+        };
+        document.addEventListener('mousedown', handleMouseDown);
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+        return () => {
+            document.removeEventListener('mousedown', handleMouseDown);
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    });
+
+    useEffect(() => {
+        setBodyStyle('grab', '');
+        return () => {
+            setBodyStyle('', '');
+        };
+    }, []);
+};

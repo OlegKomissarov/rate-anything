@@ -1,5 +1,6 @@
 import { create as createZustandStore } from 'zustand';
 import { RefObject } from 'react';
+import { validateRateValue } from '../../utils/validations';
 
 export default createZustandStore<{
     subject: string
@@ -17,10 +18,10 @@ export default createZustandStore<{
         if (typeof rate === 'string' && (rate === '' || rate === '-')) {
             return { rate };
         }
-        if (typeof rate === 'string' && /^([-]?[1-9]\d*|0)$/.test(rate) && +rate >= -10 && +rate <= 10) {
+        if (typeof rate === 'string' && /^([-]?[1-9]\d*|0)$/.test(rate) && validateRateValue(+rate)) {
             return { rate: +rate };
         }
-        if (typeof rate === 'number' && rate >= -10 && rate <= 10) {
+        if (validateRateValue(rate)) {
             return { rate: rate };
         }
         return {};
