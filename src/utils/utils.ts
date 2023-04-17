@@ -120,3 +120,12 @@ export const useGetIsSubjectRated = () => {
 const maxMobileWidth = 1024;
 
 export const isMobile = () => window.innerWidth <= maxMobileWidth;
+
+export const useBodyNoScrollBar = () => {
+    useEffect(() => {
+        document.body.classList.add('no-scrollbar');
+        return () => {
+            document.body.classList.remove('no-scrollbar');
+        };
+    }, []);
+};

@@ -18,4 +18,3 @@ export const validateRateSubject = (subject: unknown): subject is string =>
 export const rateValueSchema = z.number().min(-10).max(10);
 export const validateRateValue = (rate: unknown): rate is number =>
     validate<number>(rateValueSchema, 'rate value', rate);
-

@@ -1,4 +1,4 @@
-import { getRandomDecimal, getRandomInteger, isClient, Position } from './utils';
+import { getRandomDecimal, getRandomInteger, isClient, Position } from '../../utils/utils';
 import { useState } from 'react';
 
 const minDistanceBetweenItemsHorizontal = 150;

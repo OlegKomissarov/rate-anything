@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { isClient, Position } from './utils';
+import { isClient, Position } from '../../utils/utils';
 
 const getOtherElements = () => isClient
     // @ts-ignore
