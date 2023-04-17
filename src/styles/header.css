@@ -1,14 +1,10 @@
-:root {
-  --header-text-color: #D8CD2B;
-}
-
 .header {
   z-index: 1;
   background-color: var(--dark-background-color);
   text-align: center;
   white-space: nowrap;
   font-family: Gilroy-Bold, sans-serif;
-  color: var(--header-text-color);
+  color: var(--color-yellow);
   font-size: 60px;
   user-select: none;
 }

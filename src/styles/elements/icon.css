@@ -36,7 +36,7 @@
   top: 40%;
   width: 50%;
   height: 2px;
-  background-color: var(--table-text-color);
+  background-color: var(--color-blue);
 }
 
 .caret-icon:before {

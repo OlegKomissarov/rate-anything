@@ -1,21 +1,13 @@
-:root {
-  --button-background-color: #1D3557;
-  --button-text-color: #FFFFFF;
-  --secondary-button-background-color: #335C67;
-  --secondary-button-border-color: #868585;
-  --secondary-button-text-color: #FFFFFF;
-}
-
 .button {
   padding: 9px 16px;
   height: var(--input-height);
   overflow: hidden;
-  background-color: var(--button-background-color);
+  background-color: var(--color-blue-dark);
   border: none;
-  border-radius: 5px;
+  border-radius: var(--border-radius-base);
   white-space: nowrap;
   font-family: Gilroy-Medium;
-  color: var(--button-text-color);
+  color: var(--color-white);
   font-size: 24px;
   text-transform: uppercase;
   text-overflow: ellipsis;
@@ -37,10 +29,9 @@
 .button--secondary {
   padding: 7px 12px;
   height: initial;
-  background-color: var(--secondary-button-background-color);
-  border: 1px solid var(--secondary-button-border-color);
+  background-color: var(--color-blue);
   font-family: Gilroy-Medium;
-  color: var(--secondary-button-text-color);
+  color: var(--color-white);
   font-size: 16px;
 }
 

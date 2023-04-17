@@ -1,7 +1,3 @@
-:root {
-  --dark-border-color: #1D3557;
-}
-
 .main-page-grid {
   position: fixed;
   top: 0;
@@ -11,7 +7,7 @@
   width: 100vw;
   height: 100vh;
   display: grid;
-  gap: 25px;
+  gap: var(--space-large);
   grid-template-areas:
     'header header'
     'form table';
@@ -35,8 +31,8 @@
 .main-page-block {
   position: relative;
   background-color: var(--light-background-color);
-  border: 5px solid var(--dark-border-color);
-  border-radius: 20px;
+  border: var(--border-width-big) solid var(--color-blue-dark);
+  border-radius: var(--border-radius-large);
   cursor: initial;
 }
 

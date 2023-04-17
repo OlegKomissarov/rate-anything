@@ -285,7 +285,7 @@
   }
   25% {
     letter-spacing: 3px;
-    color: var(--secondary-text-color);
+    color: var(--color-blue);
   }
   50% {
     transform: translateY(calc(100% + 20px)) translateX(30px);
@@ -294,7 +294,7 @@
   }
   75% {
     letter-spacing: 3px;
-    color: var(--secondary-text-color);
+    color: var(--color-blue);
   }
   100% {
     transform: translateY(calc(100% + 20px)) translateX(-30px);

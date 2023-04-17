@@ -13,6 +13,31 @@
 @import 'main-page.css';
 
 :root {
+  --space-tiny: 5px;
+  --space-small: 10px;
+  --space-base: 15px;
+  --space-big: 20px;
+  --space-large: 25px;
+  --space-huge: 50px;
+  --border-width-small: 1px;
+  --border-width-base: 3px;
+  --border-width-big: 5px;
+  --border-radius-small: 3px;
+  --border-radius-base: 5px;
+  --border-radius-big: 8px;
+  --border-radius-large: 20px;
+  --font-size-base: 18px;
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+  --color-yellow: #D8CD2B;
+  --color-green: #008000;
+  --color-blue-dark: #1D3557;
+  --color-blue: #335C67;
+  --color-grey-light: #AFAFAF;
+  --color-grey-dark: #757575;
+
+  --scrollbar-width: 7px;
+  --scrollbar-border-radius: 6px;
   --default-text-color: #3B3A3A;
   --border-color: #3B3A3A;
   --light-border-color: #DCDCDC;
@@ -22,11 +47,6 @@
   --scrollbar-track-color: #E8E9EB;
   --scrollbar-thumb-color: #999999;
   --scrollbar-thumb-hover-color: #C4C4C4;
-  --color-white: #FFFFFF;
-  --color-black: #000000;
-  --color-green: #008000;
-  --scrollbar-width: 7px;
-  --secondary-text-color: #335C67;
 }
 
 body {
@@ -35,7 +55,7 @@ body {
   background-color: var(--dark-background-color);
   font-family: Gilroy-Regular, sans-serif;
   color: var(--default-text-color);
-  font-size: 18px;
+  font-size: var(--font-size-base);
 }
 
 a {
@@ -49,7 +69,7 @@ a {
 
 .secondary-text {
   font-family: Gilroy-Semibold;
-  color: var(--secondary-text-color);
+  color: var(--color-blue);
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -64,12 +84,12 @@ a {
 
   .custom-scrollbar::-webkit-scrollbar-track {
     background-color: var(--scrollbar-track-color);
-    border-radius: 6px;
+    border-radius: var(--scrollbar-border-radius);
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
     background-color: var(--scrollbar-thumb-color);
-    border-radius: 6px;
+    border-radius: var(--scrollbar-border-radius);
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {

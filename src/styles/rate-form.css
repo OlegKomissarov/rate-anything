@@ -1,5 +1,5 @@
 .rate-form {
-  padding: 20px;
+  padding: var(--space-big);
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
@@ -8,10 +8,10 @@
 
 @media (max-width: 1024px) {
   .rate-form {
-    padding: 15px;
+    padding: var(--space-base);
   }
 }
 
 .rate-form__user-name-label:not(:last-child) {
-  margin-bottom: 20px;
+  margin-bottom: var(--space-big);
 }

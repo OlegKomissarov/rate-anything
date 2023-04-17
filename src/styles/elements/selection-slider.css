@@ -1,6 +1,4 @@
 :root {
-  --selection-slider-main-line-background-color: #335C67;
-  --selection-slider-label-background-color: #757575;
   --selection-slider-main-line-height: 6px;
   --selection-slider-value-box-shadow-size: 8px;
   --selection-slider-value-box-shadow-size-big: 12px;
@@ -8,8 +6,8 @@
 
 .selection-slider {
   position: relative;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: var(--space-base);
+  padding-bottom: var(--space-base);
   width: 100%;
   cursor: pointer;
   user-select: none;
@@ -20,8 +18,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--selection-slider-main-line-background-color);
-  border-radius: 5px;
+  background-color: var(--color-blue);
+  border-radius: var(--border-radius-base);
 }
 
 .selection-slider__dash-dote {
@@ -39,7 +37,7 @@
   height: 20px;
   transition: box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1) 0s;
   transform: translateX(calc(-50%)) translateY(calc(-50% - var(--selection-slider-main-line-height) / 2));
-  background-color: var(--selection-slider-main-line-background-color);
+  background-color: var(--color-blue);
   border-radius: 50%;
 }
 
@@ -83,7 +81,7 @@
   transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1) 0s;
   transform: translateX(-50%) translateY(-100%) scale(0);
   transform-origin: bottom center;
-  background-color: var(--selection-slider-label-background-color);
+  background-color: var(--color-grey-dark);
   border-radius: 2px;
   color: var(--color-white);
 }

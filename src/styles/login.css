@@ -21,7 +21,7 @@
   overflow: hidden;
   transition: transform 0.35s;
   transform: translate(-50%, -50%) rotateZ(-10deg) translate(-100px, 35px);
-  font-size: 18px;
+  font-size: var(--font-size-base);
   letter-spacing: 2px;
   user-select: none;
 }
