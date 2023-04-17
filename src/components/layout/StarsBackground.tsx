@@ -9,12 +9,13 @@ const StarsBackground: React.FC<{ showStars?: boolean }> = ({ showStars }) => {
     const { backgroundData, generateBackgroundData } = useBackgroundData();
     const { backgroundSize, itemPositions } = backgroundData;
 
+    const averageRateListQueryEnabled: boolean = !!showStars;
     const { data: averageRateListResponse, isLoading, isFetching } = trpc.rate.getAverageRateList.useQuery(
         {
             limit: 500
         },
         {
-            enabled: showStars,
+            enabled: averageRateListQueryEnabled,
             onSuccess: averageRateListResponse => {
                 generateBackgroundData(averageRateListResponse.data.length);
             }
@@ -52,7 +53,7 @@ const StarsBackground: React.FC<{ showStars?: boolean }> = ({ showStars }) => {
         <div className="stars-background__decor-stars" />
         <div className="stars-background__twinkling" />
         {
-            showStars && (isLoading || isFetching) &&
+            averageRateListQueryEnabled && (isLoading || isFetching) &&
             <Loader className="global-loader" />
         }
     </div>;

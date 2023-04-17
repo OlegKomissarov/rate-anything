@@ -18,13 +18,14 @@ const InputWithSuggestions: React.FC<InputHTMLAttributes<HTMLInputElement> & {
 
     const debouncedValue = useDebouncedValue<string>(value);
 
+    const suggestionListQueryEnabled: boolean = !!debouncedValue && showSuggestions;
     const { data: suggestionList, isLoading, isFetching } = suggestionListQuery(
         {
             limit: 5,
             searching: { field: suggestionKeyField, value: debouncedValue }
         },
         {
-            enabled: !!debouncedValue && showSuggestions,
+            enabled: suggestionListQueryEnabled,
             keepPreviousData: true
         }
     );
@@ -44,7 +45,7 @@ const InputWithSuggestions: React.FC<InputHTMLAttributes<HTMLInputElement> & {
                onBlur={() => setShowSuggestions(false)}
         />
         {
-            !!(debouncedValue && showSuggestions) && (isLoading || isFetching) &&
+            suggestionListQueryEnabled && (isLoading || isFetching) &&
             <Loader className="input-with-suggestions__loader" />
         }
         {
