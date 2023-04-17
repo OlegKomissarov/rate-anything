@@ -9,7 +9,6 @@ import StarsBackground from '../components/layout/StarsBackground';
 
 const LoginPage = () => {
     const router = useRouter();
-
     const { status: sessionStatus } = useSession();
 
     const [shouldAnimateAstronaut, setShouldAnimateAstronaut] = useState(false);

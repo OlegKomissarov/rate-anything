@@ -41,7 +41,9 @@ export const rateRouter = createTRPCRouter({
         .input(z.object({ subject: rateSubjectSchema, rate: rateValueSchema }))
         .mutation(async ({ input: { subject, rate: rateValue }, ctx: { session, prisma } }) => {
             const modifiedSubject = modifySubject(subject);
-            const existingRateData = await prisma.rate.findFirst({ where: { userEmail: session.userEmail, subject: modifiedSubject } });
+            const existingRateData = await prisma.rate.findFirst({
+                where: { userEmail: session.userEmail, subject: modifiedSubject }
+            });
             if (existingRateData) {
                 throw new TRPCError({ code: 'FORBIDDEN', message: `You have already rated ${modifiedSubject}.` });
             } else {

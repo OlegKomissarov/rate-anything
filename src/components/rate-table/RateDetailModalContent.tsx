@@ -14,22 +14,6 @@ const RateDetailModalContent: React.FC<{
 
     const getIsSubjectRated = useGetIsSubjectRated();
 
-    const fieldList = [
-        {
-            name: 'userName',
-            previewName: 'User',
-            bold: true,
-            sortable: true,
-            alignLeft: true
-        },
-        {
-            name: 'rate',
-            previewName: 'Rate',
-            bold: true,
-            sortable: true
-        }
-    ];
-
     const modifiedRateList = averageRate.rates
         .filter(rate => rate.userName.includes(searching.value))
         .sort((rateA, rateB) => {
@@ -45,6 +29,22 @@ const RateDetailModalContent: React.FC<{
             }
             return 0;
         });
+
+    const fieldList = [
+        {
+            name: 'userName',
+            previewName: 'User',
+            bold: true,
+            sortable: true,
+            alignLeft: true
+        },
+        {
+            name: 'rate',
+            previewName: 'Rate',
+            bold: true,
+            sortable: true
+        }
+    ];
 
     return <Table keyFieldName="id"
                   className="rate-detail-table"

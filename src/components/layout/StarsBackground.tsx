@@ -9,6 +9,19 @@ const StarsBackground: React.FC<{ showStars?: boolean }> = ({ showStars }) => {
     const { backgroundData, generateBackgroundData } = useBackgroundData();
     const { backgroundSize, itemPositions } = backgroundData;
 
+    useEffect(() => {
+        // need to wait next tick when background is rendered with the new size
+        window.scrollTo({
+            top: (backgroundSize.x - window.innerWidth) / 2,
+            left: (backgroundSize.y - window.innerHeight) / 2,
+            behavior: 'smooth'
+        });
+    }, [backgroundSize.x, backgroundSize.y]);
+
+    useBodyNoScrollBar();
+
+    usePanScreen(backgroundSize);
+
     const averageRateListQueryEnabled: boolean = !!showStars;
     const { data: averageRateListResponse, isLoading, isFetching } = trpc.rate.getAverageRateList.useQuery(
         {
@@ -21,19 +34,6 @@ const StarsBackground: React.FC<{ showStars?: boolean }> = ({ showStars }) => {
             }
         }
     );
-
-    useEffect(() => {
-        // need to wait next tick when background is rendered with the new size
-        window.scrollTo({
-            top: (backgroundSize.x - window.innerWidth) / 2,
-            left: (backgroundSize.y - window.innerHeight) / 2,
-            behavior: 'smooth'
-        });
-    }, [backgroundSize.x, backgroundSize.y]);
-
-    usePanScreen(backgroundSize);
-
-    useBodyNoScrollBar();
 
     return <div className="stars-background"
                 style={{ width: `${backgroundSize.x}px`, height: `${backgroundSize.y}px` }}

@@ -11,7 +11,11 @@ const RateTable: React.FC<{
     selectSubjectToRateForm: (rate: string) => void
 }> = ({ selectSubjectToRateForm }) => {
     const [sorting, setSorting] = useState<TableSorting>({ field: 'subject', order: 'asc' });
-    const [searching, setSearching] = useState<TableSearching>({ field: 'subject', fieldPreview: 'Subject', value: '' });
+    const [searching, setSearching] = useState<TableSearching>({
+        field: 'subject',
+        fieldPreview: 'Subject',
+        value: ''
+    });
     const searchingValueDebounced = useDebouncedValue(searching.value);
 
     const {

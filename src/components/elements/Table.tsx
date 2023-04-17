@@ -46,7 +46,6 @@ const Table: React.FC<{
     const scrollableElementRef = useDisableBodyScroll();
 
     const { ref: inViewRef, inView } = useInView();
-
     useEffect(() => {
         if (inView && fetchNextPage) {
             fetchNextPage();

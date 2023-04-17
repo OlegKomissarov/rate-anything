@@ -16,6 +16,11 @@ const InputWithSuggestions: React.FC<InputHTMLAttributes<HTMLInputElement> & {
 }) => {
     const [showSuggestions, setShowSuggestions] = useState(false);
 
+    const onClickSuggestion = (suggestion: string) => {
+        selectSuggestion(suggestion);
+        setShowSuggestions(false);
+    };
+
     const debouncedValue = useDebouncedValue<string>(value);
 
     const suggestionListQueryEnabled: boolean = !!debouncedValue && showSuggestions;
@@ -29,11 +34,6 @@ const InputWithSuggestions: React.FC<InputHTMLAttributes<HTMLInputElement> & {
             keepPreviousData: true
         }
     );
-
-    const onClickSuggestion = (suggestion: string) => {
-        selectSuggestion(suggestion);
-        setShowSuggestions(false);
-    };
 
     return <div className="input-with-suggestions-container form__input">
         {/* Be careful with passing props implicitly here. React may not make the implicit props reactive */}
