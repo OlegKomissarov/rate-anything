@@ -23,7 +23,7 @@ const RateForm = () => {
     const setRateInputRef = useRateFormStore(state => state.setRateInputRef);
     useEffect(() => {
         setRateInputRef(rateInputRef);
-    }, []);
+    }, [setRateInputRef]);
 
     const subject = useRateFormStore(state => state.subject);
     const changeSubject = useRateFormStore(state => state.changeSubject);

@@ -54,7 +54,7 @@ const Table = (
         if (inView && fetchNextPage) {
             fetchNextPage();
         }
-    }, [inView]);
+    }, [inView, fetchNextPage]);
 
     return <div className={getClassName('table custom-scrollbar', className)}
                 ref={scrollableElementRef}
