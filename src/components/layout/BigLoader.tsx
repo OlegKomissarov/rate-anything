@@ -2,7 +2,11 @@ import React from 'react';
 import { getClassName, isMobile } from '../../utils/utils';
 import Loader from './Loader';
 
-const BigLoader: React.FC<{ className?: string }> = ({ className }) => {
+type BigLoaderProps = {
+    className?: string
+};
+
+const BigLoader = ({ className }: BigLoaderProps) => {
     if (isMobile()) {
         return <Loader />;
     }

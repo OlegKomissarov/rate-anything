@@ -1,9 +1,11 @@
 import React, { ButtonHTMLAttributes } from 'react';
 import { getClassName } from '../../utils/utils';
 
-const Button: React.FC<ButtonHTMLAttributes<HTMLButtonElement> & {
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
     secondary?: boolean
-}> = ({ children, className, disabled, secondary, ...props }) => {
+};
+
+const Button = ({ children, className, disabled, secondary, ...props }: ButtonProps) => {
     return <button {...props}
                    className={
                        getClassName(

@@ -4,10 +4,12 @@ import useModal from '../elements/useModal';
 import Button from '../elements/Button';
 import RateDetailModalContent from './RateDetailModalContent';
 
-const RateDetailModal: React.FC<{
+type RateDetailModalProps = {
     averageRate: AverageRate & { rates: Rate[] }
     selectSubjectToRateForm: (rate: string) => void
-}> = ({ averageRate, selectSubjectToRateForm }) => {
+};
+
+const RateDetailModal = ({ averageRate, selectSubjectToRateForm }: RateDetailModalProps) => {
     const { toggleModal, Modal } = useModal();
 
     return <>

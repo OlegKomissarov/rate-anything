@@ -48,7 +48,7 @@ const RateForm = () => {
                     onRateListMutationSuccess();
                 },
                 onError: error => {
-                    if (error instanceof TRPCClientError && error.data.code === 'FORBIDDEN') {
+                    if (error instanceof TRPCClientError && error.data?.code === 'FORBIDDEN') {
                         resetForm();
                         rateInputRef.current?.focus();
                     }

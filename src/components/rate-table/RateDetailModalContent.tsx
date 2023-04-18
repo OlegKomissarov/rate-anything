@@ -4,11 +4,13 @@ import { useGetIsSubjectRated } from '../../utils/utils';
 import Table, { TableSorting, TableSearching } from '../elements/Table';
 import Button from '../elements/Button';
 
-const RateDetailModalContent: React.FC<{
+type RateDetailModalContentProps = {
     averageRate: AverageRate & { rates: Rate[] }
     toggleModal: () => void
     selectSubjectToRateForm: (rate: string) => void
-}> = ({ averageRate, toggleModal, selectSubjectToRateForm }) => {
+};
+
+const RateDetailModalContent = ({ averageRate, toggleModal, selectSubjectToRateForm }: RateDetailModalContentProps) => {
     const [sorting, setSorting] = useState<TableSorting>({ field: 'userName', order: 'asc' });
     const [searching, setSearching] = useState<TableSearching>({ field: 'userName', fieldPreview: 'User', value: '' });
 

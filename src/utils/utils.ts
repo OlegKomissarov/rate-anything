@@ -54,7 +54,7 @@ export const useBodyNoScrollBar = () => {
 
 export const showError = (error: unknown, validationFieldName?: string, validationValue?: unknown) => {
     let errorOutput = error + '';
-    if (error instanceof TRPCClientError && error.data.code === 'BAD_REQUEST' && error.data.zodError) { // backend validation error
+    if (error instanceof TRPCClientError && error.data?.code === 'BAD_REQUEST' && error.data.zodError) { // backend validation error
         errorOutput = `Validation error occurred for request ${error.data.path}. `;
         if (error.data.zodError.fieldErrors.length) {
             errorOutput += Object.keys(error.data.zodError.fieldErrors)
@@ -72,7 +72,7 @@ export const showError = (error: unknown, validationFieldName?: string, validati
         errorOutput += `. `;
         errorOutput += error.issues.map(issue => issue.message).join('; ');
         errorOutput += `.`;
-    } else if (error instanceof TRPCClientError && error.data.code === 'INTERNAL_SERVER_ERROR') {
+    } else if (error instanceof TRPCClientError && error.data?.code === 'INTERNAL_SERVER_ERROR') {
         errorOutput = `Internal Server Error occurred for the request ${error.data.path}`;
     }
     if (isClient) {

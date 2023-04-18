@@ -5,7 +5,11 @@ import Loader from './Loader';
 import { useBodyNoScrollBar } from '../../utils/utils';
 import { useBackgroundData, usePanScreen } from './backgroundUtils';
 
-const StarsBackground: React.FC<{ showStars?: boolean }> = ({ showStars }) => {
+type StarsBackgroundProps = {
+    showStars?: boolean
+};
+
+const StarsBackground = ({ showStars }: StarsBackgroundProps) => {
     const { backgroundData, generateBackgroundData } = useBackgroundData();
     const { backgroundSize, itemPositions } = backgroundData;
 

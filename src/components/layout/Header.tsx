@@ -1,7 +1,9 @@
 import React, { AnchorHTMLAttributes } from 'react';
 import { getClassName } from '../../utils/utils';
 
-const Header: React.FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({ className, ...props }) => {
+type HeaderProps = AnchorHTMLAttributes<HTMLAnchorElement>;
+
+const Header = ({ className, ...props }: HeaderProps) => {
     return <a {...props}
               href="/"
               rel="noopener noreferrer"

@@ -2,14 +2,18 @@ import React, { KeyboardEventHandler, useEffect, useRef, useState } from 'react'
 import { getClassName } from '../../utils/utils';
 import { validateRateValue } from '../../utils/validations';
 
-const NumberSelectionSlider: React.FC<{
+type NumberSelectionSliderProps = {
     minValue: number
     maxValue: number
     value: number | string
     changeValue: (value: number) => void
     className?: string
     disabled?: boolean
-}> = ({ minValue, maxValue, value, changeValue, className, disabled }) => {
+};
+
+const NumberSelectionSlider = (
+    { minValue, maxValue, value, changeValue, className, disabled }: NumberSelectionSliderProps
+) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const hiddenInputRef = useRef<HTMLInputElement>(null);
 

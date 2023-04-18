@@ -2,16 +2,18 @@ import React, { ReactNode, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useDisableBodyScroll } from '../../utils/utils';
 
+type ModalProps = {
+    children: ReactNode | string,
+    headerText: string
+};
+
 const useModal = () => {
     const scrollableElementRef = useDisableBodyScroll();
 
     const [showModal, setShowModal] = useState(false);
     const toggleModal = () => setShowModal(showModal => !showModal);
 
-    const Modal: React.FC<{
-        children: ReactNode,
-        headerText: string
-    }> = ({ children, headerText }) => {
+    const Modal = ({ children, headerText }: ModalProps) => {
         if (!showModal) {
             return null;
         }

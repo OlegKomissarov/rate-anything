@@ -7,9 +7,11 @@ import {
 import { AverageRate, Rate } from '@prisma/client';
 import RateDetailModal from './RateDetailModal';
 
-const RateTable: React.FC<{
+type RateTableProps = {
     selectSubjectToRateForm: (rate: string) => void
-}> = ({ selectSubjectToRateForm }) => {
+};
+
+const RateTable = ({ selectSubjectToRateForm }: RateTableProps) => {
     const [sorting, setSorting] = useState<TableSorting>({ field: 'subject', order: 'asc' });
     const [searching, setSearching] = useState<TableSearching>({
         field: 'subject',

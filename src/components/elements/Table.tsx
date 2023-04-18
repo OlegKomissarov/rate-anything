@@ -25,7 +25,7 @@ export type TableFieldList = {
     alignLeft?: boolean
 }[];
 
-const Table: React.FC<{
+type TableProps = {
     fieldList: TableFieldList
     data?: any[]
     keyFieldName: string
@@ -39,10 +39,14 @@ const Table: React.FC<{
     isLoading?: boolean
     isFetching?: boolean
     isError?: boolean
-}> = ({
-    fieldList, data, keyFieldName, className, fetchNextPage, sorting, setSorting, searching, setSearching,
-    topPanelContent, isLoading, isFetching, isError
-}) => {
+};
+
+const Table = (
+    {
+        fieldList, data, keyFieldName, className, fetchNextPage, sorting, setSorting, searching, setSearching,
+        topPanelContent, isLoading, isFetching, isError
+    }: TableProps
+) => {
     const scrollableElementRef = useDisableBodyScroll();
 
     const { ref: inViewRef, inView } = useInView();

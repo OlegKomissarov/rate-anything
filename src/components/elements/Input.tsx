@@ -1,10 +1,12 @@
 import React, { InputHTMLAttributes, RefObject } from 'react';
 import { getClassName } from '../../utils/utils';
 
-const Input: React.FC<InputHTMLAttributes<HTMLInputElement> & {
+type InputProps = InputHTMLAttributes<HTMLInputElement> & {
     selectOnFocus?: boolean
     refValue?: RefObject<HTMLInputElement>
-}> = ({ className, selectOnFocus, onFocus, refValue, disabled, ...props }) => {
+};
+
+const Input = ({ className, selectOnFocus, onFocus, refValue, disabled, ...props }: InputProps) => {
     return <input {...props}
                   className={getClassName('input', className, disabled && 'disabled')}
                   onFocus={event => {
