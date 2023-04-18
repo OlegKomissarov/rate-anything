@@ -1,6 +1,9 @@
 .header {
   z-index: 1;
   background-color: var(--dark-background-color);
+}
+
+.header__link {
   text-align: center;
   white-space: nowrap;
   font-family: Gilroy-Bold, sans-serif;
@@ -10,7 +13,7 @@
 }
 
 @media (max-width: 640px) {
-  .header {
+  .header__link {
     font-size: 10vw;
   }
 }

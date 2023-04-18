@@ -4,14 +4,16 @@ import { getClassName } from '../../utils/utils';
 type HeaderProps = AnchorHTMLAttributes<HTMLAnchorElement>;
 
 const Header = ({ className, ...props }: HeaderProps) => {
-    return <a {...props}
-              href="/"
-              rel="noopener noreferrer"
-              className={getClassName('header pan-screen-child', className)}
-              title="The project is in development. Even more cool features are coming."
-    >
-        Rate Anything
-    </a>;
+    return <header className={getClassName('header pan-screen-child', className)}>
+        <a {...props}
+           href="/"
+           rel="noopener noreferrer"
+           title="This is just an alfa version of the application. Even more cool features are coming."
+           className="header__link"
+        >
+            Rate Anything
+        </a>
+    </header>;
 };
 
 export default Header;

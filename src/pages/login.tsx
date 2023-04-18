@@ -26,7 +26,7 @@ const LoginPage = () => {
 
     return <>
         <StarsBackground />
-        <div className="login">
+        <main className="login">
             <Header className="login__header" />
             <Button className="login__button pan-screen-child"
                     onClick={onClickSignIn}
@@ -45,7 +45,7 @@ const LoginPage = () => {
                    onClick={onClickSignIn}
                    priority
             />
-        </div>
+        </main>
     </>;
 };
 
