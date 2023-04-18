@@ -1,7 +1,7 @@
 Rate Anything
 =============
 
-Rate Anything is a web application that allows you to create ratings (numbers from -10 to 10) for any subject and view them in a table with search and sorting functionality.
+Rate Anything is a web application that allows you to create ratings for any subject and view them in a table with search and sorting functionality.
 
 URL
 ---
