@@ -16,7 +16,7 @@ const App = (props: any) => {
             <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
 
             <meta property="og:title" content="Rate Anything"/>
-            <meta property="og:image" content="/link-preview.webp"/>
+            <meta property="og:image" content="https://rate-anything.vercel.app/link-preview.webp"/>
             <meta property="og:url" content="https://rate-anything.vercel.app"/>
             <meta property="og:type" content="website"/>
         </Head>
