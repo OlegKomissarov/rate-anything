@@ -17,7 +17,7 @@ const App = (props: any) => {
 
             <meta property="og:title" content="Rate Anything"/>
             <meta property="og:image" content="/link-preview.webp"/>
-            <meta property="og:url" content="https://rate-anything.vercel.app/"/>
+            <meta property="og:url" content="https://rate-anything.vercel.app"/>
             <meta property="og:type" content="website"/>
         </Head>
         <div className="app">
