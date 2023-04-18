@@ -124,7 +124,7 @@ const Table = (
                     <div key={item[keyFieldName] + field.name}
                          className={
                              getClassName(
-                                 'table__item',
+                                 'table__item class-test',
                                  field.bold && 'table__item--bold',
                                  field.sortable && 'table__item-text--with-gap-for-caret',
                                  field.alignLeft && 'table__item--align-left'
