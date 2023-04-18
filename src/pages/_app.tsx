@@ -30,6 +30,7 @@ const App = (props: any) => {
         />
         <SessionLoader />
     </SessionProvider>;
+
 };
 
 export default trpc.withTRPC(App);
