@@ -15,10 +15,10 @@ const App = (props: any) => {
             <title>Rate Anything</title>
             <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
 
-            <meta property="og:title" content="Rate Anything"/>
-            <meta property="og:image" content="https://rate-anything.vercel.app/link-preview.webp"/>
-            <meta property="og:url" content="https://rate-anything.vercel.app"/>
-            <meta property="og:type" content="website"/>
+            <meta property="og:title" content="Rate Anything" />
+            <meta property="og:image" content={`${process.env.URL}/link-preview.webp`} />
+            <meta property="og:url" content={process.env.URL} />
+            <meta property="og:type" content="website" />
         </Head>
         <div className="app">
             <Component {...pageProps} />
