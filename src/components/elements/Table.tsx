@@ -56,8 +56,8 @@ const Table = (
         }
     }, [inView, fetchNextPage]);
 
-    return <table ref={scrollableElementRef}
-                  className={getClassName('table custom-scrollbar', className)}
+    return <div ref={scrollableElementRef}
+                className={getClassName('table custom-scrollbar', className)}
     >
         {
             !!((searching && setSearching) || topPanelContent) &&
@@ -159,7 +159,7 @@ const Table = (
             </div>
         }
         <div ref={inViewRef} />
-    </table>;
+    </div>;
 };
 
 export default Table;

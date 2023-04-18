@@ -31,9 +31,10 @@
     top: auto;
     bottom: 8vw;
     left: 5%;
-    padding-top: 3vw;
-    padding-bottom: 3vw;
+    padding-top: 5vw;
+    padding-bottom: 5vw;
     width: 90%;
+    height: auto;
     transform: none;
     font-size: 4vw;
     line-height: 4vw;
@@ -59,7 +60,7 @@
 @media (max-width: 640px) {
   .login__astronaut {
     top: auto;
-    bottom: 7vw;
+    bottom: 10vw;
     left: 5vw;
     right: auto;
     width: 40vw;
