@@ -11,7 +11,7 @@ const Header = ({ className, ...props }: HeaderProps) => {
            title="This is just an alfa version of the application. Even more cool features are coming."
            className="header__link"
         >
-            Rate Anything
+            Rate Anything, test
         </a>
     </header>;
 };
