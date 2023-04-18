@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { trpc } from '../../utils/trpcClient';
-import Table, { TableFieldList, TableSearching, TableSorting } from '../elements/Table';
-import {
-    flattenInfiniteData, getClassName, isMobile, useDebouncedValue, useGetIsSubjectRated
-} from '../../utils/utils';
+import Table, { TableSearching, TableSorting } from '../elements/Table';
+import { flattenInfiniteData, useDebouncedValue, useGetIsSubjectRated } from '../../utils/utils';
 import { AverageRate, Rate } from '@prisma/client';
 import RateDetailModal from './RateDetailModal';
 
@@ -41,18 +39,20 @@ const RateTable = ({ selectSubjectToRateForm }: RateTableProps) => {
 
     const getIsSubjectRated = useGetIsSubjectRated();
 
-    const fieldList: TableFieldList = [
+    const fieldList = [
         {
             name: 'subject',
             previewName: 'Subject',
             render: (averageRate: AverageRate & { rates: Rate[] }) =>
                 !getIsSubjectRated(averageRate)
-                    ? <div className="rate-table__subject-item"
+                    ? <div className="rate-table__subject-item rate-table__subject-item--not-rated"
                            onClick={() => selectSubjectToRateForm(averageRate.subject)}
                     >
                         {averageRate.subject}
                     </div>
-                    : averageRate.subject,
+                    : <div className="rate-table__subject-item rate-table__subject-item--rated">
+                        {averageRate.subject}
+                    </div>,
             bold: true,
             sortable: true,
             alignLeft: true
@@ -72,22 +72,6 @@ const RateTable = ({ selectSubjectToRateForm }: RateTableProps) => {
             sortable: true
         }
     ];
-
-    if (!isMobile()) {
-        fieldList.push({
-            name: 'isRated',
-            previewName: 'Rated',
-            render: (averageRate: AverageRate & { rates: Rate[] }) =>
-                <div className={
-                    getClassName(
-                        'rate-table__is-rated',
-                        getIsSubjectRated(averageRate) && 'check-icon rate-table__is-rated--rated'
-                    )
-                }
-                />,
-            bold: true
-        });
-    }
 
     return <Table keyFieldName="subject"
                   className="rate-table"

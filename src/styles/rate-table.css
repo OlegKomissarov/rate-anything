@@ -1,29 +1,17 @@
 .rate-table {
-  grid-template-columns: 4fr 1fr 2fr 1fr;
+  grid-template-columns: 4fr 1fr 2fr;
 }
 
-@media (max-width: 1024px) {
-  .rate-table {
-    grid-template-columns: 4fr 1fr 2fr;
-  }
+.rate-table__subject-item--rated {
+  color: var(--color-green-light);
 }
 
-.rate-table__subject-item {
+.rate-table__subject-item--not-rated {
   cursor: pointer;
 }
 
-.rate-table__subject-item:hover {
+.rate-table__subject-item--not-rated:hover {
   text-decoration: underline;
-}
-
-.rate-table__is-rated {
-  width: 30px;
-  height: 30px;
-  opacity: 0;
-}
-
-.rate-table__is-rated--rated {
-  opacity: 1;
 }
 
 .rate-table .table__top-panel-sticky-container, .rate-table .table__item--header {
