@@ -2,7 +2,7 @@ import { ZodError } from 'zod';
 import { TRPCClientError } from '@trpc/client';
 import { toast } from 'react-toastify';
 import { InfiniteData } from '@tanstack/react-query';
-import { useEffect, useRef, useState } from 'react';
+import { EventHandler, useEffect, useRef, useState } from 'react';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { AverageRate, Rate } from '@prisma/client';
 import { useSession } from 'next-auth/react';
@@ -50,6 +50,20 @@ export const useBodyNoScrollBar = () => {
             document.body.classList.remove('no-scrollbar');
         };
     }, []);
+};
+
+export const useOnClickOutside = (element: Node | null, handler: () => void) => {
+    useEffect(() => {
+        const listener: EventHandler<any> = event => {
+            if (!element?.contains(event.target)) {
+                handler();
+            }
+        };
+        document.addEventListener('click', listener);
+        return () => {
+            document.removeEventListener('click', listener);
+        };
+    });
 };
 
 export const showError = (error: unknown, validationFieldName?: string, validationValue?: unknown) => {

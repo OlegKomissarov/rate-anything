@@ -1,6 +1,6 @@
-import React, { InputHTMLAttributes, RefObject, useState } from 'react';
+import React, { InputHTMLAttributes, RefObject, useRef, useState } from 'react';
 import Input from './Input';
-import { getClassName, useDebouncedValue } from '../../utils/utils';
+import { getClassName, useDebouncedValue, useOnClickOutside } from '../../utils/utils';
 import Loader from '../layout/Loader';
 import { ProcedureUseQuery } from '@trpc/react-query/dist/createTRPCReact';
 
@@ -18,6 +18,8 @@ const InputWithSuggestions = (
         suggestionListQuery, suggestionKeyField, selectSuggestion, className, value, onChange, ...props
     }: InputWithSuggestionsProps
 ) => {
+    const containerRef = useRef<HTMLDivElement>(null);
+
     const [showSuggestions, setShowSuggestions] = useState(false);
 
     const onClickSuggestion = (suggestion: string) => {
@@ -39,14 +41,20 @@ const InputWithSuggestions = (
         }
     );
 
-    return <div className="input-with-suggestions-container form__input">
+    useOnClickOutside(containerRef.current, () => setShowSuggestions(false));
+
+    return <div ref={containerRef} className="input-with-suggestions-container form__input">
         {/* Be careful with passing props implicitly here. React may not make the implicit props reactive */}
         <Input {...props}
                value={value}
                onChange={onChange}
                className={getClassName('input-with-suggestions')}
                onFocus={() => setShowSuggestions(true)}
-               onBlur={() => setShowSuggestions(false)}
+               onBlur={event => {
+                   if (event.relatedTarget) {
+                       setShowSuggestions(false);
+                   }
+               }}
         />
         {
             suggestionListQueryEnabled && (isLoading || isFetching) &&
@@ -58,8 +66,7 @@ const InputWithSuggestions = (
                 {
                     suggestionList?.data.map((item: any) => item[suggestionKeyField]).map((suggestion: string) =>
                         <div key={suggestion}
-                             onMouseDown={() => onClickSuggestion(suggestion)}
-                             onTouchStart={() => onClickSuggestion(suggestion)}
+                             onClick={() => onClickSuggestion(suggestion)}
                              className="input-dropdown__suggestion"
                         >
                             {suggestion}

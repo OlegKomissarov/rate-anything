@@ -90,7 +90,10 @@ const RateForm = () => {
                               selectOnFocus
                               value={subject}
                               onChange={event => changeSubject(event.target.value)}
-                              selectSuggestion={changeSubject}
+                              selectSuggestion={suggestion => {
+                                  changeSubject(suggestion);
+                                  rateInputRef.current?.focus();
+                              }}
                               suggestionListQuery={trpc.rate.getAverageRateList.useQuery}
                               suggestionKeyField="subject"
         />
