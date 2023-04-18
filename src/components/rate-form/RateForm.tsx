@@ -74,6 +74,10 @@ const RateForm = () => {
         }
     };
 
+    if (!session?.user) {
+        return null;
+    }
+
     return <form ref={scrollableElementRef}
                  className="form rate-form custom-scrollbar"
                  onSubmit={event => {
@@ -82,7 +86,7 @@ const RateForm = () => {
                  }}
     >
         {
-            !!session?.user && !isMobile() &&
+            !isMobile() &&
             <div className="secondary-text rate-form__user-name-label">{session.user.name}</div>
         }
         <InputWithSuggestions placeholder="What You Wanna Rate"
@@ -95,6 +99,7 @@ const RateForm = () => {
                                   rateInputRef.current?.focus();
                               }}
                               suggestionListQuery={trpc.rate.getAverageRateList.useQuery}
+                              suggestionListQueryParams={{ filterExcludingUserEmail: session.user.email }}
                               suggestionKeyField="subject"
         />
         <Input refValue={rateInputRef}
@@ -119,7 +124,7 @@ const RateForm = () => {
             RATE
         </Button>
         {
-            session?.user?.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL &&
+            session.user.email === process.env.NEXT_PUBLIC_ADMIN_USER_EMAIL &&
             <Button type="button"
                     onClick={removeRatesBySubject}
                     secondary

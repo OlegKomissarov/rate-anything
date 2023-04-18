@@ -15,17 +15,31 @@ export const rateRouter = createTRPCRouter({
             cursor: z.string().nullish(),
             includePlainRates: z.boolean().optional(),
             sorting: z.object({ field: z.string(), order: z.string() }).optional(),
-            searching: z.object({ field: z.string(), value: z.string() }).optional()
+            searching: z.object({ field: z.string(), value: z.string() }).optional(),
+            filterExcludingUserEmail: z.string().optional()
         }))
         .query(async ({ input, ctx: { prisma } }) => {
-            const { cursor, limit: inputLimit, includePlainRates, sorting, searching } = input;
+            const {
+                cursor, limit: inputLimit, includePlainRates, sorting, searching, filterExcludingUserEmail
+            } = input;
             const limit = inputLimit ?? 100;
             let nextCursor: typeof cursor | undefined = undefined;
+            const where: any = {};
+            if (searching?.value) {
+                where[searching.field] = { contains: searching.value };
+            }
+            if (filterExcludingUserEmail) {
+                where.rates = {
+                    none: {
+                        userEmail: filterExcludingUserEmail
+                    }
+                };
+            }
             const averageRateList = await prisma.averageRate.findMany({
                 cursor: cursor ? { subject: cursor } : undefined,
                 take: limit + 1,
                 orderBy: sorting ? { [sorting.field]: sorting.order } : { subject: 'asc' },
-                where: searching?.value ? { [searching.field]: { contains: searching.value } } : undefined,
+                where,
                 include: { rates: includePlainRates }
             });
             if (averageRateList.length > limit) {

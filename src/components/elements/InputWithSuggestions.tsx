@@ -8,6 +8,7 @@ type InputWithSuggestionsProps = InputHTMLAttributes<HTMLInputElement> & {
     value: string
     suggestionKeyField: string
     suggestionListQuery: ProcedureUseQuery<any, any>
+    suggestionListQueryParams?: {}
     selectSuggestion: (suggestion: string) => void
     refValue?: RefObject<HTMLInputElement>
     selectOnFocus?: boolean
@@ -15,7 +16,8 @@ type InputWithSuggestionsProps = InputHTMLAttributes<HTMLInputElement> & {
 
 const InputWithSuggestions = (
     {
-        suggestionListQuery, suggestionKeyField, selectSuggestion, className, value, onChange, ...props
+        suggestionListQuery, suggestionListQueryParams, suggestionKeyField, selectSuggestion, className, value,
+        onChange, ...props
     }: InputWithSuggestionsProps
 ) => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -33,7 +35,8 @@ const InputWithSuggestions = (
     const { data: suggestionList, isLoading, isFetching } = suggestionListQuery(
         {
             limit: 5,
-            searching: { field: suggestionKeyField, value: debouncedValue }
+            searching: { field: suggestionKeyField, value: debouncedValue },
+            ...suggestionListQueryParams
         },
         {
             enabled: suggestionListQueryEnabled,
@@ -76,6 +79,10 @@ const InputWithSuggestions = (
             </div>
         }
     </div>;
+};
+
+InputWithSuggestions.defaultProps = {
+    suggestionListQueryParams: {}
 };
 
 export default InputWithSuggestions;
