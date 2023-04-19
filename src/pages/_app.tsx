@@ -17,7 +17,8 @@ const App = (props: any) => {
             <meta name="description" content="Web application that allows you to create ratings for any subject" />
             <meta property="og:title" content="Rate Anything" />
             <meta property="og:description"
-                  content="Web application that allows you to create ratings for any subject" />
+                  content="Web application that allows you to create ratings for any subject"
+            />
             <meta property="og:image" content={`${process.env.URL}/link-preview.webp`} />
             <meta property="og:url" content={process.env.URL} />
             <meta property="og:type" content="website" />

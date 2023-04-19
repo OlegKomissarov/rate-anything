@@ -8,6 +8,11 @@ URL
 
 <https://rate-anything.vercel.app>
 
+Version
+------------
+
+This is the first release of Rate Anything application. I am working hard to bring you even more cool features in the near future.
+
 Technologies Used for Development and Deployment
 -----------------
 
