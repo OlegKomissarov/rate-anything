@@ -38,7 +38,7 @@
   background-color: var(--color-white);
 }
 
-@media (max-width: 1024px) and (orientation: portrait) {
+@media (max-width: 1280px) {
   .table__top-panel-sticky-container {
     flex-direction: column;
   }
@@ -49,13 +49,13 @@
   text-align: center;
 }
 
-@media (max-width: 1024px) and (orientation: portrait) {
+@media (max-width: 1280px) {
   .table__search-input {
     width: 100%;
   }
 }
 
-@media (min-width: 1025px) or (orientation: landscape) {
+@media (min-width: 1281px) {
   .table__search-input:not(:last-child) {
     margin-right: var(--space-big);
   }

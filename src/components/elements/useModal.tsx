@@ -1,10 +1,11 @@
 import React, { ReactNode, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useDisableBodyScroll } from '../../utils/utils';
+import { getClassName, useDisableBodyScroll } from '../../utils/utils';
 
 type ModalProps = {
     children: ReactNode | string,
-    headerText: string
+    headerText?: string,
+    className?: string
 };
 
 const useModal = () => {
@@ -13,7 +14,7 @@ const useModal = () => {
     const [showModal, setShowModal] = useState(false);
     const toggleModal = () => setShowModal(showModal => !showModal);
 
-    const Modal = ({ children, headerText }: ModalProps) => {
+    const Modal = ({ children, headerText, className }: ModalProps) => {
         if (!showModal) {
             return null;
         }
@@ -22,7 +23,7 @@ const useModal = () => {
                  onClick={toggleModal}
                  onMouseDown={event => event.stopPropagation()}
             >
-                <div className="modal"
+                <div className={getClassName('modal', className)}
                      onClick={event => event.stopPropagation()}
                 >
                     <div className="modal__header">

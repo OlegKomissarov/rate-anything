@@ -19,7 +19,9 @@ const RateDetailModal = ({ averageRate, selectSubjectToRateForm }: RateDetailMod
         >
             Details ({averageRate.ratesAmount})
         </Button>
-        <Modal headerText={`${averageRate.subject}: ${averageRate.averageRate}`}>
+        <Modal headerText={`${averageRate.subject}: ${averageRate.averageRate}`}
+               className="rate-detail-modal"
+        >
             <RateDetailModalContent averageRate={averageRate}
                                     selectSubjectToRateForm={selectSubjectToRateForm}
                                     toggleModal={toggleModal}

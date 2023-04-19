@@ -29,12 +29,16 @@
 }
 
 .rate-detail-table__button {
-  flex: 1;
+  flex: auto;
 }
 
-@media (max-width: 1024px) and (orientation: portrait) {
+@media (max-width: 1280px) {
   .rate-detail-table__button {
     margin-top: var(--space-base);
     width: 100%;
   }
+}
+
+.rate-detail-modal {
+  max-width: 50%;
 }
