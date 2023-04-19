@@ -26,7 +26,7 @@ const RateTable = ({ selectSubjectToRateForm }: RateTableProps) => {
         isError
     } = trpc.rate.getAverageRateList.useInfiniteQuery(
         {
-            limit: 10,
+            limit: 25,
             includePlainRates: true,
             sorting,
             searching: { field: 'subject', value: searchingValueDebounced }
