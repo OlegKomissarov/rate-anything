@@ -2,6 +2,7 @@
   --modal-outer-background-color: rgba(0, 0, 0, 0.5);
   --header-content-height: 24px;
   --header-padding-size: var(--space-big);
+  --modal-border-radius: var(--border-radius-big)ж
 }
 
 .modal-container {
@@ -36,7 +37,7 @@
   display: flex;
   overflow: hidden;
   background-color: var(--color-white);
-  border-radius: var(--border-radius-big);
+  border-radius: var(--modal-border-radius);
 }
 
 @media (max-width: 1024px) and (orientation: portrait) {
@@ -49,17 +50,17 @@
 .modal__header {
   position: absolute;
   z-index: 2;
-  padding: var(--header-padding-size);
   width: 100%;
   display: grid;
   align-items: center;
   grid-template-columns: auto min-content;
   box-sizing: border-box;
   background-color: var(--color-white);
-  border-radius: var(--border-radius-big) 0 0 var(--border-radius-big);
+  border-radius: var(--modal-border-radius) 0 0 var(--modal-border-radius);
 }
 
 .modal__header-text {
+  padding: var(--header-padding-size) 0 var(--header-padding-size) var(--header-padding-size);
   overflow: hidden;
   white-space: nowrap;
   font-family: Gilroy-Semibold;
@@ -70,10 +71,17 @@
 }
 
 .modal__close-button {
+  padding: var(--header-padding-size);
   width: var(--header-content-height);
   height: var(--header-content-height);
+  transition: transform 0.2s;
   background-color: var(--color-white);
+  border-radius: var(--modal-border-radius);
   cursor: pointer;
+}
+
+.modal__close-button:hover {
+  transform: scale(1.1);
 }
 
 .modal-content {
