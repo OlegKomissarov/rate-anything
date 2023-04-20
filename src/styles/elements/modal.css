@@ -2,7 +2,7 @@
   --modal-outer-background-color: rgba(0, 0, 0, 0.5);
   --header-content-height: 24px;
   --header-padding-size: var(--space-big);
-  --modal-border-radius: var(--border-radius-big)ж
+  --modal-border-radius: var(--border-radius-big);
 }
 
 .modal-container {
