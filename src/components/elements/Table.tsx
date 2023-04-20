@@ -127,8 +127,8 @@ const Table = (
                         <div className="table__header-caret">
                             {
                                 sorting.order === 'asc'
-                                    ? <div className="caret-icon caret-icon--up" />
-                                    : <div className="caret-icon caret-icon--down" />
+                                    ? <div className="caret-icon caret-icon--down" />
+                                    : <div className="caret-icon caret-icon--up" />
                             }
                         </div>
                     }
