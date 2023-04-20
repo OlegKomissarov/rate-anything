@@ -2,14 +2,18 @@ import React, { useEffect } from 'react';
 import RateStar from './RateStar';
 import { trpc } from '../../utils/trpcClient';
 import Loader from './Loader';
-import { useBodyNoScrollBar } from '../../utils/utils';
-import { useBackgroundData, usePanScreen } from './backgroundUtils';
+import { getClassName, useBodyNoScrollBar } from '../../utils/utils';
+import { starsBackgroundStore, useBackgroundData, usePanScreen } from './backgroundUtils';
 
 type StarsBackgroundProps = {
     showStars?: boolean
+    showCollapseButton?: boolean
 };
 
-const StarsBackground = ({ showStars }: StarsBackgroundProps) => {
+const StarsBackground = ({ showStars, showCollapseButton }: StarsBackgroundProps) => {
+    const collapseStarsBackgroundNeighbours = starsBackgroundStore(state => state.collapseStarsBackgroundNeighbours);
+    const setCollapseStarsBackgroundNeighbours = starsBackgroundStore(state => state.setCollapseStarsBackgroundNeighbours);
+
     const { backgroundData, generateBackgroundData } = useBackgroundData();
     const { backgroundSize, itemPositions } = backgroundData;
 
@@ -39,8 +43,12 @@ const StarsBackground = ({ showStars }: StarsBackgroundProps) => {
         }
     );
 
-    return <div className="stars-background"
-                style={{ width: `${backgroundSize.x}px`, height: `${backgroundSize.y}px` }}
+    return <div style={{ width: `${backgroundSize.x}px`, height: `${backgroundSize.y}px` }}
+                className={getClassName(
+                    'stars-background',
+                    showCollapseButton && 'stars-background--with-collapsable-neighbours',
+                    collapseStarsBackgroundNeighbours && 'stars-background--collapse-neighbours'
+                )}
     >
         <div className="rate-stars-container">
             {
@@ -59,6 +67,14 @@ const StarsBackground = ({ showStars }: StarsBackgroundProps) => {
         {
             averageRateListQueryEnabled && (isLoading || isFetching) &&
             <Loader className="global-loader" />
+        }
+        {
+            showCollapseButton &&
+            <img src={collapseStarsBackgroundNeighbours ? '/expand-icon.svg' : '/collapse-icon.svg'}
+                 alt={collapseStarsBackgroundNeighbours ? 'expand' : 'collapse'}
+                 onClick={() => setCollapseStarsBackgroundNeighbours(!collapseStarsBackgroundNeighbours)}
+                 className="stars-background__collapse-button"
+            />
         }
     </div>;
 };

@@ -47,7 +47,7 @@ const RatePage = () => {
     }
 
     return <>
-        <StarsBackground showStars={!isMobile()} />
+        <StarsBackground showCollapseButton />
         <main className="main-page-grid" style={{ height: isMobile() ? screenHeight : undefined }}>
             <Header className="main-page-grid__header" />
             <section onClick={() => isMobile() && currentMobileScreen !== 'form' && setCurrentMobileScreen('form')}

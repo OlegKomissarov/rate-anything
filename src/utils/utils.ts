@@ -6,6 +6,7 @@ import { EventHandler, useEffect, useRef, useState } from 'react';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { AverageRate, Rate } from '@prisma/client';
 import { useSession } from 'next-auth/react';
+import { starsBackgroundStore } from '../components/layout/backgroundUtils';
 
 export const isClient = typeof window !== 'undefined';
 
@@ -29,9 +30,10 @@ export const getClassName = (...classNames: Array<string | boolean | undefined>)
 
 export const useDisableBodyScroll = <T extends HTMLElement>() => {
     const scrollableElementRef = useRef<T>(null);
+    const collapseStarsBackgroundNeighbours = starsBackgroundStore(state => state.collapseStarsBackgroundNeighbours);
 
     useEffect(() => {
-        if (scrollableElementRef.current) {
+        if (scrollableElementRef.current && !collapseStarsBackgroundNeighbours) {
             const scrollableElement = scrollableElementRef.current;
             disableBodyScroll(scrollableElement);
             return () => {

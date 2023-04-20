@@ -1,5 +1,15 @@
 import { getRandomDecimal, getRandomInteger, isClient } from '../../utils/utils';
 import { useEffect, useRef, useState } from 'react';
+import { create as createZustandStore } from 'zustand';
+
+export const starsBackgroundStore = createZustandStore<{
+    collapseStarsBackgroundNeighbours: boolean
+    setCollapseStarsBackgroundNeighbours: (collapseStarsBackgroundNeighbours: boolean) => void
+}>(set => ({
+    collapseStarsBackgroundNeighbours: false,
+    setCollapseStarsBackgroundNeighbours: (collapseStarsBackgroundNeighbours: boolean) =>
+        set({ collapseStarsBackgroundNeighbours })
+}));
 
 type Position = {
     x: number;
