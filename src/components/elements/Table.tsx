@@ -21,7 +21,8 @@ export type TableFieldList = {
     previewName?: string
     render?: (item: any) => ReactNode
     bold?: boolean
-    sortable?: boolean
+    sortable?: boolean,
+    reverseSortingOrder?: boolean,
     alignLeft?: boolean
 }[];
 
@@ -106,9 +107,16 @@ const Table = (
                      onClick={() => {
                          if (setSorting && field.sortable) {
                              scrollableElementRef.current?.scrollTo({ top: 0 });
+                             let order: TableSorting['order'] = 'asc';
+                             if (
+                                 (sorting?.field === field.name && sorting.order === 'asc')
+                                 || (sorting?.field !== field.name && field.reverseSortingOrder)
+                             ) {
+                                 order = 'desc';
+                             }
                              setSorting({
                                  field: field.name,
-                                 order: (sorting?.field === field.name && sorting.order === 'asc') ? 'desc' : 'asc'
+                                 order: order
                              });
                          }
                      }}

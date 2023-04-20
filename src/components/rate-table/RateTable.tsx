@@ -61,7 +61,8 @@ const RateTable = ({ selectSubjectToRateForm }: RateTableProps) => {
             name: 'averageRate',
             previewName: 'Rate',
             bold: true,
-            sortable: true
+            sortable: true,
+            reverseSortingOrder: true
         },
         {
             name: 'ratesAmount',
@@ -69,7 +70,8 @@ const RateTable = ({ selectSubjectToRateForm }: RateTableProps) => {
             render: (averageRate: AverageRate & { rates: Rate[] }) =>
                 <RateDetailModal averageRate={averageRate} selectSubjectToRateForm={selectSubjectToRateForm} />,
             bold: true,
-            sortable: true
+            sortable: true,
+            reverseSortingOrder: true
         }
     ];
 
