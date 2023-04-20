@@ -26,13 +26,13 @@ const RateTable = ({ selectSubjectToRateForm }: RateTableProps) => {
         isError
     } = trpc.rate.getAverageRateList.useInfiniteQuery(
         {
-            limit: 25,
+            limit: 15,
             includePlainRates: true,
             sorting,
             searching: { field: 'subject', value: searchingValueDebounced }
         },
         {
-            getNextPageParam: lastPage => lastPage.nextCursor,
+            getNextPageParam: lastPage => lastPage.nextOffset,
             keepPreviousData: true
         }
     );

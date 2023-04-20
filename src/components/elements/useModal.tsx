@@ -9,7 +9,7 @@ type ModalProps = {
 };
 
 const useModal = () => {
-    const scrollableElementRef = useDisableBodyScroll();
+    const scrollableElementRef = useDisableBodyScroll<HTMLDivElement>();
 
     const [showModal, setShowModal] = useState(false);
     const toggleModal = () => setShowModal(showModal => !showModal);

@@ -27,8 +27,8 @@ export const getClassName = (...classNames: Array<string | boolean | undefined>)
     return classNamesString.trim();
 };
 
-export const useDisableBodyScroll = () => {
-    const scrollableElementRef = useRef(null);
+export const useDisableBodyScroll = <T extends HTMLElement>() => {
+    const scrollableElementRef = useRef<T>(null);
 
     useEffect(() => {
         if (scrollableElementRef.current) {

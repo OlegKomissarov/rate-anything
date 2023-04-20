@@ -12,18 +12,18 @@ export const rateRouter = createTRPCRouter({
     getAverageRateList: publicProcedure
         .input(z.object({
             limit: z.number().min(1).max(1000).nullish(),
-            cursor: z.string().nullish(),
+            cursor: z.number().optional(),
             includePlainRates: z.boolean().optional(),
             sorting: z.object({ field: z.string(), order: z.string() }).optional(),
             searching: z.object({ field: z.string(), value: z.string() }).optional(),
             filterExcludingUserEmail: z.string().optional()
         }))
         .query(async ({ input, ctx: { prisma } }) => {
+            // cursor pagination is too hard to implement along with sorting by other fields, so here's offset pagination
             const {
-                cursor, limit: inputLimit, includePlainRates, sorting, searching, filterExcludingUserEmail
+                cursor: offset, limit: inputLimit, includePlainRates, sorting, searching, filterExcludingUserEmail
             } = input;
             const limit = inputLimit ?? 100;
-            let nextCursor: typeof cursor | undefined = undefined;
             const where: any = {};
             if (searching?.value) {
                 where[searching.field] = { contains: searching.value };
@@ -36,20 +36,23 @@ export const rateRouter = createTRPCRouter({
                 };
             }
             const averageRateList = await prisma.averageRate.findMany({
-                cursor: cursor ? { subject: cursor } : undefined,
+                skip: offset,
                 take: limit + 1,
                 orderBy: sorting ? { [sorting.field]: sorting.order } : { subject: 'asc' },
                 where,
                 include: { rates: includePlainRates }
             });
+            let reachedEnd = false;
             if (averageRateList.length > limit) {
-                const nextItem = averageRateList.pop();
-                nextCursor = nextItem!.subject;
+                averageRateList.pop();
+            } else {
+                reachedEnd = true;
             }
-            return {
-                nextCursor,
-                data: averageRateList
-            };
+            let nextOffset;
+            if (!reachedEnd) {
+                nextOffset = typeof offset === 'number' ? offset + limit : limit;
+            }
+            return { nextOffset, data: averageRateList };
         }),
     createRate: protectedProcedure
         .input(z.object({ subject: rateSubjectSchema, rate: rateValueSchema }))

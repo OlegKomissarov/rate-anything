@@ -18,7 +18,7 @@ const RateForm = () => {
     const queryClient = useQueryClient();
     const { data: session } = useSession();
 
-    const scrollableElementRef = useDisableBodyScroll();
+    const scrollableElementRef = useDisableBodyScroll<HTMLFormElement>();
     const rateInputRef = useRef<HTMLInputElement>(null);
     const setRateInputRef = useRateFormStore(state => state.setRateInputRef);
     useEffect(() => {

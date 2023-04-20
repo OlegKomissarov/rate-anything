@@ -30,7 +30,7 @@ type TableProps = {
     data?: any[]
     keyFieldName: string
     className?: string
-    fetchNextPage?: () => void
+    fetchNextPage?: () => Promise<{}>
     sorting?: TableSorting
     setSorting?: Dispatch<SetStateAction<TableSorting>>
     searching?: TableSearching
@@ -47,12 +47,25 @@ const Table = (
         topPanelContent, isLoading, isFetching, isError
     }: TableProps
 ) => {
-    const scrollableElementRef = useDisableBodyScroll();
+    const scrollableElementRef = useDisableBodyScroll<HTMLDivElement>();
 
     const { ref: inViewRef, inView } = useInView();
     useEffect(() => {
         if (inView && fetchNextPage) {
-            fetchNextPage();
+            // for the cases when the data cannot fill all the height of the screen.
+            const recursiveFetchUntilOverflow = () => fetchNextPage()
+                .then(() => {
+                    // wait the next tick to check if the data overflows the container.
+                    setTimeout(() => {
+                        if (
+                            scrollableElementRef.current?.scrollHeight
+                            && scrollableElementRef.current?.scrollHeight <= scrollableElementRef.current?.clientHeight
+                        ) {
+                            recursiveFetchUntilOverflow();
+                        }
+                    }, 0);
+                });
+            recursiveFetchUntilOverflow();
         }
     }, [inView, fetchNextPage]);
 
@@ -65,7 +78,10 @@ const Table = (
                 {
                     !!(searching && setSearching) &&
                     <Input value={searching.value}
-                           onChange={event => setSearching({ ...searching, value: event.target.value })}
+                           onChange={event => {
+                               scrollableElementRef.current?.scrollTo({ top: 0 });
+                               setSearching({ ...searching, value: event.target.value });
+                           }}
                            className="table__search-input"
                            placeholder={`Search by ${searching.fieldPreview}`}
                     />
@@ -87,13 +103,15 @@ const Table = (
                              field.alignLeft && 'table__item--align-left'
                          )
                      }
-                     onClick={
-                         () => setSorting && field.sortable &&
+                     onClick={() => {
+                         if (setSorting && field.sortable) {
+                             scrollableElementRef.current?.scrollTo({ top: 0 });
                              setSorting({
                                  field: field.name,
                                  order: (sorting?.field === field.name && sorting.order === 'asc') ? 'desc' : 'asc'
-                             })
-                     }
+                             });
+                         }
+                     }}
                 >
                     <div className={
                         getClassName(
