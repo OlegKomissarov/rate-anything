@@ -1,7 +1,3 @@
-Resume of contributor (2023)
-------------
-https://drive.google.com/file/d/19_T8Ydhnvf28Scdm7nTAyb32y6WNKnJg/view?usp=share_link
-
 Rate Anything
 =============
 
@@ -11,6 +7,7 @@ URL
 ---
 
 <https://rate-anything.vercel.app>
+Resume of contributor (2023): <https://drive.google.com/file/d/19_T8Ydhnvf28Scdm7nTAyb32y6WNKnJg/view?usp=share_link>
 
 Version
 ------------
