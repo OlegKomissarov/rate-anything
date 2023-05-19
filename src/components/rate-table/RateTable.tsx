@@ -33,7 +33,8 @@ const RateTable = ({ selectSubjectToRateForm }: RateTableProps) => {
         },
         {
             getNextPageParam: lastPage => lastPage.nextOffset,
-            keepPreviousData: true
+            keepPreviousData: true,
+            cacheTime: 0
         }
     );
 
