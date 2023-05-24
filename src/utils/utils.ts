@@ -6,6 +6,7 @@ import { EventHandler, useEffect, useRef, useState } from 'react';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { AverageRate, Rate } from '@prisma/client';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import { starsBackgroundStore } from '../components/layout/backgroundUtils';
 
 export const isClient = typeof window !== 'undefined';
@@ -126,6 +127,16 @@ export const useDebouncedValue = <T>(value: T, delay: number = defaultDebounceVa
     return debouncedValue;
 };
 
+export const useSessionRequired = () => {
+    const router = useRouter();
+    return useSession({
+        required: true,
+        onUnauthenticated: () => {
+            router.push('login');
+        }
+    });
+};
+
 export const flattenInfiniteData = (data: InfiniteData<any> | undefined) =>
     data?.pages.reduce((data: any[], page) => data.concat(page.data), []);
 
@@ -139,7 +150,7 @@ export const getFontSizeByRateValue = (rateValue: number) => {
 };
 
 export const useGetIsSubjectRated = () => {
-    const { data: session } = useSession();
+    const { data: session } = useSessionRequired();
 
     return (averageRate: AverageRate & { rates: Rate[] }) =>
         averageRate.rates.some(rate => rate.userEmail === session?.user?.email);

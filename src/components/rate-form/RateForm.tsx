@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import Input from '../elements/Input';
 import Button from '../elements/Button';
-import { useSession } from 'next-auth/react';
 import InputWithSuggestions from '../elements/InputWithSuggestions';
 import { trpc } from '../../utils/trpcClient';
-import { isMobile, maxRateValue, minRateValue, useDisableBodyScroll } from '../../utils/utils';
+import { isMobile, maxRateValue, minRateValue, useDisableBodyScroll, useSessionRequired } from '../../utils/utils';
 import Loader from '../layout/Loader';
 import NumberSelectionSlider from '../elements/NumberSelectionSlider';
 import { getQueryKey } from '@trpc/react-query';
@@ -16,7 +15,7 @@ import useRateFormStore from './useRateFormStore';
 
 const RateForm = () => {
     const queryClient = useQueryClient();
-    const { data: session } = useSession();
+    const { data: session } = useSessionRequired();
 
     const scrollableElementRef = useDisableBodyScroll<HTMLFormElement>();
     const rateInputRef = useRef<HTMLInputElement>(null);

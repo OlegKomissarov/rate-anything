@@ -1,25 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
 import Header from '../components/layout/Header';
 import RateForm from '../components/rate-form/RateForm';
-import { getClassName, isClient, isMobile } from '../utils/utils';
+import { getClassName, isClient, isMobile, useSessionRequired } from '../utils/utils';
 import StarsBackground from '../components/layout/StarsBackground';
 import RateTable from '../components/rate-table/RateTable';
 import useRateFormStore from '../components/rate-form/useRateFormStore';
 
 const RatePage = () => {
-    const router = useRouter();
-    const { data: session } = useSession({
-        required: true,
-        onUnauthenticated: () => {
-            router.push('login');
-        }
-    });
+    const { data: session } = useSessionRequired();
 
     const [currentMobileScreen, setCurrentMobileScreen] = useState<'form' | 'table'>('form');
-    const [screenHeight, setScreenHeight] =
-        useState(isClient ? document.documentElement.clientHeight : 0);
+    const [screenHeight, setScreenHeight] = useState(isClient ? document.documentElement.clientHeight : 0);
     useEffect(() => {
         if (isMobile()) {
             const onResize = () => {
