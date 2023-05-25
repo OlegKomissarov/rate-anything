@@ -83,4 +83,4 @@ StarsBackground.defaultProps = {
     showStars: true
 };
 
-export default StarsBackground;
+export default React.memo(StarsBackground);
