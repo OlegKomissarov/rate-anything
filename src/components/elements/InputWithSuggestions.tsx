@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, RefObject, useRef, useState } from 'react';
+import React, { ForwardedRef, forwardRef, InputHTMLAttributes, useRef, useState } from 'react';
 import Input from './Input';
 import { getClassName, useDebouncedValue, useOnClickOutside } from '../../utils/utils';
 import Loader from '../layout/Loader';
@@ -10,15 +10,15 @@ type InputWithSuggestionsProps = InputHTMLAttributes<HTMLInputElement> & {
     suggestionListQuery: ProcedureUseQuery<any, any>
     suggestionListQueryParams?: {}
     selectSuggestion: (suggestion: string) => void
-    refValue?: RefObject<HTMLInputElement>
     selectOnFocus?: boolean
 };
 
-const InputWithSuggestions = (
+const InputWithSuggestions = forwardRef((
     {
         suggestionListQuery, suggestionListQueryParams, suggestionKeyField, selectSuggestion, className, value,
         onChange, ...props
-    }: InputWithSuggestionsProps
+    }: InputWithSuggestionsProps,
+    ref: ForwardedRef<HTMLInputElement>
 ) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -49,6 +49,7 @@ const InputWithSuggestions = (
     return <div ref={containerRef} className="input-with-suggestions-container form__input">
         {/* Be careful with passing props implicitly here. React may not make the implicit props reactive */}
         <Input {...props}
+               ref={ref}
                value={value}
                onChange={onChange}
                className={getClassName('input-with-suggestions')}
@@ -79,7 +80,7 @@ const InputWithSuggestions = (
             </div>
         }
     </div>;
-};
+});
 
 InputWithSuggestions.defaultProps = {
     suggestionListQueryParams: {}

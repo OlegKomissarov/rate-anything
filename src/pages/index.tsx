@@ -7,8 +7,7 @@ import RateTable from '../components/rate-table/RateTable';
 import useRateFormStore from '../components/rate-form/useRateFormStore';
 
 const RatePage = () => {
-    const { data: session, status: sessionStatus } = useSessionRequired();
-    console.log('home', sessionStatus)
+    const { data: session } = useSessionRequired();
 
     const [currentMobileScreen, setCurrentMobileScreen] = useState<'form' | 'table'>('form');
     const [screenHeight, setScreenHeight] = useState(isClient ? document.documentElement.clientHeight : 0);

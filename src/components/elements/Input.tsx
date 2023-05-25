@@ -1,13 +1,16 @@
-import React, { InputHTMLAttributes, RefObject } from 'react';
+import React, { ForwardedRef, forwardRef, InputHTMLAttributes } from 'react';
 import { getClassName } from '../../utils/utils';
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
     selectOnFocus?: boolean
-    refValue?: RefObject<HTMLInputElement>
 };
 
-const Input = ({ className, selectOnFocus, onFocus, refValue, disabled, ...props }: InputProps) => {
+const Input = forwardRef((
+    { className, selectOnFocus, onFocus, disabled, ...props }: InputProps,
+    ref: ForwardedRef<HTMLInputElement>
+) => {
     return <input {...props}
+                  ref={ref}
                   className={getClassName('input', className, disabled && 'disabled')}
                   onFocus={event => {
                       if (selectOnFocus) {
@@ -17,8 +20,7 @@ const Input = ({ className, selectOnFocus, onFocus, refValue, disabled, ...props
                           onFocus(event);
                       }
                   }}
-                  ref={refValue}
     />;
-};
+});
 
 export default Input;

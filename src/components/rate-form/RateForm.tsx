@@ -101,7 +101,7 @@ const RateForm = () => {
                               suggestionListQueryParams={{ filterExcludingUserEmail: session.user.email }}
                               suggestionKeyField="subject"
         />
-        <Input refValue={rateInputRef}
+        <Input ref={rateInputRef}
                placeholder={`Your Rate from ${minRateValue} to ${maxRateValue}`}
                className="form__input"
                selectOnFocus
