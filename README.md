@@ -8,7 +8,7 @@ URL
 
 <https://rate-anything.vercel.app>
 
-Resume of the author (2023): <https://drive.google.com/file/d/19_T8Ydhnvf28Scdm7nTAyb32y6WNKnJg/view?usp=share_link>
+Resume of the author (2024): <https://drive.google.com/file/d/1fEK2BRr5-sb0_4zbS-5kPEYFvcVkh0tE>
 
 Version
 ------------
