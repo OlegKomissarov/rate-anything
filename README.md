@@ -5,6 +5,7 @@ Rate Anything is a web application that allows you to create ratings for any sub
 
 URL
 ---
+Sorry, the app doesn't work anymore because PlanetScale went paid.
 
 <https://rate-anything.vercel.app>
 
